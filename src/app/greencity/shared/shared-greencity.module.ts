@@ -1,4 +1,4 @@
-import { UserSharedModule } from '../modules/user/components/shared/user-shared.module';
+import { UserSharedModule } from '@global-user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { WarningPopUpComponent, EditPhotoPopUpComponent } from './components';
+import { EditPhotoPopUpComponent, WarningPopUpComponent } from './components';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
@@ -42,15 +42,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SavedSectionComponent } from './components/saved-tabs/saved-section.component';
 import { DragAndDropDirective } from 'src/app/greencity/modules/eco-news/directives/drag-and-drop.directive';
 
-registerLocaleData(usLocale, 'en');
-registerLocaleData(ukLocale, 'ua');
+registerLocaleData(usLocale, 'en-GB');
+registerLocaleData(ukLocale, 'uk');
+registerLocaleData(ukLocale, 'uk-UA');
 
 @NgModule({
   declarations: [
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
-    DateLocalisationPipe,
     NoDataComponent,
     TagFilterComponent,
     CalendarBaseComponent,
@@ -92,7 +92,8 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatInputModule,
     MatSelectModule,
-    NgbModule
+    NgbModule,
+    DateLocalisationPipe
   ],
   exports: [
     TranslateModule,
@@ -106,7 +107,6 @@ registerLocaleData(ukLocale, 'ua');
     MatSnackBarModule,
     DragAndDropDirective,
     DragAndDropComponent,
-    DateLocalisationPipe,
     NoDataComponent,
     TagFilterComponent,
     UserSharedModule,

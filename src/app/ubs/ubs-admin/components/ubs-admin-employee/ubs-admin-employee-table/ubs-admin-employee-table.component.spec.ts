@@ -140,7 +140,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
   storeMock.select = () => of(fakeTableItems as any);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -238,7 +238,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'delete-dialog-container'
+      panelClass: 'delete-dialog-container',
+      autoFocus: true
     });
   });
 });

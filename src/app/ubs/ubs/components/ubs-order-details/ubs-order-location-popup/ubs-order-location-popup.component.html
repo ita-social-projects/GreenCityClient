@@ -30,13 +30,16 @@
           (click)="openAuto($event, autocompleteTrigger)"
         />
       </div>
+
+      <div class="tariff-description-container" *ngIf="selectedTariffId && getTariffDescription(selectedTariffId)">
+        <p class="tariff-description">
+          {{ getTariffDescription(selectedTariffId) }}
+        </p>
+      </div>
     </form>
     <ng-template #spinner>
       <app-spinner class="mx-auto"></app-spinner>
     </ng-template>
-    <div class="info" *ngIf="!isFetching">
-      <p class="text" *ngIf="selectedLocationId === 2">{{ 'order-details.location.info-region' | translate }}</p>
-    </div>
   </div>
 
   <mat-dialog-actions class="footer-btns">

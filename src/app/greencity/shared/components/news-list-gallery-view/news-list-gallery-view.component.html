@@ -7,7 +7,7 @@
         <span
           class="tag-divider"
           *ngIf="tags.length > 1 && i !== tags.length - 1"
-          [ngClass]="{ 'divider-small': tags.length === 3 && currentLang === 'ua' }"
+          [ngClass]="{ 'divider-small': tags.length === 3 && currentLang === 'uk' }"
           >|</span
         >
       </div>
@@ -23,17 +23,15 @@
       </div>
     </div>
     <div class="user-data-added-news">
-      <div class="user-data">
-        <p class="user-data-text-date">
-          <img class="icon" [src]="profileIcons.calendarIcon" alt="date of creation" />
-          <span>{{ newDate }}</span>
-        </p>
-        <p class="user-data-text-date user">
-          <img class="icon" role="img" [src]="profileIcons.userIcon" alt="created by" />
-          <span>{{ ecoNewsModel.author.name }}</span>
-        </p>
-      </div>
-      <div>
+      <p class="user-data-text-date text-nowrap flex-shrink-0">
+        <img class="icon" [src]="profileIcons.calendarIcon" alt="date of creation" />
+        <span>{{ ecoNewsModel.creationDate | dateLocalisation }}</span>
+      </p>
+      <p class="user-data-text-date flex-shrink-1 flex-grow-1">
+        <img class="icon" role="img" [src]="profileIcons.userIcon" alt="created by" />
+        <span class="mw">{{ ecoNewsModel.author.name }}</span>
+      </p>
+      <div class="d-flex flex-shrink-0">
         <p class="user-data-like">
           <img [src]="commentImg" role="img" alt="comments" class="icon" />
           <span class="numerosity">{{ ecoNewsModel.countComments }}</span>

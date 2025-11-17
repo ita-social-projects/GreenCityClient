@@ -1,0 +1,111 @@
+.expand-btn {
+  height: 40px;
+  gap: 10px;
+}
+
+.settings {
+  &__title {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  &__form {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.5em;
+
+    &-lang {
+      flex: 1 1 0;
+      min-width: 200px;
+
+      &-title {
+        background-color: var(--ubs-primary-grey);
+        color: var(--ubs-primary-white);
+        padding: 0.1em 0;
+        font-weight: 400;
+        text-align: center;
+      }
+    }
+
+    &-section {
+      margin: 1em 0;
+      border-bottom: 1px solid var(--ubs-primary-grey);
+      padding-bottom: 2em;
+
+      &-title {
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+    }
+
+    &-fieldset {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &-input {
+        ::ng-deep .ql-editor {
+          height: 100px;
+          margin-bottom: 5px;
+        }
+      }
+
+      &-name {
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.btn {
+  background-color: var(--ubs-button-light-green);
+  height: 45px;
+  display: block;
+  margin-left: auto;
+  margin-right: 5px;
+
+  &:disabled {
+    background-color: var(--quintynary-light-grey);
+    cursor: not-allowed;
+  }
+}
+
+.page-top-bar {
+  display: flex;
+  align-items: center;
+}
+
+.collapse-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.transform {
+  display: flex;
+  transform: rotate(180deg);
+  justify-self: center;
+  margin: 18px 0;
+}
+
+.collapsed-content {
+  margin-top: 7px;
+  overflow: hidden;
+  opacity: 1;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.1s ease;
+
+  &.hidden {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+.centered-title {
+  width: 100%;
+  text-align: center;
+}

@@ -31,7 +31,7 @@
       [disabled]="isUneditableStatus"
       [blockAutoComplete]="blockAutoComplete"
       ngDefaultControl
-      (keyupEmitter)="keyup($event)"
+      (keyupEmitter)="keyupCity($event)"
     ></app-input-google-autocomplete>
     <div *ngIf="city.invalid && (city.touched || city.dirty)">
       <app-ubs-input-error [formElement]="city" [inputName]="errorType"></app-ubs-input-error>
@@ -49,6 +49,7 @@
       [isInvalid]="street.invalid && (street.touched || street.dirty)"
       [blockAutoComplete]="blockAutoComplete"
       ngDefaultControl
+      (keyupEmitter)="keyupStreet($event)"
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(street)">
       <app-ubs-input-error [formElement]="street" [inputName]="errorType"></app-ubs-input-error>
@@ -130,7 +131,7 @@
       [readonly]="isUneditableStatus"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"
-      (change)="onCommentChange()"
+      (input)="onCommentChange()"
       ngDefaultControl
     ></textarea>
     <div *ngIf="isErrorMessageShown(addressComment)">

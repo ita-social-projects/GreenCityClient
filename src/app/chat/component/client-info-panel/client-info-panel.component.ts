@@ -1,16 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { NgIf, NgForOf, DatePipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
+import { ClientInfoData } from '../../model/chat-page.interface';
 
 @Component({
   selector: 'app-client-info-panel',
   standalone: true,
-  imports: [NgIf, NgForOf, DatePipe, TranslateModule],
+  imports: [NgIf, NgForOf, DatePipe, TranslateModule, RouterModule],
   templateUrl: './client-info-panel.component.html',
   styleUrls: ['./client-info-panel.component.scss']
 })
 export class ClientInfoPanelComponent {
-  @Input() clientData: any = null;
+  @Input() clientData: ClientInfoData | null = null;
 
   objectKeys = Object.keys;
 

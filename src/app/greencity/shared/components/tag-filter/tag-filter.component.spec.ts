@@ -13,7 +13,7 @@ describe('TagFilterComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeTag');
-  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('uk'));
 
   const tagsListDataMock: Array<FilterModel> = [
     { nameEn: 'test', nameUk: 'тест', isActive: false },

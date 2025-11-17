@@ -35,13 +35,13 @@
           <div class="mobile_list">
             <div class="mobile mobile_list-status">{{ 'user-orders.order-status' | translate }}</div>
             <mat-panel-description class="order_list-status table-data">
-              <div [appLangValue]="{ ua: order.orderStatusUk, en: order.orderStatusEn }"></div>
+              <div [appLangValue]="{ uk: order.orderStatusUk, en: order.orderStatusEn }"></div>
             </mat-panel-description>
           </div>
           <div class="mobile_list">
             <div class="mobile mobile_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
             <mat-panel-description class="order_list-paymentStatus table-data">
-              <div [appLangValue]="{ ua: order.paymentStatusUk, en: order.paymentStatusEn }"></div>
+              <div [appLangValue]="{ uk: order.paymentStatusUk, en: order.paymentStatusEn }"></div>
             </mat-panel-description>
           </div>
           <div class="mobile_list">
@@ -61,18 +61,30 @@
         <div class="btns-group">
           <div *ngIf="isOrderPaymentAccess(order)" class="btns-group">
             <div *ngIf="canOrderBeCancel(order)" class="btn-box">
-              <button class="ubs-secondary-global-button s-btn" (click)="openOrderCancelDialog(order)">
+              <button
+                class="ubs-secondary-global-button s-btn"
+                (keydown.enter)="$event.preventDefault(); openOrderCancelDialog($event, order)"
+                (click)="openOrderCancelDialog($event, order)"
+              >
                 {{ 'user-orders.btn.cancel' | translate }}
               </button>
             </div>
             <div *ngIf="!isOrderCanceled(order)" class="btn-box">
-              <button class="ubs-primary-global-button s-btn" (click)="openOrderPaymentDialog(order)">
+              <button
+                class="ubs-primary-global-button s-btn"
+                (keydown.enter)="$event.preventDefault(); openOrderPaymentDialog($event, order)"
+                (click)="openOrderPaymentDialog($event, order)"
+              >
                 {{ 'user-orders.btn.pay' | translate }}
               </button>
             </div>
           </div>
           <div *ngIf="!isOrderCanceled(order)" class="btn-box export-btn">
-            <button class="ubs-primary-global-button s-btn" (click)="exportAsPDF(order)">
+            <button
+              class="ubs-primary-global-button s-btn"
+              (keydown.enter)="$event.preventDefault(); exportAsPDF($event, order)"
+              (click)="exportAsPDF($event, order)"
+            >
               <img [ngSrc]="pdfExportIcon" width="24" height="24" alt="{{ 'user-orders.btn.export-pdf-alt' | translate }}" />
             </button>
           </div>

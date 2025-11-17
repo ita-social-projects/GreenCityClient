@@ -1,0 +1,38 @@
+<div *ngIf="!isLoading; else spinner">
+  <div class="page-top-bar d-flex justify-content-center expand-btn">
+    <button class="d-flex w-100 justify-content-center align-items-center border-0 bg-transparent expand-btn" (click)="collapseView()">
+      <span class="settings__title">
+        {{ 'settings.edit' | translate }}
+      </span>
+      <img
+        [ngClass]="isCollapsed ? { transform: 'rotate(180deg)' } : {}"
+        src="../../../../../../assets/icons/arrow-down-green.svg"
+        alt="collapse"
+        class="collapse-icon"
+      />
+    </button>
+  </div>
+
+  <div class="collapsed-content" [class.hidden]="!isCollapsed">
+    <form class="settings__form" [formGroup]="homepageContentForm">
+      <div class="settings__form-lang" *ngFor="let lang of languages">
+        <h4 class="settings__form-lang-title">{{ 'settings.lang.' + lang.toLowerCase() | translate }}</h4>
+
+        <div class="settings__form-section" *ngFor="let section of homepageContent[lang.toLowerCase()] | keyvalue">
+          <h4 class="settings__form-section-title">{{ 'settings.section.' + section.key + '.title' | translate }}</h4>
+
+          <fieldset class="settings__form-fieldset" *ngFor="let field of section.value | keyvalue">
+            <span class="settings__form-fieldset-name">{{ 'settings.section.' + section.key + '.' + field.key | translate }}</span>
+            <quill-editor class="settings__form-fieldset-input" type="text" [formControlName]="lang + section.key + field.key" />
+          </fieldset>
+        </div>
+      </div>
+    </form>
+    <button class="btn" (click)="onSave()" [disabled]="homepageContentForm.pristine || homepageContentForm.invalid">
+      {{ 'ubs-user-agreement.btn.save' | translate }}
+    </button>
+  </div>
+</div>
+<ng-template class="spinner" #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

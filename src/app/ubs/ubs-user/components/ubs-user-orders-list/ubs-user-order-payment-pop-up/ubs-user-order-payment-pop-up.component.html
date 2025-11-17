@@ -1,10 +1,7 @@
 <div class="dialog-container">
   <div class="dialog-container-title">
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
-    <h6 class="text-order-sum">
-      {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum }}
-      {{ 'ubs-client-profile.payment.curency' | translate }}
-    </h6>
+    <h6 class="text-order-sum">{{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum | localizedCurrency: true }}</h6>
   </div>
 
   <form [formGroup]="orderDetailsForm" class="form-container">
@@ -42,7 +39,7 @@
           >
             {{ 'ubs-client-profile.payment.btn.active' | translate }}
           </button>
-          <button *ngIf="!certificateStatus[i]" class="btn btn-cancel-activation" (click)="deleteCertificate(i, certificate)">
+          <button *ngIf="!certificateStatus[i]" type="button" class="btn btn-cancel-activation" (click)="deleteCertificate(i, certificate)">
             {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
           </button>
         </div>
@@ -54,7 +51,8 @@
         <div *ngIf="!overpayment" class="text-message">
           {{
             'ubs-client-profile.payment.certificate-activated.sum'
-              | translate: { certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum }
+              | translate
+                : { certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum | number: '1.0-2' }
           }}
         </div>
         <div *ngIf="!overpayment" class="text-message">
@@ -150,6 +148,7 @@
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
       <button
+        type="submit"
         class="btn btn-pay"
         [disabled]="0 > userOrder.sum || dataLoadingLiqPay || userCertificate.certificateError"
         (click)="processOrder()"

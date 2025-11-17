@@ -26,7 +26,7 @@ describe('UbsAdminNotificationSettingsComponent', () => {
   const langServiceSpy = jasmine.createSpyObj('LanguageService', ['getLangValue']);
 
   const mockedData = {
-    title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
+    title: { en: 'Unpaid order', uk: 'Неоплачене замовлення' },
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
     time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
     schedule: '0 0 * * *'
@@ -82,7 +82,7 @@ describe('UbsAdminNotificationSettingsComponent', () => {
     expect(matDialogRefMock.close).toHaveBeenCalledWith({
       title: {
         en: formData.titleEn,
-        ua: formData.titleUa
+        uk: formData.titleUa
       },
       trigger: formData.trigger,
       time: formData.time,

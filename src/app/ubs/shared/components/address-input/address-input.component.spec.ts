@@ -25,17 +25,17 @@ describe('AddressInputComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeTag');
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('uk'));
 
   const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'languageBehaviourSubject',
     'getLocations'
   ]);
-  fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
+  fakeLocalStorageService.getCurrentLanguage.and.returnValue('uk');
   fakeLocalStorageService.getLocations.and.returnValue([]);
-  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const mockInitialState: IAppState = {
     auth: undefined,
@@ -49,6 +49,7 @@ describe('AddressInputComponent', () => {
     router: undefined,
     ubsAdmin: undefined,
     ubsUser: undefined,
+    authority: undefined,
     order: {
       addresses: [],
       currentStep: null,
@@ -84,7 +85,7 @@ describe('AddressInputComponent', () => {
       { long_name: 'Kyiv', short_name: 'Kyiv', types: ['locality', 'political'] },
       { long_name: 'Kyiv City', short_name: 'Kyiv City', types: ['administrative_area_level_2', 'political'] },
       { long_name: 'Kyiv', short_name: 'Kyiv', types: ['administrative_area_level_1', 'political'] },
-      { long_name: 'Ukraine', short_name: 'UA', types: ['country', 'political'] },
+      { long_name: 'Ukraine', short_name: 'UK', types: ['country', 'political'] },
       { long_name: '01030', short_name: '01030', types: ['postal_code'] }
     ]
   } as google.maps.GeocoderResult;
@@ -210,7 +211,7 @@ describe('AddressInputComponent', () => {
     component.ngOnInit();
 
     expect(fakeLocalStorageService.getLocations).toHaveBeenCalled();
-    expect(component.currentLanguage).toEqual('ua');
+    expect(component.currentLanguage).toEqual('uk');
     expect(component['initForm']).toHaveBeenCalled();
     expect(component['initListeners']).toHaveBeenCalled();
   });
@@ -619,17 +620,39 @@ describe('AddressInputComponent', () => {
     expect(component['handleGeolocationSuccess']).toHaveBeenCalled();
   });
 
-  it('should disable region on keyup if text exists', () => {
+  it('should disable region on keyupCity if text exists', () => {
     spyOn(component.addressForm.get('region'), 'disable');
-    component.keyup('test');
+    component.keyupCity('test');
     expect(component.addressForm.get('region').disable).toHaveBeenCalled();
     expect(component.errorType).toBe('requiredFromDropdown');
   });
 
-  it('should enable region on keyup if text is empty', () => {
+  it('should enable region on keyupCity if text is empty', () => {
     spyOn(component.addressForm.get('region'), 'enable');
-    component.keyup('');
+    component.keyupCity('');
     expect(component.addressForm.get('region').enable).toHaveBeenCalled();
+    expect(component.errorType).toBe('requiredFromDropdown');
+  });
+
+  it('should not clear and disable fields on keyupStreet if text exists', () => {
+    const onStreetValueSetSpy = spyOn(component as any, 'onStreetValueSet');
+    const resetHouseInfoSpy = spyOn(component as any, 'resetHouseInfo');
+    const resetDistrictsSpy = spyOn(component as any, 'resetDistricts');
+    component.keyupStreet('test');
+    expect(onStreetValueSetSpy).not.toHaveBeenCalled();
+    expect(resetHouseInfoSpy).not.toHaveBeenCalled();
+    expect(resetDistrictsSpy).not.toHaveBeenCalled();
+    expect(component.errorType).toBe('requiredFromDropdown');
+  });
+
+  it('should clear and disable fields on keyupStreet if text exists', () => {
+    const onStreetValueSetSpy = spyOn(component as any, 'onStreetValueSet');
+    const resetHouseInfoSpy = spyOn(component as any, 'resetHouseInfo');
+    const resetDistrictsSpy = spyOn(component as any, 'resetDistricts');
+    component.keyupStreet('');
+    expect(onStreetValueSetSpy).toHaveBeenCalled();
+    expect(resetHouseInfoSpy).toHaveBeenCalled();
+    expect(resetDistrictsSpy).toHaveBeenCalled();
     expect(component.errorType).toBe('requiredFromDropdown');
   });
 

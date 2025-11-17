@@ -77,7 +77,7 @@
               <div
                 *ngFor="let tag of event.eventInformation?.tags"
                 class="event-tag"
-                [appLangValue]="{ ua: tag.nameUk | uppercase, en: tag.nameEn | uppercase }"
+                [appLangValue]="{ uk: tag.nameUk | uppercase, en: tag.nameEn | uppercase }"
               ></div>
             </div>
             <div class="event-participants">
@@ -104,7 +104,7 @@
                 <div *ngIf="event.dates.length === 1; else multipleDays" class="event-date-content">
                   <div class="event-duration">{{ event.dates[0]['startDate'] | dateLocalisation }}</div>
                   <div>|</div>
-                  <div>{{ event.dates[0]['startDate'] | date: 'hh:mm a' }}</div>
+                  <div>{{ event.dates[0]['startDate'] | dateLocalisation: 'shortTime' }}</div>
                 </div>
                 <ng-template #multipleDays>
                   <div class="event-date-content">
@@ -157,7 +157,7 @@
           </div>
           <div
             *ngIf="!isPreview"
-            [ngClass]="localStorageService.getCurrentLanguage() === 'ua' ? 'save-join-event-block-ua' : 'save-join-event-block'"
+            [ngClass]="localStorageService.getCurrentLanguage() === 'uk' ? 'save-join-event-block-ua' : 'save-join-event-block'"
           >
             <button (click)="changeFavouriteStatus($event)" class="secondary-global-button">
               {{ (isEventFavorite ? 'homepage.events.btn.unsave-event' : 'homepage.events.btn.save-event') | translate }}

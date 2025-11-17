@@ -1,7 +1,16 @@
 <div class="message-input-container">
+  <div *ngIf="editText" class="edit-text-container">
+    <img class="icon" [src]="chatICons.edit" alt="edit" />
+    <div class="edited-message">
+      <p>{{ 'chat.edit-message' | translate }}</p>
+      <p>{{ editText }}</p>
+    </div>
+    <img class="close" [src]="chatICons.close" alt="close" (click)="onClose()" />
+  </div>
   <div class="message-input-wrapper">
     <label class="message-input-wrapper-label">
       <input
+        #textInput
         type="text"
         id="text-input-message"
         [placeholder]="'chat.active-chat-placeholder' | translate"
@@ -20,9 +29,24 @@
 
   <div class="file-attach">
     <label class="file-label">
-      <input type="file" (change)="onFileSelected($event)" hidden />
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M16.5,6.5 L8.5,14.5 C7.67,15.33 7.67,16.67 8.5,17.5
+           C9.33,18.33 10.67,18.33 11.5,17.5 L19.5,9.5
+           C21.43,7.57 21.43,4.43 19.5,2.5
+           C17.57,0.57 14.43,0.57 12.5,2.5 L4.5,10.5
+           C2.01,13 2.01,17 4.5,19.5
+           C7,22 11,22 13.5,19.5"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
       <span>{{ 'chat.attach-file' | translate }}</span>
+      <input type="file" (change)="onFileSelected($event)" hidden #fileInput />
     </label>
-    <div class="file-name" *ngIf="file">{{ file.name }}</div>
+    <span class="file-name"> {{ file ? file.name : ('chat.no-file-chosen' | translate) }}</span>
   </div>
 </div>

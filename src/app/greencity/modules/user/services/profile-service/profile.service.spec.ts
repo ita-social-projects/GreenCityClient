@@ -55,7 +55,7 @@ describe('ProfileService', () => {
         id: 1,
         factOfTheDayTranslations: [
           {
-            languageCode: 'ua',
+            languageCode: 'uk',
             content: 'Приклад факту дня'
           },
           {

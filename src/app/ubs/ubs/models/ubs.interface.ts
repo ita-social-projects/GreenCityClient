@@ -11,9 +11,9 @@ export interface Bag {
   limitedIncluded?: boolean;
 }
 
-export enum PaymentSystem {
-  WAY_FOR_PAY = 'WAY_FOR_PAY'
-}
+export const PaymentSystem = {
+  WAY_FOR_PAY: 'WAY_FOR_PAY'
+};
 
 export interface Order {
   additionalOrders: Array<string>;
@@ -25,7 +25,7 @@ export interface Order {
   personalData: PersonalData;
   pointsToUse: number;
   shouldBePaid: boolean;
-  paymentSystem: PaymentSystem;
+  paymentSystem: string;
 }
 
 export interface OrderBag {
@@ -45,6 +45,7 @@ export interface OrderDetails {
   total?: number;
   finalSum?: number;
   minAmountOfBigBags?: number;
+  hasPaymentLink?: boolean;
 }
 
 export interface IProcessOrderResponse {
@@ -115,6 +116,7 @@ export interface Address {
 }
 
 export interface AddressData {
+  id?: number;
   regionEn: string;
   regionUk: string;
   cityUk: string;
@@ -146,6 +148,7 @@ export interface LocationTranslation {
 export interface LocationsName {
   locationId: number;
   locationName: string;
+  tariffId?: number;
 }
 
 export interface LocationsDtosList {
@@ -259,11 +262,19 @@ export enum KyivNamesEnum {
 }
 
 export enum DistrictEnum {
-  UA = ' район',
+  UK = ' район',
   EN = ' district'
 }
 
 export interface LanguageResponseOptions {
   placeUk?: google.maps.GeocoderResult;
   placeEn?: google.maps.GeocoderResult;
+}
+
+export interface ActiveTariffInfo {
+  id: number;
+  tariffNameUk: string;
+  tariffNameEn: string;
+  descriptionMessageUk: string | null;
+  descriptionMessageEn: string | null;
 }

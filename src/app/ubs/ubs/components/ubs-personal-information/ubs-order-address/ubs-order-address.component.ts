@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { CAddressData } from '@ubs/ubs/models/ubs.model';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
@@ -16,7 +16,7 @@ import {
 import { IAddressExportDetails, IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
-import { of, switchMap, Subject, combineLatest, from, filter, take, takeUntil } from 'rxjs';
+import { combineLatest, filter, from, map, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-order-address',
@@ -137,6 +137,8 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
 
   setCurrentAddress(address: Address): void {
     if (!address) {
+      this.addressComment.setValue('');
+      this.addressComment.disable();
       return;
     }
     const clonedAddress = { ...address };
@@ -175,19 +177,24 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   changeAddressComment(): void {
+    const comment = this.addressComment.value.trim();
+
+    if (comment === this.selectedAddress.addressComment) {
+      return;
+    }
+
     const updatedAddress = {
       ...this.selectedAddress,
       addressComment: this.addressComment.value
     };
 
-    if (this.addressComment.value !== this.selectedAddress.addressComment) {
-      this.store.dispatch(UpdateAddress({ address: updatedAddress }));
-      this.selectedAddress = updatedAddress;
-    }
+    this.store.dispatch(UpdateAddress({ address: updatedAddress }));
+    this.selectedAddress = updatedAddress;
   }
 
   deleteAddress(address: Address): void {
     this.store.dispatch(DeleteAddress({ address }));
+    this.addresses = this.addresses.filter((singleAddress) => singleAddress.id !== address.id);
     this.findAvailableAddress();
   }
 
@@ -214,13 +221,12 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.$destroy))
-      .subscribe((res) => {
-        if (res) {
-          setTimeout(() => {
-            this.addressComment.setValue(res);
-          }, 500);
-        }
+      .pipe(
+        filter(Boolean),
+        map((address) => address.addressComment)
+      )
+      .subscribe((addressComment) => {
+        this.addressComment.setValue(addressComment);
       });
   }
 

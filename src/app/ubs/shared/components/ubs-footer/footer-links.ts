@@ -17,7 +17,7 @@ export const socialLinks = [
   },
   {
     name: 'Email',
-    url: 'mailto:pickup@nowaste.org.ua',
+    url: 'mailto:pickup@nowaste.org.uk',
     icon: 'assets/admin-header/email-icon.svg'
   }
 ];

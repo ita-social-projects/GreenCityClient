@@ -46,7 +46,7 @@ describe('AdminCustomersService', () => {
 
   it('should call http.patch with the correct URL and payload', () => {
     const userId = '123';
-    const link = 'https://my.binotel.ua';
+    const link = 'https://my.binotel.uk';
 
     service.addChatLink(userId, link).subscribe();
 
@@ -59,7 +59,7 @@ describe('AdminCustomersService', () => {
 
   it('should return an observable that emits void on success', (done) => {
     const userId = '123';
-    const link = 'https://my.binotel.ua';
+    const link = 'https://my.binotel.uk';
 
     service.addChatLink(userId, link).subscribe({
       next: (response) => {
@@ -77,7 +77,7 @@ describe('AdminCustomersService', () => {
 
   it('should handle errors and pass them to the caller', (done) => {
     const userId = '123';
-    const link = 'https://my.binotel.ua';
+    const link = 'https://my.binotel.uk';
     const errorMessage = 'Failed to add chat link';
 
     service.addChatLink(userId, link).subscribe({
@@ -96,7 +96,7 @@ describe('AdminCustomersService', () => {
   });
 
   it('should open a new tab with the provided chat URL', () => {
-    const chatUrl = 'https://my.binotel.ua';
+    const chatUrl = 'https://my.binotel.uk';
     service.openChat(chatUrl);
     expect(window.open).toHaveBeenCalledWith(chatUrl, '_blank');
   });

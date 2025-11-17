@@ -1,19 +1,51 @@
+.sidebar-container {
+  padding: 0 !important;
+}
+
 .chat-page-inner {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
+@media (max-width: 700px) {
+  .skip-container {
+    padding-top: 61px !important;
+  }
+
+  .mat-drawer-content {
+    margin-top: 0 !important;
+  }
+
+  .chat-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    z-index: 10;
+    max-width: unset !important;
+  }
+}
+
 .chat-sidebar {
-  min-width: 450px;
-  max-width: 700px;
   border-right: 1px solid var(--quaternary-light-grey);
   height: 100vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden auto;
   background: var(--primary-light-grey);
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 260px;
+}
+
+.chat-view {
+  padding: 1rem;
+  width: 70%;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--after-primary-light-grey);
 }
 
 .infinite-scroll-anchor {
@@ -44,7 +76,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-y: auto;
+  overflow: hidden auto;
   flex: 1;
 }
 
@@ -53,7 +85,7 @@
   align-items: center;
   padding: 0.75rem;
   border-radius: 8px;
-  gap: 30px;
+  gap: clamp(5px, 2vw, 20px);
   cursor: pointer;
   transition: background 0.2s ease;
 
@@ -82,6 +114,8 @@
 
   .chat-details {
     flex: 1 1 auto;
+    min-width: 50px;
+    overflow-x: hidden;
 
     .chat-name {
       white-space: nowrap;
@@ -100,6 +134,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 200px;
+      min-width: 0;
     }
   }
 
@@ -109,14 +144,6 @@
     margin-left: 0.5rem;
     white-space: nowrap;
   }
-}
-
-.chat-view {
-  flex: 1;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--after-primary-light-grey);
 }
 
 .chat-header {
@@ -145,6 +172,7 @@
 }
 
 .messages {
+  position: relative;
   flex: 1;
   overflow-y: auto;
   padding-right: 0.5rem;
@@ -195,6 +223,7 @@
 }
 
 .message-input-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -222,6 +251,7 @@
     border-radius: 50%;
     padding: 0.6rem;
     cursor: pointer;
+    transform: rotate(180deg);
 
     svg {
       fill: var(--primary-white);
@@ -259,6 +289,71 @@
   }
 }
 
+.message-icons {
+  width: 14px;
+  margin: 0 0 3px auto;
+  display: flex;
+
+  .icon {
+    max-width: 11px;
+  }
+}
+
+.edit-text-container {
+  position: absolute;
+  bottom: 6rem;
+  width: 88%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  margin-left: 5px;
+  display: flex;
+  align-self: flex-start;
+  background-color: var(--primary-white);
+  color: var(--secondary-dark-grey);
+  border: 1px solid var(--after-primary-light-grey);
+  box-shadow: -2px -1px 5px #0000001a;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+
+    &:first-of-type {
+      color: var(--tertiary-light-green);
+    }
+  }
+
+  .icon {
+    width: 16px;
+    margin: 0 15px;
+  }
+
+  .close {
+    margin-left: auto;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+  }
+}
+
+.edited-pencil {
+  height: 8px;
+  width: 8px;
+  margin-right: 3px;
+}
+
+.edit-status {
+  margin: 0 15px;
+  font-size: 10px;
+
+  .edited-icon {
+    width: 13px;
+  }
+}
+
+.menu-item {
+  font-size: 14px;
+}
+
 .file-attach {
   margin-top: 6px;
   display: flex;
@@ -267,12 +362,27 @@
 
   .file-label {
     cursor: pointer;
-    background-color: var(--whitesmoke-grey);
+    background-color: var(--primary-green);
+    color: var(--primary-white);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 14px;
-    border: 1px solid var(--quaternary-light-grey);
+    border: 1px solid var(--primary-green);
     user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--secondary-dark-green);
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--primary-white);
+    }
   }
 
   .file-name {
@@ -309,10 +419,6 @@
   color: #4da6ff;
 }
 
-.meta {
-  margin-left: 10px;
-}
-
 .tick-icon {
   width: 20px;
   height: 20px;
@@ -325,4 +431,29 @@
   height: 10px;
   vertical-align: middle;
   margin-left: 4px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+
+  .timestamp {
+    font-size: 12px;
+    color: var(--quintynary-light-grey);
+    white-space: nowrap;
+  }
+
+  .unread-badge {
+    background-color: var(--tertiary-light-green);
+    color: var(--primary-white);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1.2;
+  }
 }

@@ -13,14 +13,14 @@ import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
-import { CreateAddress, GetAddresses } from 'src/app/store/actions/order.actions';
+import { CreateAddress, GetAddresses, UpdateAddress } from 'src/app/store/actions/order.actions';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/deleting-profile-reason-pop-up/deleting-profile-reason-pop-up.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Masks, Patterns, phonePrefix } from 'src/assets/patterns/patterns';
-import { ConfirmationDialogComponent } from '../../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
@@ -66,6 +66,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     text: 'ubs-client-profile.delete-message',
     confirm: 'ubs-client-profile.btn.delete-profile-save',
     cancel: 'ubs-client-profile.btn.delete-profile-cancel'
+  };
+  dataTelegramSubscription = {
+    title: 'ubs-client-profile.telegram-subscription-title',
+    text: 'ubs-client-profile.telegram-subscription-message',
+    confirm: 'ubs-client-profile.telegram-start-bot',
+    cancel: 'ubs-client-profile.btn.cancel'
   };
 
   @ViewChild('#regionInput', { static: true }) regionInputRef: ElementRef<HTMLInputElement>;
@@ -160,12 +166,16 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   deleteAddress(address: Address | AddressData) {
-    if (this.tempAddedAddressHolder.find((addr) => addr.placeId === address.placeId)) {
-      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter((addr) => addr.placeId !== address.placeId);
+    if (this.tempAddedAddressHolder.find((addr) => addr.placeId === address.placeId || addr?.id === address?.id)) {
+      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter(
+        (addr) => addr.placeId !== address.placeId || addr?.id !== address?.id
+      );
     } else {
       this.tempRemovedAddressHolder.push(address as Address);
     }
-    this.userProfile.addressDto = this.userProfile.addressDto.filter((addr) => addr.placeId !== address.placeId);
+    this.userProfile.addressDto = this.userProfile.addressDto.filter(
+      (addr) => addr.placeId !== address.placeId || addr?.id !== address?.id
+    );
     this.userInit();
     this.userForm.markAsDirty();
   }
@@ -230,7 +240,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
         const isUpdated = Object.keys(formAddress).some((key) => formAddress[key] !== originalAddress[key]);
 
-        if (isUpdated) {
+        if (isUpdated && originalAddress.id) {
           const updatedAddress = {
             ...formAddress,
             id: originalAddress.id,
@@ -246,6 +256,13 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
           delete updatedAddress.isHouseSelected;
 
           submitData.addressDto.push(updatedAddress);
+          this.store.dispatch(UpdateAddress({ address: updatedAddress }));
+        } else if (isUpdated) {
+          const index = this.tempAddedAddressHolder.findIndex((tempAddress) => tempAddress.placeId === formAddress.placeId);
+
+          if (index !== -1) {
+            this.tempAddedAddressHolder[index] = formAddress;
+          }
         }
       });
 
@@ -328,7 +345,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       .pipe(take(1), filter(Boolean))
       .subscribe((res) => {
         this.clientProfileService
-          .deactivateProfile(this.userEmail, res.reason)
+          .deactivateProfile(res.reason)
           .pipe(take(1))
           .subscribe(() => {
             this.signOut();
@@ -426,10 +443,36 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onSwitchChanged(): void {
-    this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
-    if (this.userProfile.telegramIsNotify) {
-      this.goToTelegramUrl();
+    const currentValue = this.userProfile.telegramIsNotify;
+    const newValue = !currentValue;
+
+    if (newValue) {
+      const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: this.dataTelegramSubscription,
+        hasBackdrop: true
+      });
+      matDialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((confirmed) => {
+          if (confirmed) {
+            this.userProfile.telegramIsNotify = true;
+            this.userForm.markAsDirty();
+            this.userForm.get('telegramIsNotify')?.setValue(true);
+            this.goToTelegramUrl();
+          } else {
+            this.userForm.get('telegramIsNotify')?.setValue(false);
+          }
+        });
+    } else {
+      this.userProfile.telegramIsNotify = false;
+      this.userForm.markAsDirty();
+      this.userForm.get('telegramIsNotify')?.setValue(false);
     }
+  }
+
+  isTelegramNotifyChecked(): boolean {
+    return !!this.userForm?.get('telegramIsNotify')?.value;
   }
 
   ngOnDestroy(): void {

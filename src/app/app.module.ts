@@ -26,6 +26,7 @@ import { OrderEffects } from 'src/app/store/effects/order.effects';
 import { UbsUserEffects } from 'src/app/store/effects/ubs-user.effects';
 import { AuthEffects } from './store/effects/auth.effects';
 import { ChatModule } from './chat/chat.module';
+import { AuthorityEffects } from './store/effects/authority.effects';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -80,7 +81,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       EventsEffects,
       FriendsEffects,
       OrderEffects,
-      UbsUserEffects
+      UbsUserEffects,
+      AuthorityEffects
     ]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     StoreDevtoolsModule.instrument({

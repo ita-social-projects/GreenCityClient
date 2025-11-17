@@ -59,27 +59,29 @@
             <div class="text">
               <span class="name">{{ employee.firstName }} {{ employee.lastName }}</span>
               <div class="positions">
+                <span class="mobile-label">{{ 'employees.position' | translate }}</span>
                 <ng-container *ngFor="let position of employee.employeePositions; let i = index">
                   <ng-container *ngIf="!employee.expanded; else allPositions">
                     <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 2">
-                      <span *ngIf="i < 2" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"></span>
-                      <span *ngIf="i >= 2" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }" suffix="..."></span>
+                      <span *ngIf="i < 2" [appLangValue]="{ uk: position.nameUk, en: position.nameEn }"></span>
+                      <span *ngIf="i >= 2" [appLangValue]="{ uk: position.nameUk, en: position.nameEn }" suffix="..."></span>
                     </span>
                     <span
                       class="link"
                       *ngIf="employee.employeePositions.length <= 2"
-                      [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"
+                      [appLangValue]="{ uk: position.nameUk, en: position.nameEn }"
                     >
                     </span>
                   </ng-container>
                   <ng-template #allPositions>
-                    <span class="link" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"></span>
+                    <span class="link" [appLangValue]="{ uk: position.nameUk, en: position.nameEn }"></span>
                   </ng-template>
                 </ng-container>
               </div>
             </div>
 
             <div class="description-item contacts" [class.expanded]="employee.expanded">
+              <span class="mobile-label">{{ 'employees.contacts' | translate }}</span>
               <div class="description-sub-item phone">
                 <img [src]="icons.phone" alt="phone" />&nbsp;
                 <span class="description-item-text">{{ employee.phoneNumber }}</span>
@@ -91,8 +93,9 @@
             </div>
 
             <div class="description-item receiving-station">
+              <span class="mobile-label">{{ 'employees.region' | translate }}</span>
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <div [appLangValue]="{ ua: tariff.region.nameUk, en: tariff.region.nameEn }"></div>
+                <div [appLangValue]="{ uk: tariff.region.nameUk, en: tariff.region.nameEn }"></div>
                 <div
                   *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat"
                   class="region-placeholder"
@@ -101,26 +104,27 @@
               </div>
             </div>
             <div class="description-item">
+              <span class="mobile-label">{{ 'employees.city' | translate }}</span>
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
                 <div *ngIf="!tariff.locations.additional.length; else moreThanThreeLocations" class="locations-list">
                   <div
                     *ngFor="let location of tariff.locations.displayed"
-                    [appLangValue]="{ ua: location.nameUk, en: location.nameEn }"
+                    [appLangValue]="{ uk: location.nameUk, en: location.nameEn }"
                   ></div>
                 </div>
                 <ng-template #moreThanThreeLocations>
                   <div class="locations-list">
-                    <div [appLangValue]="{ ua: tariff.locations.displayed[0].nameUk, en: tariff.locations.displayed[0].nameEn }"></div>
-                    <div [appLangValue]="{ ua: tariff.locations.displayed[1].nameUk, en: tariff.locations.displayed[1].nameEn }"></div>
+                    <div [appLangValue]="{ uk: tariff.locations.displayed[0].nameUk, en: tariff.locations.displayed[0].nameEn }"></div>
+                    <div [appLangValue]="{ uk: tariff.locations.displayed[1].nameUk, en: tariff.locations.displayed[1].nameEn }"></div>
                     <div style="color: #5639bb; text-decoration: underline" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">
-                      <span [appLangValue]="{ ua: tariff.locations.displayed[2].nameUk, en: tariff.locations.displayed[2].nameEn }"></span>
+                      <span [appLangValue]="{ uk: tariff.locations.displayed[2].nameUk, en: tariff.locations.displayed[2].nameEn }"></span>
                       <span> and {{ tariff.locations.additional.length }} more</span>
                     </div>
                     <mat-menu class="more-locations-overlay" #menu="matMenu">
                       <div class="locations-list">
                         <div
                           *ngFor="let location of tariff.locations.additional"
-                          [appLangValue]="{ ua: location.nameUk, en: location.nameEn }"
+                          [appLangValue]="{ uk: location.nameUk, en: location.nameEn }"
                         ></div>
                       </div>
                     </mat-menu>
@@ -130,27 +134,32 @@
             </div>
 
             <div class="description-item">
+              <span class="mobile-label">{{ 'employees.courier' | translate }}</span>
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <div [appLangValue]="{ ua: tariff.courier.nameUk, en: tariff.courier.nameEn }"></div>
+                <div [appLangValue]="{ uk: tariff.courier.nameUk, en: tariff.courier.nameEn }"></div>
                 <div *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat" class="region-placeholder"></div>
               </div>
             </div>
 
             <div class="description-item">
+              <span class="mobile-label">{{ 'employees.state' | translate }}</span>
               <div class="description-sub-item description-item-text">
                 <div>
                   {{ (employee.employeeStatus === 'ACTIVE' ? 'employees.status.active' : 'employees.status.inactive') | translate }}
                 </div>
               </div>
             </div>
-            <span
+            <button
               class="toggle-icon"
               *ngIf="!employee.expanded && userHasRights; else deleteIcon"
+              #menuTrigger="matMenuTrigger"
               [matMenuTriggerFor]="crumbs"
               (click)="$event.stopPropagation()"
+              (keydown.enter)="menuTrigger.openMenu(); $event.preventDefault(); $event.stopPropagation()"
+              (keydown.space)="menuTrigger.openMenu(); $event.preventDefault(); $event.stopPropagation()"
             >
               <img [src]="icons.crumbs" alt="options" />
-            </span>
+            </button>
             <div [ngClass]="employee.expanded ? 'toggle-icon-down' : 'toggle-icon-up'"></div>
             <mat-menu class="menu" #crumbs="matMenu">
               <button *ngIf="isThisUserCanEditEmployee" class="menu-item" (click)="openEditDialog(employee, $event)" mat-menu-item>
@@ -194,12 +203,15 @@
               </button>
             </mat-menu>
             <ng-template #deleteIcon>
-              <span
+              <button
+                class="toggle-icon"
                 *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
                 (click)="openDeleteDialog(employee, $event)"
+                (keydown.enter)="openDeleteDialog(employee, $event)"
+                (keydown.space)="$event.preventDefault(); openDeleteDialog(employee, $event)"
               >
                 <img [src]="icons.delete" alt="deactivate" />
-              </span>
+              </button>
               <span
                 *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusInactive"
                 (click)="openActivateDialog(employee, $event)"
@@ -228,4 +240,7 @@
     </div>
   </mat-accordion>
   <app-spinner *ngIf="isLoading || isUpdateTable"></app-spinner>
+  <div *ngIf="!totalElements && !isLoading">
+    <span>{{ 'employees.filter.no-content' | translate }}</span>
+  </div>
 </div>

@@ -30,9 +30,9 @@ describe('ProfileDashboardComponent', () => {
     'setCurentPage',
     'getCurrentLanguage'
   ]);
-  LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
   LocalStorageServiceMock.setCurrentPage = () => of('previousPage', '/profile');
-  LocalStorageServiceMock.getCurrentLanguage = () => of('ua');
+  LocalStorageServiceMock.getCurrentLanguage = () => of('uk');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of({ ecoNews: {}, pages: [], pageNumber: 1, error: 'error' });

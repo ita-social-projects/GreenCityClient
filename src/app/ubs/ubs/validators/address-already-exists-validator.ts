@@ -21,7 +21,7 @@ export function addressAlreadyExistsValidator(
         compareIfExist(group.controls?.houseCorpus.value, address.houseCorpus) &&
         compareIfExist(group.controls?.entranceNumber.value, address.entranceNumber) &&
         compareIfExist(group.controls?.addressComment.value, address.addressComment) &&
-        (address.districtUk === group.controls?.district.value?.nameUa ||
+        (address.districtUk === group.controls?.district.value?.nameUk ||
           address.districtEn === group.controls?.district.value?.nameEn ||
           address.districtUk === group.controls?.district.value ||
           address.districtEn === group.controls?.district.value)

@@ -1,21 +1,26 @@
 <div class="chat-page-inner">
-  <div class="chat-sidebar" #sidebarRoot>
+  <div *ngIf="showChats" class="chat-sidebar" #sidebarRoot>
     <app-chat-sidebar
       [chats]="facade.filteredChats()"
       [loading]="facade.isLoading()"
       (searchChange)="facade.setSearchId($event)"
-      (selectChat)="facade.selectChat($event)"
+      (selectChat)="facade.selectChat($event); closeChat()"
     >
     </app-chat-sidebar>
 
     <div #pagingAnchor class="infinite-scroll-anchor"></div>
   </div>
 
-  <div class="chat-view">
+  <div *ngIf="!isMobileView || !showChats" class="chat-view">
     <ng-container *ngIf="facade.selectedChat(); else placeholder">
       <div class="chat-box">
         <div class="chat-header">
-          {{ facade.selectedChat()!.fullName }} (&#64;{{ facade.selectedChat()!.nickname }})
+          <div>
+            <span *ngIf="facade.selectedChat().fullName">
+              {{ facade.selectedChat().fullName }}
+            </span>
+            <span> (&#64;{{ facade.selectedChat().nickname }} ) </span>
+          </div>
           <button class="client-info-button" (click)="facade.toggleClientInfo()" [title]="'chat.client-info' | translate">🧠</button>
         </div>
 
@@ -26,7 +31,12 @@
 
         <app-image-modal [imageUrl]="facade.selectedImageUrl()" (closeModal)="facade.closeImageModal()"> </app-image-modal>
 
-        <app-message-input (sendText)="facade.sendMessage($event.text, $event.file)"> </app-message-input>
+        <app-message-input
+          (sendText)="messageController($event.text, $event.file)"
+          (closeEdit)="facade.selectMessage()"
+          [editText]="facade.selectedMessage()?.text"
+        >
+        </app-message-input>
       </div>
     </ng-container>
 

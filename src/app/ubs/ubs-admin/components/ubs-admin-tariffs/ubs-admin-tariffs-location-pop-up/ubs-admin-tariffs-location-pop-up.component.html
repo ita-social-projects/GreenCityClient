@@ -134,7 +134,7 @@
     <div class="mb-2">
       <div *ngFor="let item of selectedCities; let index = index">
         <div class="d-flex">
-          <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
+          <div class="itemList" [appLangValue]="{ uk: item.location, en: item.englishLocation }"></div>
           <img
             [src]="icons.cross"
             class="delete-button-img"
@@ -143,14 +143,14 @@
             [matTooltip]="'ubs-tariffs-add-location-pop-up.remove-city' | translate"
             matTooltipPosition="right"
           />
-          <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
+          <div class="itemList" [appLangValue]="{ uk: item.englishLocation, en: item.location }"></div>
         </div>
       </div>
     </div>
     <div class="mb-2">
       <div *ngFor="let item of editedCities; let index = index">
         <div class="d-flex">
-          <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
+          <div class="itemList" [appLangValue]="{ uk: item.location, en: item.englishLocation }"></div>
           <img
             [src]="icons.cross"
             class="delete-button-img"
@@ -159,7 +159,7 @@
             [matTooltip]="'ubs-tariffs-add-location-pop-up.remove-city' | translate"
             matTooltipPosition="right"
           />
-          <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
+          <div class="itemList" [appLangValue]="{ uk: item.englishLocation, en: item.location }"></div>
         </div>
       </div>
     </div>

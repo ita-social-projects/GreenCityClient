@@ -531,7 +531,23 @@ mat-spinner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 5px;
+  padding: 22px 5px 0;
+}
+
+.reset-filters {
+  padding-left: 16px;
+
+  &-btn {
+    font-size: 14px;
+    color: var(--ubs-dark-purple);
+    font-family: var(--ubs-secondary-font), serif;
+    border: none;
+    background: none;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
 }
 
 .font-weight-bold {
@@ -733,4 +749,10 @@ mat-spinner {
       z-index: -1;
     }
   }
+}
+
+.close-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

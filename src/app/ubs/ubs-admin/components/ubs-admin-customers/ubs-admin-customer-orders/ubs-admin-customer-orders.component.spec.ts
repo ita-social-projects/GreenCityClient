@@ -7,11 +7,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { ResizeColumnDirective } from '@ubs/ubs-admin/directives/resize-table-columns.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { UbsAdminCustomerOrdersComponent } from './ubs-admin-customer-orders.component';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { of } from 'rxjs';
-import { PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
 
 describe('UbsAdminCustomerOrdersComponent', () => {
   let component: UbsAdminCustomerOrdersComponent;

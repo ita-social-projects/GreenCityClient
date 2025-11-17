@@ -18,6 +18,7 @@ import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 import { UbsAdminEditUserAgreementComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-user-agreement/ubs-admin-edit-user-agreement.component';
 import { UbsAdminNotificationCreateFormComponent } from '@ubs/ubs-admin/components/ubs-admin-notification/ubs-admin-notification-create-form/ubs-admin-notification-create-form.component';
 import { ChatComponent } from '../../chat/component/chat-page/chat-page.component';
+import { UbsAdminSettingsComponent } from '@ubs/ubs-admin/components/ubs-admin-settings/ubs-admin-settings.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -40,7 +41,8 @@ const ubsAdminRoutes: Routes = [
       { path: 'notification/create', component: UbsAdminNotificationCreateFormComponent },
       { path: 'chat-page', component: ChatComponent },
       { path: 'chat-page/:id', component: ChatComponent },
-      { path: 'notification/:id', component: UbsAdminNotificationComponent }
+      { path: 'notification/:id', component: UbsAdminNotificationComponent },
+      { path: 'settings', component: UbsAdminSettingsComponent }
     ]
   }
 ];

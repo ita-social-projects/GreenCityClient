@@ -24,6 +24,11 @@ export class ChatApiService {
     const params = new HttpParams().set('pageable', JSON.stringify(pageable));
     return this.http.get<PaginatedResponse<ChatDto>>(`${this.baseUrl}/chats`, { headers, params });
   }
+  markMessagesRead(ids: number[]) {
+    return this.http.put<void>(`${environment.backendUbsLink}/ubs/telegram/messages`, {
+      messagesIds: ids
+    });
+  }
 
   getMessages(chatInternalId: number, page: number, size: number) {
     const headers = this.authHeaders();
@@ -49,6 +54,16 @@ export class ChatApiService {
       form.append('files', file);
     }
     return this.http.post<string>(url, form, { headers, responseType: 'text' as 'json' });
+  }
+
+  editMessage(chatInternalId: number, messageId: number, newText: string) {
+    const headers = this.authHeaders();
+    if (!headers) {
+      return new Observable<string>((o) => o.complete());
+    }
+    const url = `${this.baseUrl}/message/edit`;
+    const data = new Blob([JSON.stringify({ chatId: chatInternalId, messageId: messageId, newText })], { type: 'application/json' });
+    return this.http.put<string>(url, data, { headers, responseType: 'text' as 'json' });
   }
 
   getLastOrder(chatInternalId: number) {

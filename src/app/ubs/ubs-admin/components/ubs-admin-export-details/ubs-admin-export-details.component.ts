@@ -3,7 +3,7 @@ import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef, OnChanges } fro
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { OrderService } from '../../services/order.service';
 
 @Component({

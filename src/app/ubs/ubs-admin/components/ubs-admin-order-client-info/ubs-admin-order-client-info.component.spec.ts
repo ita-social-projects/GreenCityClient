@@ -3,7 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SimpleChange, SimpleChanges } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IMaskModule } from 'angular-imask';

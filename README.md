@@ -2,6 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
 
+## Build Environments
+
+Before building the project, run `npm run config` to generate `src/environments/environment.ts`.
+To generate a specific file, run `npm run config <key>` (for example: `npm run config stage`) to produce `environment.<key>.ts`.
+Prerequisite: ensure the corresponding `.env.<key>` is available locally or provided by CI (see `scripts/setenv.ts`).
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -60,7 +66,6 @@ You should install Angular CLI 16.2.10 writting this in console: npm install -g 
 
 3.  /src/
     This is where we keep our application source code.
-
     - /app/
       This folder contains templates, styles, images, angular components and anything else In angular project inside src folder. Any files outside of this folder are meant to support building your app.
 

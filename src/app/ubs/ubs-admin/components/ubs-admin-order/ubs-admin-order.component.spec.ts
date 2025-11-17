@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { UbsAdminOrderComponent } from './ubs-admin-order.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -10,12 +10,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { GeneralInfoMock } from '../../services/orderInfoMock';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { Language } from 'src/app/shared/i18n/Language';
 import { employeePositionsName } from '../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
@@ -60,8 +58,8 @@ describe('UbsAdminOrderComponent', () => {
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
   localStorageServiceMock.languageSubject = new Subject<string>();
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', [
     'employeePositions$',

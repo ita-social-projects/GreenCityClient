@@ -198,3 +198,8 @@
     text-align: left;
   }
 }
+
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+  display: none;
+}

@@ -10,28 +10,30 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { EMPTY, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { map, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { ColumnParam, columnsParams } from './columnsParams.mock';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MomentDateAdapter } from '@global-service/moment-date-adapter';
+import { ClientStatusEnum } from '@ubs/ubs/enums/client-status.enum';
+import { MatSelectChange } from '@angular/material/select';
+import { IAppState } from '../../../../store/state/app.state';
+import { ColumnParam, columnsParams } from '@ubs/ubs-admin/components/ubs-admin-customers/columnsParams.mock';
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -58,7 +60,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   isLoading = false;
   isUpdate = false;
   nonSortableColumns = nonSortableColumns;
-  columns: ColumnParam[] = [];
+  columns = columnsParams;
   arrowDirection: string;
   currentLang: string;
   displayedColumns: string[] = [];
@@ -69,13 +71,14 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   display = 'none';
   filterForm: FormGroup;
   hasChange = false;
+  canEditClient = false;
   filters: Filters;
   filterValue = '';
   pageSize = 10;
   enterPressed: boolean;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
-  customerTable: ICustomersTable;
   tableData: any[];
+  readonly customerStatus = Object.values(ClientStatusEnum);
   private sortType: string;
   private sortingColumn: string;
   private pressed = false;
@@ -89,6 +92,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
+  private permissions$ = this.store.select((appState: IAppState) => appState?.employees?.employeesPermissions);
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly filterSubject = new Subject<string>();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];
@@ -113,24 +117,31 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
       this.currentLang = lang;
-      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      const locale = lang !== 'uk' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
     this.getTable();
     this.adminTableOfCustomersSelector$.pipe(take(1)).subscribe((tableData) => {
-      this.customerTable = tableData;
-      this.columns = columnsParams;
       this.setDisplayedColumns();
     });
     this.initFilterForm();
     this.onCreateGroupFormValueChange();
-    this.filterSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => {
+    this.filterSubject.pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((value) => {
       if (!this.enterPressed) {
         this.applyFilter(value);
       } else {
         this.enterPressed = false;
       }
     });
+    this.permissions$
+      .pipe(
+        filter(Boolean),
+        take(1),
+        map((permissions) => permissions.some((p) => p === 'EDIT_CLIENT'))
+      )
+      .subscribe((permission) => {
+        this.canEditClient = permission;
+      });
   }
 
   ngAfterViewChecked() {
@@ -146,6 +157,22 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       this.setTableResize(this.matTableRef.nativeElement.clientWidth);
     }
     this.cdr.detectChanges();
+  }
+
+  onChangeStatus(event: MatSelectChange, user: any) {
+    return this.adminCustomerService.changeCustomerStatus(user.userId, event.value).subscribe({
+      error: () => {
+        this.dataSource.data = this.dataSource.data.map((u) =>
+          u.userId === user.userId
+            ? {
+                ...u,
+                status: user.status
+              }
+            : u
+        );
+        console.error(`Could not change status ${event.value} for user ${user.userId}`);
+      }
+    });
   }
 
   getSortingData(columnName: string, sortingType: string) {
@@ -352,12 +379,10 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.mouseMove(index);
   }
 
-  private setTableResize(tableWidth: number) {
-    let totWidth = 0;
-    this.columns.forEach((column) => {
-      totWidth += column.width;
-    });
-    const scale = (tableWidth - 5) / totWidth;
+  private setTableResize(tableWidth: number): void {
+    const totalW = this.columns.reduce((acc, item) => acc + item.width, 0);
+    const scale = tableWidth / totalW;
+
     this.columns.forEach((column) => {
       column.width *= scale;
       this.setColumnWidth(column);
@@ -366,11 +391,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private checkResizing(event: any, index: any) {
     const cellData = this.getCellData(index);
-    if (index === 0 || (Math.abs(event.pageX - cellData.right) < cellData.width / 2 && index !== this.columns.length - 1)) {
-      this.isResizingRight = true;
-    } else {
-      this.isResizingRight = false;
-    }
+    this.isResizingRight =
+      index === 0 || (Math.abs(event.pageX - cellData.right) < cellData.width / 2 && index !== this.columns.length - 1);
   }
 
   private getCellData(index: number) {
@@ -421,17 +443,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
   }
 
-  private setDialogHeader(modalRef: MatDialogRef<CommentPopUpComponent>, column: ColumnParam): void {
-    modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'ua' ? column.title.ua : column.title.en;
-  }
-
-  private updateTableRow(column: ColumnParam, userId: string, updatedData: string): void {
-    const row = this.tableData.find((r) => r.userId === userId);
-    if (row) {
-      row[column.title.key] = updatedData;
-    }
-  }
-
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
@@ -448,7 +459,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   onOpenChat(chatId: number) {
-    this.router.navigate(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatId } });
+    this.router.navigate(['ubs/admin', 'chat-page'], { queryParams: { chatId: chatId } });
   }
 
   private openCustomer(row, username): void {

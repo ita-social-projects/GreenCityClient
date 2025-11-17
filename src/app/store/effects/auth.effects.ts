@@ -26,7 +26,9 @@ export class AuthEffects {
     'You should verify the email first, check your email box!': 'user.auth.sign-in.not-verified-email',
     'Bad password': 'user.auth.sign-in.bad-password',
     'User account is blocked due to too many failed login attempts. Try again in 15 minutes': 'user.auth.sign-in.account-blocked',
-    'User is not activated': 'user.auth.sign-in.user-not-activated'
+    'User is not activated': 'user.auth.sign-in.user-not-activated',
+    'User is deactivated in PICKUP service': 'user.auth.sign-in.user-is-deactivated',
+    'User is blocked in PICKUP service': 'user.auth.sign-in.user-is-blocked'
   };
   private readonly DEFAULT_ERROR = 'user.auth.sign-in.bad-email-or-password';
 
@@ -63,8 +65,8 @@ export class AuthEffects {
   $signInWithGoogle = createEffect(() => {
     return this.actions.pipe(
       ofType(SignInWithGoogleAction),
-      mergeMap((action: { token: string }) => {
-        return this.authService.signInWithGoogle(action.token).pipe(
+      mergeMap((action: { token: string; isUBS: boolean }) => {
+        return this.authService.signInWithGoogle(action.token, action.isUBS).pipe(
           map((response: ISignInResponse) => SignInSuccessAction({ data: response })),
           catchError((error) => of(SignInFailureAction({ error: this.BACKEND_ERRORS[error.message] || this.DEFAULT_ERROR })))
         );

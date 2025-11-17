@@ -22,12 +22,12 @@ export class HeaderService {
   ];
 
   ubsArrLang = [
-    { lang: 'UA', langName: 'ukrainian' },
+    { lang: 'UK', langName: 'ukrainian' },
     { lang: 'EN', langName: 'english' }
   ];
 
   gCArrLang = [
-    { lang: 'Ua', langName: 'ukrainian' },
+    { lang: 'Uk', langName: 'ukrainian' },
     { lang: 'En', langName: 'english' }
   ];
 

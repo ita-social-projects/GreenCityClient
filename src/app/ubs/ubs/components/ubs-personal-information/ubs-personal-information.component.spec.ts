@@ -168,7 +168,7 @@ describe('UBSPersonalInformationComponent', () => {
       expect(component.senderFirstName.value).toBe('');
       expect(component.senderLastName.value).toBe('');
       expect(component.senderPhoneNumber.value).toBe('');
-      expect(component.senderEmail.value).toBe('');
+      expect(component.senderEmail.value).toBe(null);
     }));
   });
 
@@ -266,7 +266,7 @@ describe('UBSPersonalInformationComponent', () => {
   describe('Method calls', () => {
     it('should call router.navigate on onCancel when dialog is confirmed', fakeAsync(() => {
       spyOn(dialog, 'open').and.returnValue({
-        afterClosed: () => of(true)
+        afterClosed: () => of(false)
       } as MatDialogRef<WarningPopUpComponent>);
 
       component.onCancel();
@@ -278,7 +278,7 @@ describe('UBSPersonalInformationComponent', () => {
 
     it('should not call router.navigate on onCancel when dialog is dismissed', fakeAsync(() => {
       spyOn(dialog, 'open').and.returnValue({
-        afterClosed: () => of(false)
+        afterClosed: () => of(true)
       } as MatDialogRef<WarningPopUpComponent>);
 
       component.onCancel();

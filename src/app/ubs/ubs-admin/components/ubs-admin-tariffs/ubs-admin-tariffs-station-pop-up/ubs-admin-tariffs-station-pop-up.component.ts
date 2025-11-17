@@ -18,7 +18,7 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 })
 export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   stationForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]]
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.LongNamePattern)]]
   });
 
   get name() {
@@ -76,7 +76,8 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
 
   setDate(): void {
     const lang = this.languageService.getCurrentLanguage();
-    this.datePipe = new DatePipe(lang);
+    const locale = lang === 'uk' ? 'uk-UA' : 'en-GB';
+    this.datePipe = new DatePipe(locale);
     this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   }
 

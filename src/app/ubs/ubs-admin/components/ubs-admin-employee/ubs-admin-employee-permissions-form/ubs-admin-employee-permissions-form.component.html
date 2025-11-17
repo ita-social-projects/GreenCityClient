@@ -4,7 +4,7 @@
   </h3>
   <img mat-dialog-close="true" class="close-popup-button" src="assets/img/ubs/cross.svg" alt="close-popup-button" />
 
-  <form [formGroup]="form" (ngSubmit)="savePermissions()">
+  <form [formGroup]="form" (ngSubmit)="savePermissions()" *ngIf="(authorities$ | async)?.categories as groups">
     <cdk-accordion class="permissions-accordion accordion" multi>
       <cdk-accordion-item
         *ngFor="let group of groups; let i = index"
@@ -16,7 +16,7 @@
         [attr.id]="'accordion-header-' + i"
         [attr.aria-expanded]="accordionItem.expanded"
         [attr.aria-controls]="'accordion-body-' + i"
-        [formGroupName]="group.name"
+        [formGroupName]="group.nameEn"
         (click)="isPanelOpen()"
       >
         <div
@@ -26,7 +26,7 @@
           <span class="accordion-item-description">
             <img class="arrow-accordion-down" src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
           </span>
-          {{ 'employees.permissions.' + group.name + '.title' | translate }}
+          {{ languageService.getLangValue(group.nameUk, group.nameEn) }}
         </div>
         <div
           class="accordion-item-body"
@@ -35,20 +35,14 @@
           [attr.id]="'accordion-body-' + i"
           [attr.aria-labelledby]="'accordion-header-' + i"
         >
-          <mat-checkbox
-            *ngFor="let permission of group.permissions"
-            [formControlName]="permission"
-            (click)="updateAllComplete()"
-            [class]="group.name + '-' + labels[permission]"
-            (change)="onCheckboxChange(group.name, permission)"
-          >
-            {{ 'employees.permissions.' + group.name + '.' + labels[permission] | translate }}
+          <mat-checkbox *ngFor="let permission of group.authorities" [formControlName]="permission.name" (change)="updateAllComplete()">
+            {{ languageService.getLangValue(permission.descriptionUk, permission.descriptionEn) }}
           </mat-checkbox>
         </div>
       </cdk-accordion-item>
     </cdk-accordion>
     <div class="button-row">
-      <button class="cancelButton" (click)="managePermissionSettings('cancel')">
+      <button type="button" class="cancelButton" (click)="managePermissionSettings('cancel')">
         {{ 'ubs-employee.cancel' | translate }}
       </button>
       <button type="submit" class="addButton" [disabled]="isUpdating || isDisabled">
@@ -57,4 +51,5 @@
       </button>
     </div>
   </form>
+  <app-spinner *ngIf="!(authorities$ | async)?.categories"></app-spinner>
 </div>

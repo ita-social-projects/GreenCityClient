@@ -9,7 +9,7 @@
     <div class="info-grid">
       <div class="info-row">
         <span class="label">{{ 'client-panel.order-id' | translate }}</span>
-        <span class="value">{{ clientData.id }}</span>
+        <a class="value-id" [routerLink]="['/ubs/admin/order', clientData.id]">{{ clientData.id }}</a>
       </div>
       <div class="info-row">
         <span class="label">{{ 'client-panel.date-form' | translate }}</span>
@@ -47,6 +47,14 @@
         <span class="label">{{ 'client-panel.order-full-price' | translate }}</span>
         <span class="value">{{ clientData.orderFullPrice }}</span>
       </div>
+      <div class="info-row">
+        <span class="label">{{ 'client-panel.chat-id' | translate }}</span>
+        <span class="value">{{ clientData.chatId }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">{{ 'client-panel.completed-orders' | translate }}</span>
+        <span class="value">{{ clientData.completedOrdersCount }}</span>
+      </div>
     </div>
 
     <h4 class="section-title">{{ 'client-panel.bags-title' | translate }}</h4>
@@ -74,6 +82,9 @@
         </div>
       </div>
     </div>
+    <a class="action" [routerLink]="['/ubs/admin/orders']" [state]="{ clientFilter: clientData?.sender?.senderEmail }">{{
+      'client-panel.all-orders' | translate
+    }}</a>
   </div>
 </div>
 

@@ -40,7 +40,7 @@ describe('ColumnFiltersPopUpComponent', () => {
     {
       key: 'test',
       en: 'test',
-      ua: 'test',
+      uk: 'test',
       values: ['a', 'b', 'c']
     }
   ];
@@ -84,14 +84,14 @@ describe('ColumnFiltersPopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set showButtons to true and call setNewFilters on filter change', () => {
+  it('should set disableButton to false and call setNewFilters on filter change', () => {
     const checked = true;
     const currentColumn = 'testColumn';
     const option = { en: 'Option En', key: 'optionKey' };
 
     component.onFilterChange(checked, currentColumn, option);
 
-    expect(component.showButtons).toBeTrue();
+    expect(component.disableButtons).toBeFalse();
     expect(fakeAdminTableService.setNewFilters).toHaveBeenCalledWith(checked, currentColumn, option);
   });
 
@@ -120,7 +120,7 @@ describe('ColumnFiltersPopUpComponent', () => {
 
     component.onDateChange();
 
-    expect(component.showButtons).toBeTrue();
+    expect(component.disableButtons).toBeFalse();
     expect(fakeAdminTableService.swapDatesIfNeeded).toHaveBeenCalledWith(dateFrom, dateTo, component.dateChecked);
     expect(fakeAdminTableService.setDateFormat).toHaveBeenCalledWith(dateFrom);
     expect(fakeAdminTableService.setDateFormat).toHaveBeenCalledWith(dateTo);

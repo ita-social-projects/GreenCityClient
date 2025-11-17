@@ -83,8 +83,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
-      popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss',
+      popupConfirm: 'confirmation.dismiss',
+      popupCancel: 'confirmation.cancel',
       isUBS: true
     }
   };
@@ -187,11 +187,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.initListeners();
       });
 
-    this.store.pipe(select(existingOrderInfoSelector), takeUntil(this.$destroy)).subscribe((orderInfo: IUserOrderInfo) => {
+    this.store.pipe(select(existingOrderInfoSelector), filter(Boolean), takeUntil(this.$destroy)).subscribe((orderInfo: IUserOrderInfo) => {
       this.existingOrderInfo = orderInfo;
-      if (this.orderDetailsForm) {
-        this.initExistingOrderValues();
-      }
+      this.initExistingOrderValues();
     });
   }
 
@@ -285,7 +283,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const newBagsGroup = this.fb.group({}, { validators: courierLimitValidator(this.bags, validationConfig) });
 
     this.bags.forEach((bag: Bag) => {
-      newBagsGroup.addControl(`quantity${bag.id}`, new FormControl(String(bag.quantity ?? 0), [Validators.min(0), Validators.max(999)]));
+      const quantity = this.getBagQuantity(bag.id);
+      newBagsGroup.addControl(`quantity${bag.id}`, new FormControl(String(quantity ?? 0), [Validators.min(0), Validators.max(999)]));
     });
     this.orderDetailsForm.setControl('bags', newBagsGroup);
   }
@@ -293,9 +292,19 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   initExistingOrderValues(): void {
     if (this.existingOrderInfo) {
       this.orderComment.setValue(this.existingOrderInfo.orderComment);
+      if (this.existingOrderInfo.bags?.length > 0) {
+        this.existingOrderInfo.bags.forEach((bag) => {
+          const bagIndex = this.bags?.findIndex((b) => b.nameEn === bag.serviceEn);
+          if (bagIndex !== -1) {
+            this.changeQuantity(this.bags[bagIndex].id, bag.count);
+          }
+        });
+      }
       if (this.existingOrderInfo.additionalOrders?.length > 0) {
         this.additionalOrders.clear();
-        this.existingOrderInfo.additionalOrders.forEach((order) => this.addOrder(order));
+        this.existingOrderInfo.additionalOrders.forEach((order) => {
+          this.addOrder(order);
+        });
       }
     }
   }
@@ -448,7 +457,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
     matDialogRef
       .afterClosed()
-      .pipe(take(1), filter(Boolean))
+      .pipe(
+        take(1),
+        filter((val) => !val)
+      )
       .subscribe(() => {
         this.router.navigate(['ubs']);
       });

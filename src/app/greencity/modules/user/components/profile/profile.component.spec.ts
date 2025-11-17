@@ -15,7 +15,7 @@ describe('ProfileComponent', () => {
 
   const liveAnnouncerMock = jasmine.createSpyObj('announcer', ['announce']);
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'setCurentPage']);
-  localStorageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  localStorageServiceMock.getCurrentLanguage.and.returnValue('uk');
   localStorageServiceMock.languageSubject = of('en');
   const profileServiceMock = jasmine.createSpyObj('profileService', ['getUserInfo', 'getUserProfileStatistics']);
   profileServiceMock.getUserProfileStatistics.and.returnValue(of('fakeStatistics' as any));

@@ -22,6 +22,7 @@ export interface NotificationTemplateMainInfoDto extends NotificationTemplateUpd
   timeDescriptionUk: string;
   timeDescriptionEn: string;
   notificationStatus: string;
+  scheduleUpdateForbidden: boolean;
 }
 
 export interface NotificationTemplate {

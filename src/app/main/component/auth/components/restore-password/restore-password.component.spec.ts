@@ -1,6 +1,6 @@
 import { UserSuccessSignIn } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -128,20 +128,52 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('Test sendEmailForRestore method', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy().and.returnValue(of(mockFormData)));
       restorePasswordService.sendEmailForRestore(mockFormData);
       expect(spy).toHaveBeenCalled();
     });
 
     it('sentEmail should call sendEmailForRestore', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy().and.returnValue(of(mockFormData)));
       component.sentEmail();
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should set "already-sent" when backend error name is "email"', fakeAsync(() => {
+      const error = new HttpErrorResponse({ error: { name: 'email' } });
+      restorePasswordService.sendEmailForRestore = jasmine.createSpy().and.returnValue(new Observable((sub) => sub.error(error)));
+
+      component.sentEmail();
+      tick();
+
+      expect(component.emailErrorMessageBackEnd).toBe('already-sent');
+      expect(component.loadingAnim).toBeFalse();
+    }));
+
+    it('should set "email-not-verified" when backend error name is "user_status"', fakeAsync(() => {
+      const error = new HttpErrorResponse({ error: { name: 'user_status' } });
+      restorePasswordService.sendEmailForRestore = jasmine.createSpy().and.returnValue(new Observable((sub) => sub.error(error)));
+
+      component.sentEmail();
+      tick();
+      expect(component.emailErrorMessageBackEnd).toBe('email-not-verified');
+      expect(component.loadingAnim).toBeFalse();
+    }));
+
+    it('should set "email-not-exist" when backend error name is something else', fakeAsync(() => {
+      const error = new HttpErrorResponse({ error: { name: 'other' } });
+      restorePasswordService.sendEmailForRestore = jasmine.createSpy().and.returnValue(new Observable((sub) => sub.error(error)));
+
+      component.sentEmail();
+      tick();
+
+      expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
+      expect(component.loadingAnim).toBeFalse();
+    }));
   });
 
   describe('Testing controls for the restorePasswordForm', () => {
-    const validEmails = ['test@mail.com', 'mail@mail.ua', 'hello@post.com', 'write2me@mail.com'];
+    const validEmails = ['test@mail.com', 'mail@mail.uk', 'hello@post.com', 'write2me@mail.com'];
     const invalidEmails = ['notemail', '12345678987654321', 'wooooooow@', '100%mail'];
 
     function controlsValidator(itemValue, controlName, status) {

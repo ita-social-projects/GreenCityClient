@@ -8,6 +8,8 @@ import { Language } from 'src/app/shared/i18n/Language';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { FIRSTECONEWS } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
+import { DatePipe } from '@angular/common';
 
 describe('NewsListGalleryViewComponent', () => {
   let component: NewsListGalleryViewComponent;
@@ -16,19 +18,20 @@ describe('NewsListGalleryViewComponent', () => {
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), DateLocalisationPipe],
       declarations: [NewsListGalleryViewComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        DatePipe
       ]
     }).compileComponents();
   }));
@@ -48,7 +51,7 @@ describe('NewsListGalleryViewComponent', () => {
   it('should set current Language and tags onInit', () => {
     languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
     component.ngOnInit();
-    expect(component.currentLang).toBe('ua');
+    expect(component.currentLang).toBe('uk');
     expect(component.tags).toEqual(['Події', 'Освіта']);
   });
 

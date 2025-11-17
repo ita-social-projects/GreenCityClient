@@ -5,7 +5,7 @@ import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-
 import { TableCellReadonlyComponent } from './table-cell-readonly.component';
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '@ubs/ubs-admin/services/table-keys.enum';
-import { PaymnetStatus } from '@ubs/ubs/order-status.enum';
+import { PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -17,7 +17,7 @@ describe('TableCellReadonlyComponent', () => {
   const fakeStrValue = '20л - 0шт; 120л - 3шт';
   const fakeColumn = {
     key: 'fakeKey',
-    uk: 'ua',
+    uk: 'uk',
     en: 'en'
   };
   const adminTableServiceSpy = jasmine.createSpyObj('AdminTableService', ['howChangeCell', 'blockOrders', 'showTooltip']);
@@ -61,9 +61,9 @@ describe('TableCellReadonlyComponent', () => {
       expect(component.data).toBe('20L - 0p; 120L - 3p');
     });
 
-    it('should not translate for bagsAmount in ua', () => {
+    it('should not translate for bagsAmount in uk', () => {
       component.key = TableKeys.bagsAmount;
-      component.lang = 'ua';
+      component.lang = 'uk';
       component.title = fakeStrValue;
 
       component.ngOnChanges();
@@ -118,7 +118,7 @@ describe('TableCellReadonlyComponent', () => {
     component.ngOnChanges();
     expect(component.title).toBe('20L - 0p');
     expect(component.data).toBe('20L - 0p');
-    component.lang = Language.UA;
+    component.lang = Language.UK;
     component.title = '20L - 0p';
     component.ngOnChanges();
     expect(component.title).toBe('20л - 0шт');

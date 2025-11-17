@@ -124,7 +124,6 @@
           "options": {
             "polyfills": ["src/polyfills.ts", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "sourceMap": false,
             "karmaConfig": "./karma.conf.js",
             "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest"],
             "styles": [

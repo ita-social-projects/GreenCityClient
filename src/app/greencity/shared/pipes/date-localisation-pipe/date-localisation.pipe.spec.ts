@@ -1,45 +1,49 @@
-import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Language } from 'src/app/shared/i18n/Language';
-
-class MockDateLocalisationPipe {
-  locale: string;
-  constructor(private localStorageService: LocalStorageService) {}
-
-  transform(date: string | Date): string {
-    this.locale = this.localStorageService.getCurrentLanguage();
-    return new Date(date || Date.now()).toDateString();
-  }
-}
+import { Subject } from 'rxjs';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 
 describe('DateLocalisationPipe', () => {
-  let pipe: MockDateLocalisationPipe;
-  let localStorageService: jasmine.SpyObj<LocalStorageService>;
-  const mockLocale = 'en-US' as Language;
+  let pipe: DateLocalisationPipe;
+  let translateServiceMock: any;
+  let datePipeMock: any;
+  let cdrMock: any;
+  let langChange$: Subject<any>;
 
   beforeEach(() => {
-    localStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
-    localStorageService.getCurrentLanguage.and.returnValue(mockLocale);
-    pipe = new MockDateLocalisationPipe(localStorageService);
+    langChange$ = new Subject();
+
+    translateServiceMock = {
+      getDefaultLang: jasmine.createSpy('getDefaultLang').and.returnValue('en'),
+      onDefaultLangChange: langChange$.asObservable()
+    };
+
+    datePipeMock = {
+      transform: jasmine.createSpy('transform').and.returnValue('formatted-date')
+    };
+
+    cdrMock = {
+      markForCheck: jasmine.createSpy('markForCheck')
+    };
+
+    pipe = new DateLocalisationPipe(translateServiceMock, datePipeMock, cdrMock);
   });
 
-  it('should create an instance of the pipe', () => {
+  it('should create', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('should transform date correctly when date is provided', () => {
-    const mockDate = new Date('2024-05-25');
-
-    localStorageService.getCurrentLanguage.and.returnValue(mockLocale);
-    const transformedDate = pipe.transform(mockDate);
-
-    expect(transformedDate).toBe('Sat May 25 2024');
+  it('should use en-GB, if lang is en', () => {
+    pipe.transform('2025-10-24', 'mediumDate');
+    expect(datePipeMock.transform).toHaveBeenCalledWith('2025-10-24', 'mediumDate', undefined, 'en');
   });
 
-  it('should transform date correctly when date is not provided with CurrentLanguage', () => {
-    localStorageService.getCurrentLanguage.and.returnValue(mockLocale);
-    const transformedDate = pipe.transform('');
+  it('should use uk-UA, if lang is uk', () => {
+    (pipe as any).locale = 'uk';
+    pipe.transform('2025-10-24');
+    expect(datePipeMock.transform).toHaveBeenCalledWith('2025-10-24', 'mediumDate', undefined, 'uk');
+  });
 
-    expect(transformedDate).toBe(new Date().toDateString());
-    expect(localStorageService.getCurrentLanguage).toHaveBeenCalled();
+  it('should update locale on lang change', () => {
+    langChange$.next({ lang: 'uk' });
+    expect((pipe as any).locale).toBe('uk');
   });
 });

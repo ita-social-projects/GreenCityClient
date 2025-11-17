@@ -1,13 +1,13 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '@environment/environment';
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
-import { Subject, of } from 'rxjs';
+import { fakeAsync, TestBed } from '@angular/core/testing';
+import { of, Subject } from 'rxjs';
 import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
-import { OrderClientDto } from '../../ubs-user/components/ubs-user-orders-list/models/OrderClientDto';
-import { ResponceOrderFondyModel } from '../../ubs-user/components/ubs-user-orders-list/models/ResponceOrderFondyModel';
-import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
-import { ADDRESSESMOCK } from '../../mocks/address-mock';
+import { OrderClientDto } from '@ubs/ubs-user/components/ubs-user-orders-list/models/OrderClientDto';
+import { ResponceOrderFondyModel } from '@ubs/ubs-user/components/ubs-user-orders-list/models/ResponceOrderFondyModel';
+import { DistrictsDtos, KyivNamesEnum, Order } from '../models/ubs.interface';
+import { ADDRESSESMOCK } from '@ubs/mocks/address-mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -170,7 +170,7 @@ describe('OrderService', () => {
   });
 
   it('method getLocations should return user location', () => {
-    const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
+    const locationsMock = [{ id: 1, name: 'city', languageCode: 'uk' }];
 
     service.getLocations(1).subscribe((data) => {
       expect(data).toEqual(locationsMock as any);
@@ -272,5 +272,32 @@ describe('OrderService', () => {
     const region = { nameUk: 'Україна', nameEn: 'Ukraine' };
     const result = service.getLocationName(location, region);
     expect(['Lviv, Ukraine', 'Львів, Україна']).toContain(result);
+  });
+
+  it('should not call cancelExistingPayment if it doesnt have paymentLink ', (done) => {
+    spyOn(service, 'cancelExistingPayment').and.returnValue(of(null));
+    spyOn(service['http'], 'post').and.returnValue(of({}));
+
+    service.processExistingOrder(bagMock as unknown as Order, 123).subscribe({
+      next: () => {
+        expect(service.cancelExistingPayment).not.toHaveBeenCalled();
+        done();
+      }
+    });
+  });
+
+  it('should post cancelPaymentAttempt', (done) => {
+    const orderId = 123;
+    const mockResponse = { success: true } as any;
+
+    service.cancelExistingPayment(orderId).subscribe((resp) => {
+      expect(resp).toEqual(mockResponse);
+      done();
+    });
+
+    const req = httpMock.expectOne(`${service['url']}/cancelPaymentAttempt/${orderId}`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({});
+    req.flush(mockResponse);
   });
 });

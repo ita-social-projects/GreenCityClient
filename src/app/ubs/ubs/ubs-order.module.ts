@@ -36,6 +36,7 @@ import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-ad
 import { UbsUserAgreementComponent } from './components/ubs-user-agreement/ubs-user-agreement.component';
 import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
 import { UbsSharedModule } from '../shared/ubs-shared.module';
+import { UbsMainPagePriceSectionComponent } from './components/ubs-main-page/ubs-price-section/ubs-price-section.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { UbsSharedModule } from '../shared/ubs-shared.module';
     AddressComponent,
     UbsConfirmPageComponent,
     UbsMainPageComponent,
+    UbsMainPagePriceSectionComponent,
     UbsOrderLocationPopupComponent,
     UbsSubmitOrderNotificationComponent,
     UbsOrderCertificateComponent,

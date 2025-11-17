@@ -39,6 +39,9 @@
     "get-notification-in": "Get notification in",
     "subtitle": "Please fill in your profile to make the ordering process as quick and convenient as possible",
     "error-change-pass": "Password is wrong",
+    "telegram-subscription-title": "Telegram Notification Subscription",
+    "telegram-subscription-message": "To receive notifications via Telegram, you need to subscribe to our bot. Click 'Start Bot' to open Telegram and subscribe.",
+    "telegram-start-bot": "Start Bot",
     "btn": {
       "edit": "Edit data",
       "cancel": "Discard changes",
@@ -58,9 +61,9 @@
       "yes": "Yes",
       "no": "No",
       "certificate-activated": {
-        "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
-        "sum": "Certificate for {{certificateSum}}.00 UAH activated.",
-        "data": "Period is up to - до {{certDate}}"
+        "activated-oversum": "A certificate for {{certificateSum}} UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
+        "sum": "Certificate for {{certificateSum}} UAH activated.",
+        "data": "Valid until {{certDate}}"
       },
       "choose-payment": "You can make a payment in one of the selected methods below.",
       "edit-or-payment": "Would you like to edit your order or proceed to payment?",
@@ -120,6 +123,12 @@
     "date": "Date:",
     "info-about-date": "Added:"
   },
+  "view-violation-modal": {
+    "about-violation": "About violation",
+    "violation-level": "Level of violation",
+    "violation-description": "Violation description",
+    "close": "Close"
+  },
   "return-payment": {
     "message": "Do you really want a refund?",
     "accept-refund-application": "Your application has been accepted. Our manager will contact you later.",
@@ -173,6 +182,12 @@
       "done": "Done",
       "not-taken-out": "Not taken out",
       "canceled": "Canceled"
+    },
+    "not-taken": {
+      "reason": "Reason:",
+      "images": "Images",
+      "img-alt": "Image {{index}}",
+      "no-images": "No images provided"
     },
     "payment-status": {
       "paid": "Paid",
@@ -235,7 +250,7 @@
     "label-reason": "Describe what happened",
     "placeholder": "Describe the details you would like to provide about this order",
     "reason-error-message": "The number of characters must be up to 255",
-    "title-photo": "Photos of the violation",
+    "title-photo": "Photos",
     "label-for-photo-container": "Photos are mandatory if the reason for the not taken out order is a violation of the sorting rules",
     "requirement": "You can upload images in PNG or JPG format up to 10MB",
     "drag-photo": "Drag photo here",
@@ -294,7 +309,8 @@
       "title": "Customer violations",
       "amount": "Total",
       "current-order": "Current violation",
-      "button": "Add violation"
+      "button": "Add violation",
+      "button-view-violation": "View violation"
     }
   },
   "customer-details": {
@@ -394,7 +410,14 @@
     "orders-number": "Number of orders",
     "search": "Search",
     "link-placeholder": "Provide a link to the chat with client",
-    "go-to-chat": "To chat"
+    "go-to-chat": "To chat",
+    "restricted-symbols": "Restricted characters were entered",
+    "customer-status": {
+      "activated": "Activated",
+      "deactivated": "Deactivated",
+      "blocked": "Blocked",
+      "deleted": "Deleted"
+    }
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
@@ -613,6 +636,9 @@
       "deactivate": "Deactivate",
       "no": "No",
       "yes": "Yes"
+    },
+    "filter": {
+      "no-content": "Nothing was found for your filters"
     }
   },
   "ubs-sidebar": {
@@ -624,7 +650,8 @@
     "tariffs": "Tariffs",
     "notifications": "Notifications",
     "user-agreement": "User agreement",
-    "chat": "Chat"
+    "chat": "Chat",
+    "settings": "Settings"
   },
   "chat": {
     "empty-chat": "Chat hasn’t got any message yet",
@@ -638,10 +665,15 @@
     "delete-message-cancel": "No",
     "active-chat-placeholder": "Enter your message",
     "attach-file": "Attach a file",
+    "no-file-chosen": "No file chosen",
+    "no-dialogs-found": "No dialogs found",
     "status": {
       "READ": "Read",
-      "UNREAD": "Unread"
-    }
+      "UNREAD": "Unread",
+      "EDITED": "Edited {{editDateTime}}"
+    },
+    "edit-message": "Edit message",
+    "edit-option": "Edit"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
@@ -748,6 +780,7 @@
     "location-already-used": "Selected location already used. Make changes to save.",
     "card-exist": "According to these criteria, a tariff card already exists.",
     "card-not-found": "Tariff card not found. Do you want to create a new one?",
+    "tariff-name": "Tariff name",
     "btn": {
       "add_service": "Add service",
       "add_service2": "Add service",
@@ -1109,8 +1142,8 @@
     "settings-popup": {
       "title": "Notification settings",
       "labels": {
-        "titleEn": "Notification topic in english",
-        "titleUa": "Notification topic in ukrainian",
+        "titleEn": "Notification topic in English",
+        "titleUa": "Notification topic in Ukrainian",
         "trigger": "Trigger",
         "time": "Trigger time",
         "schedule": "Repeat"
@@ -1124,12 +1157,15 @@
       "buttons": {
         "cancel": "Cancel",
         "change": "Change"
+      },
+      "errors": {
+        "changeForbidden": "The field can not be changed"
       }
     },
     "text-editing-popup": {
       "title": "Edit notification for",
       "labels": {
-        "ua": "Ukrainian",
+        "uk": "Ukrainian",
         "en": "English",
         "text": "Notification text",
         "select": "Select"
@@ -1300,6 +1336,7 @@
     "duration-field-format": "The field can contain only numbers from 1 to 12",
     "discount-field-format": "The field can contain only numbers in format from 1 to 999"
   },
+  "settings-page": "Settings page",
   "ubs-user-agreement": {
     "edit": "Edit user agreement",
     "author": "Author",
@@ -1313,6 +1350,59 @@
       "back": "Back",
       "confirm": "Confirm",
       "save": "Save"
+    }
+  },
+  "settings": {
+    "edit": "Edit homepage settings",
+    "lang": {
+      "uk": "Ukrainian",
+      "en": "English"
+    },
+    "section": {
+      "bonuses": {
+        "title": "Bonus",
+        "caption": "Caption",
+        "content": "Content"
+      },
+      "header": {
+        "title": "Header",
+        "caption": "Caption",
+        "content": "Content"
+      },
+      "how_works": {
+        "title": "How it works",
+        "content": "Content",
+        "route": "Route",
+        "route_caption": "Route Caption",
+        "working_hours": "Working Hours",
+        "working_hours_caption": "Working Hours Caption"
+      },
+      "preparing": {
+        "title": "Preparation",
+        "caption": "Caption",
+        "step_01": "Step 1",
+        "step_02": "Step 2",
+        "step_03": "Step 3",
+        "step_04": "Step 4",
+        "step_05": "Step 5"
+      },
+      "price": {
+        "title": "Order steps",
+        "caption_steps": "Caption",
+        "steps_title_01": "Step 1 title",
+        "steps_content_01": "Step 1 content",
+        "steps_title_02": "Step 2 title",
+        "steps_content_02": "Step 2 content",
+        "steps_title_03": "Step 3 title",
+        "steps_content_03": "Step 3 content",
+        "steps_title_04": "Step 4 title",
+        "steps_content_04": "Step 4 content"
+      },
+      "rules": {
+        "title": "Rules",
+        "caption": "Caption",
+        "content": "Content"
+      }
     }
   },
   "deleting-profile-reason-pop-up": {
@@ -1337,6 +1427,7 @@
     "amount-before-payment": "Amount due",
     "paid-amount": "Amount paid",
     "order-full-price": "Total amount",
+    "chat-id": "Chat ID",
     "bags-title": "Bags",
     "service": "Service",
     "capacity": "Capacity",
@@ -1346,6 +1437,37 @@
     "loading": "Loading information...",
     "error": "Failed to load information.",
     "order-info-title": "Order Information",
-    "no-orders": "This client has no orders"
+    "no-orders": "This client has no orders",
+    "all-orders": "See all orders",
+    "completed-orders": "Completed orders"
+  },
+  "telegram-bot-responses": {
+    "edit": "Edit telegram bot responses",
+    "lang": {
+      "en": "English",
+      "uk": "Ukrainian"
+    },
+    "section": {
+      "ADMISSION_RULES_TEXT": "Admission rules",
+      "BAD_FEEDBACK_MESSAGE": "Bad feedback response",
+      "CLIENT_END_SUPPORT_NOTIFICATION": "Client ended support notification",
+      "CLIENT_STOP_SUPPORT_MODE": "Client stoped support mode",
+      "CLIENT_SUPPORT_MESSAGE_CALLBACK_QUERY": "Client manager support query",
+      "CLIENT_SUPPORT_MESSAGE_CHANGE_LANGUAGE": "Client language change",
+      "CLIENT_WANT_TO_SPEAK": "Client wants to speak to a manager",
+      "EMPLOYEE_NOT_MANAGER": "Employee is not a manager",
+      "ENTERING_EMAIL_MESSAGE": "Entering email prompt",
+      "FEEDBACK_MESSAGE": "Feedback prompt",
+      "FEEDBACK_THANK_YOU_MESSAGE": "Feedback thank tou message",
+      "FORBIDDEN_COMMANDS_MANAGER": "Forbidden command for a manager",
+      "GREAT_FEEDBACK_MESSAGE": "Response on a great feedback",
+      "GREEN_OFFICE_SUBJECT": "Green Office subject",
+      "GREEN_OFFICE_TEXT": "Green Office partnership",
+      "GREEN_OFFICE_THANK_YOU_MESSAGE": "Green Office email thank you message",
+      "GREETING_MANAGER_MESSAGE": "Manager greeting",
+      "GREETING_MESSAGE": "User greeting",
+      "INCORRECT_LOGIN_FORMAT": "Incorrect login format message",
+      "INVALID_EMAIL_MESSAGE": "Invalid email message"
+    }
   }
 }

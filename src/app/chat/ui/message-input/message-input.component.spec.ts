@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MessageInputComponent } from './message-input.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ElementRef } from '@angular/core';
 
 describe('MessageInputComponent', () => {
   let fixture: ComponentFixture<MessageInputComponent>;
@@ -66,6 +67,46 @@ describe('MessageInputComponent', () => {
     expect(component.file).toBeUndefined();
   });
 
+  it('send(): clears file input value when fileInput ViewChild is available', () => {
+    const spy = jasmine.createSpy('sendText');
+    component.sendText.subscribe(spy);
+
+    const mockFileInput = {
+      nativeElement: {
+        value: 'some-file-path'
+      }
+    };
+    component.fileInput = mockFileInput as any;
+
+    component.text = 'hello';
+    const testFile = makeFile(10, 'test.txt');
+    component.file = testFile;
+
+    component.send();
+
+    expect(spy).toHaveBeenCalledOnceWith({ text: 'hello', file: testFile });
+    expect(mockFileInput.nativeElement.value).toBe('');
+    expect(component.text).toBe('');
+    expect(component.file).toBeUndefined();
+  });
+
+  it('send(): handles case when fileInput ViewChild is not available', () => {
+    const spy = jasmine.createSpy('sendText');
+    component.sendText.subscribe(spy);
+
+    component.fileInput = undefined as any;
+
+    component.text = 'hello';
+    const testFile = makeFile(10, 'test.txt');
+    component.file = testFile;
+
+    expect(() => component.send()).not.toThrow();
+
+    expect(spy).toHaveBeenCalledOnceWith({ text: 'hello', file: testFile });
+    expect(component.text).toBe('');
+    expect(component.file).toBeUndefined();
+  });
+
   it('onFileSelected(): sets file when within size limit (<= 5MB)', () => {
     const okFile = makeFile(1 * 1024 * 1024, 'ok.txt');
     const event = {
@@ -108,5 +149,50 @@ describe('MessageInputComponent', () => {
 
     expect(component.file).toBeUndefined();
     expect(event.target.value).toBe('');
+  });
+
+  it('should initialize text as empty string', () => {
+    expect(component.text).toBe('');
+  });
+
+  it('should have undefined editText initially', () => {
+    expect(component.editText).toBeUndefined();
+  });
+
+  it('should set text and focus input when editText changes', () => {
+    component.textInput = new ElementRef(document.createElement('input'));
+    spyOn(component.textInput.nativeElement, 'focus');
+
+    const changes = {
+      editText: {
+        currentValue: 'Hello world',
+        previousValue: '',
+        firstChange: true,
+        isFirstChange: () => true
+      }
+    };
+
+    component.editText = 'Hello world';
+    component.ngOnChanges(changes);
+
+    expect(component.text).toBe('Hello world');
+    expect(component.textInput.nativeElement.focus).toHaveBeenCalled();
+  });
+
+  it('should not focus when editText has no currentValue', () => {
+    component.textInput = new ElementRef(document.createElement('input'));
+    spyOn(component.textInput.nativeElement, 'focus');
+
+    const changes = {
+      editText: {
+        currentValue: undefined,
+        previousValue: 'Old',
+        firstChange: false,
+        isFirstChange: () => false
+      }
+    };
+
+    component.ngOnChanges(changes);
+    expect(component.textInput.nativeElement.focus).not.toHaveBeenCalled();
   });
 });

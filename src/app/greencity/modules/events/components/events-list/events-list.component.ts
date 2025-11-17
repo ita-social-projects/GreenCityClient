@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
-import { Observable, ReplaySubject, Subscription, take } from 'rxjs';
+import { Observable, ReplaySubject, Subscription, take, takeUntil } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -14,7 +14,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
-import { MatOption } from '@angular/material/core';
+import { DateAdapter, MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { HttpParams } from '@angular/common/http';
 import { EventStoreService } from '../../services/event-store.service';
 import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
@@ -37,6 +37,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   statusFilterControl = new FormControl();
   typeFilterControl = new FormControl();
   searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
+  dateRangeFilterForm = this.fb.group({
+    from: [null],
+    to: [null]
+  });
 
   relevantLocationFiltersList: FilterItem[] = [];
   showAddCityInput = false;
@@ -64,6 +68,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
   isGalleryView = true;
   isSavedVisible = false;
   currentTab = 'events';
+  dateRangeFilter: FilterItem = { type: 'dateRange', nameEn: '', nameUk: '' };
+  mockIsUserInput: MatOptionSelectionChange = { source: {} as MatOption, isUserInput: true };
 
   private readonly destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private readonly ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
@@ -75,6 +81,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   @ViewChild('cityModal') cityModal: TemplateRef<any>;
 
+  get dateRangeFromFormControl() {
+    return this.dateRangeFilterForm.get('from');
+  }
+
+  get dateRangeToFormControl() {
+    return this.dateRangeFilterForm.get('to');
+  }
+
   constructor(
     private readonly store: Store,
     private readonly userOwnAuthService: UserOwnAuthService,
@@ -84,6 +98,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private readonly eventStoreService: EventStoreService,
     private readonly dialog: MatDialog,
     private readonly route: ActivatedRoute,
+    private readonly dateAdapter: DateAdapter<Date>,
     private readonly languageService: LanguageService,
     private fb: FormBuilder
   ) {}
@@ -100,7 +115,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.bookmarkSelected = isBookmark;
     });
 
-    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+    this.ecoEvents$.pipe(takeUntil(this.destroyed$)).subscribe((res: IEcoEventsState) => {
       if (res.eventState) {
         this.isLoading = false;
         this.eventsList.push(...res.eventsList.slice(this.page * this.eventsPerPage));
@@ -110,13 +125,22 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
     });
     this.getEvents();
-    this.eventService.getAddresses().subscribe((addresses) => {
-      this.locationFiltersList = this.getUniqueLocations(addresses);
-    });
+    this.eventService
+      .getAddresses()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((addresses) => {
+        this.locationFiltersList = this.getUniqueLocations(addresses);
+      });
 
     this.initializeLocationData();
 
-    this.searchEventControl.valueChanges.subscribe((value) => {
+    this.dateRangeFilterForm.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      if (this.dateRangeFromFormControl?.value && this.dateRangeToFormControl?.value) {
+        this.updateListOfFilters(this.dateRangeFilter);
+      }
+    });
+
+    this.searchEventControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe((value) => {
       if (this.searchResultSubscription) {
         this.searchResultSubscription.unsubscribe();
       }
@@ -124,6 +148,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.searchQuery = value.trim();
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
     });
+
+    this.languageService
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((lang) => {
+        this.dateAdapter.setLocale(lang === 'uk' ? 'uk-UA' : 'en-US');
+      });
   }
 
   private initializeLocationData(): void {
@@ -165,7 +196,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     const city: FilterItem = {
       type: 'location',
-      nameUk: lang === 'ua' ? cityName : '',
+      nameUk: lang === 'uk' ? cityName : '',
       nameEn: lang === 'en' ? cityName : ''
     };
 
@@ -176,7 +207,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       new google.maps.Geocoder()
         .geocode({
           placeId: prediction.place_id,
-          language: lang === 'ua' ? 'en' : 'uk'
+          language: lang === 'uk' ? 'en' : 'uk'
         })
         .then((response) => {
           const translatedName =
@@ -184,7 +215,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
           const cityIndex = this.selectedCities.findIndex((c) => c.nameUk === city.nameUk && c.nameEn === city.nameEn);
           if (cityIndex !== -1) {
-            if (lang === 'ua') {
+            if (lang === 'uk') {
               this.selectedCities[cityIndex].nameEn = translatedName;
             } else {
               this.selectedCities[cityIndex].nameUk = translatedName;
@@ -224,24 +255,33 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   likeEvent(event: EventListResponse): void {
-    this.eventService.likeEvent(event.id).subscribe(() => {
-      this.updateEventReaction(event, 'like');
-      this.eventService.getEventById(event.id).subscribe((updatedEvent) => {
-        //@ts-ignore
-        this.refreshEventInList(updatedEvent);
+    this.eventService
+      .likeEvent(event.id)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.updateEventReaction(event, 'like');
+        this.eventService
+          .getEventById(event.id)
+          .pipe(takeUntil(this.destroyed$))
+          .subscribe((updatedEvent) => {
+            //@ts-ignore
+            this.refreshEventInList(updatedEvent);
+          });
       });
-    });
   }
 
   dislikeEvent(event: EventListResponse): void {
-    this.eventService.dislikeEvent(event.id).subscribe(
-      () => {
-        this.updateEventReaction(event, 'dislike');
-      },
-      (error) => {
-        console.error('Dislike API request failed:', error);
-      }
-    );
+    this.eventService
+      .dislikeEvent(event.id)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          this.updateEventReaction(event, 'dislike');
+        },
+        error: (error) => {
+          console.error('Dislike API request failed:', error);
+        }
+      });
   }
 
   private updateEventReaction(event: EventListResponse, reactionType: 'like' | 'dislike'): void {
@@ -320,7 +360,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
     return uniqueLocations;
   }
 
-  updateListOfFilters(filter: FilterItem): void {
+  updateListOfFilters(filter: FilterItem, event: MatOptionSelectionChange = this.mockIsUserInput): void {
+    if (!event.isUserInput) {
+      return;
+    }
+
     switch (filter.type) {
       case 'eventTimeStatus':
         if (this.selectedEventTimeStatusFiltersList.includes(filter.nameEn)) {
@@ -374,12 +418,33 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.selectedFilters.push(filter);
         }
         break;
+      case 'dateRange': {
+        const fromDate = this.dateRangeFromFormControl?.value;
+        const toDate = this.dateRangeToFormControl?.value;
+
+        if (fromDate && toDate) {
+          filter.nameEn = fromDate.toLocaleDateString('en-US') + ' - ' + toDate.toLocaleDateString('en-US');
+          filter.nameUk = fromDate.toLocaleDateString('uk-UA') + ' - ' + toDate.toLocaleDateString('uk-UA');
+          const existingDateRangeFilter = this.selectedFilters.find((item) => item.type === 'dateRange');
+          if (existingDateRangeFilter) {
+            existingDateRangeFilter.nameEn = filter.nameEn;
+            existingDateRangeFilter.nameUk = filter.nameUk;
+          } else {
+            this.selectedFilters.push(filter);
+            this.dateRangeFilter = filter;
+          }
+        }
+        break;
+      }
     }
     this.cleanEventList();
     this.getEvents();
   }
 
   removeItemFromSelectedFiltersList(filter: FilterItem, index?: number): void {
+    if (filter.type === 'dateRange') {
+      this.dateRangeFilterForm.reset();
+    }
     this.updateSelectedFiltersList(filter.nameEn, index);
     this.updateListOfFilters(filter);
   }
@@ -428,29 +493,30 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  toggleAllOptions(filterType: string, select: MatSelect): void {
+  toggleAllOptions(filterType: string, select: MatSelect, event: MatOptionSelectionChange): void {
     const control = select.ngControl?.control;
-    if (!control) {
+
+    if (!control || !event.isUserInput) {
       return;
     }
 
     const allOptions = select.options.toArray();
     const firstOption = allOptions[0]?.value;
     const firstSelected = firstOption ? (control.value || []).includes(firstOption) : false;
-    control.setValue(firstSelected ? [] : allOptions.map((option) => option.value));
+    control.setValue(!firstSelected ? [] : allOptions.map((option) => option.value));
 
     switch (filterType) {
       case 'eventTimeStatus':
-        this.toggleAll(this.eventTimeStatusOptionList, this.selectedEventTimeStatusFiltersList);
+        this.toggleAll(this.eventTimeStatusOptionList, this.selectedEventTimeStatusFiltersList, filterType);
         break;
       case 'location':
-        this.toggleAll(this.locationOptionList, this.selectedLocationFiltersList);
+        this.toggleAll(this.locationOptionList, this.selectedLocationFiltersList, filterType);
         break;
       case 'status':
-        this.toggleAll(this.statusOptionList, this.selectedStatusFiltersList);
+        this.toggleAll(this.statusOptionList, this.selectedStatusFiltersList, filterType);
         break;
       case 'type':
-        this.toggleAll(this.typeOptionList, this.selectedTypeFiltersList);
+        this.toggleAll(this.typeOptionList, this.selectedTypeFiltersList, filterType);
         break;
     }
 
@@ -458,16 +524,23 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  private toggleAll(select: MatSelect, selectedList: string[]): void {
+  private toggleAll(select: MatSelect, selectedList: string[], filterType: string): void {
     const control = select.ngControl?.control;
     const options = select.options.toArray();
     const currentValue = control.value || [];
+
     if (options.every((option) => currentValue.includes(option.value))) {
       control.setValue([]);
       selectedList.length = 0;
+      this.selectedFilters = this.selectedFilters.filter((filter) => filter.type !== filterType);
     } else {
       control.setValue(options.map((option) => option.value));
       selectedList.splice(0, selectedList.length, ...options.map((option) => option.value));
+      this.getFilterByType(filterType).forEach((item) => {
+        if (!this.selectedFilters.includes(item)) {
+          this.selectedFilters.push(item);
+        }
+      });
     }
   }
 
@@ -477,6 +550,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.selectedLocationFiltersList = [];
     this.selectedStatusFiltersList = [];
     this.selectedTypeFiltersList = [];
+    this.dateRangeFilterForm.reset();
     [this.eventTimeStatusOptionList, this.statusOptionList, this.locationOptionList, this.typeOptionList].forEach((optionList) => {
       this.unselectCheckbox(optionList);
     });
@@ -527,22 +601,23 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private getUserFavoriteEvents(): void {
-    this.eventService.getEvents(this.getEventsHttpParams()).subscribe((res) => {
-      this.isLoading = false;
-      this.eventsList.push(...res.page);
-      this.countOfEvents = res.totalElements;
-      this.hasNextPage = res.hasNext;
-    });
+    this.eventService
+      .getEvents(this.getEventsHttpParams())
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((res) => {
+        this.isLoading = false;
+        this.eventsList.push(...res.page);
+        this.countOfEvents = res.totalElements;
+        this.hasNextPage = res.hasNext;
+      });
   }
 
   private updateSelectedFiltersList(filterName: string, index?: number): void {
-    if (index) {
+    if (index !== undefined) {
       this.selectedFilters.splice(index, 1);
-    } else {
-      if (this.selectedFilters.find((item) => item.nameEn === filterName)) {
-        const indexOfItem = this.selectedFilters.findIndex((item) => item.nameEn === filterName);
-        this.selectedFilters.splice(indexOfItem, 1);
-      }
+    } else if (this.selectedFilters.find((item) => item.nameEn === filterName)) {
+      const indexOfItem = this.selectedFilters.findIndex((item) => item.nameEn === filterName);
+      this.selectedFilters.splice(indexOfItem, 1);
     }
   }
 
@@ -580,7 +655,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.appendIfNotEmpty('type', this.getTypeFilter()),
       this.appendIfNotEmpty(
         'cities',
-        this.selectedLocationFiltersList.filter((city) => city !== 'Online' && city !== 'Select All' && city !== 'Обрати всі')
+        this.selectedLocationFiltersList.filter(
+          (city) => city !== 'Online' && city !== 'Offline' && city !== 'Select All' && city !== 'Обрати всі'
+        )
       ),
       this.appendIfNotEmpty(
         'time',
@@ -597,9 +674,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.appendIfNotEmpty(
         'tags',
         this.selectedTypeFiltersList.filter((type) => type !== 'All types' && type !== 'Всі типи')
+      ),
+      this.appendIfNotEmpty(
+        'from',
+        this.dateRangeToFormControl?.value && this.dateRangeFromFormControl?.value
+          ? new Date(this.dateRangeFromFormControl?.value).toISOString()
+          : ''
+      ),
+      this.appendIfNotEmpty(
+        'to',
+        this.dateRangeToFormControl?.value && this.dateRangeFromFormControl?.value
+          ? new Date(this.dateRangeToFormControl?.value).toISOString()
+          : ''
       )
     ];
-
     paramsToAdd.filter((param) => param !== null).forEach((param) => (params = params.append(param.key, param.value)));
     return params;
   }
@@ -617,6 +705,21 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
+  private getFilterByType(type: string): FilterItem[] {
+    switch (type) {
+      case 'eventTimeStatus':
+        return this.eventTimeStatusFiltersList;
+      case 'location':
+        return this.relevantLocationFiltersList;
+      case 'status':
+        return this.statusFiltersList;
+      case 'type':
+        return this.typeFiltersList;
+      default:
+        return [];
+    }
+  }
+
   private appendIfNotEmpty(key: string, value: string | string[]): { key: string; value: string } | null {
     const formattedValue = (Array.isArray(value) ? value.join(',') : value)?.toUpperCase() || '';
     return formattedValue ? { key, value: formattedValue } : null;
@@ -627,7 +730,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
+    this.userOwnAuthService.credentialDataSubject.pipe(takeUntil(this.destroyed$)).subscribe((data) => {
       this.isLoggedIn = !!data?.userId;
       this.userId = data.userId;
       this.statusFiltersList = this.userId ? statusFiltersData : statusFiltersData.slice(0, 2);

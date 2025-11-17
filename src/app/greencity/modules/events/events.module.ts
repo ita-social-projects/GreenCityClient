@@ -46,6 +46,7 @@ import { IMaskModule } from 'angular-imask';
 import { EditImagePopUpComponent } from './components/event-editor/components/edit-image-pop-up/edit-image-pop-up.component';
 import { ResizableBottomSheetComponent } from './components/event-details/resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { EventsCommentsService } from './services/events-comments.service';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { EventsCommentsService } from './services/events-comments.service';
     MatDividerModule,
     CommentsModule,
     MatChipsModule,
-    ImageCropperModule
+    ImageCropperModule,
+    DateLocalisationPipe
   ],
   providers: [{ provide: CommentsService, useClass: EventsCommentsService }, EventStoreService],
   exports: [TranslateModule]
