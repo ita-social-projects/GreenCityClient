@@ -1,22 +1,22 @@
 import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import {
-  Component,
-  OnInit,
-  ElementRef,
-  ViewChild,
-  Output,
-  Input,
-  EventEmitter,
   AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
   OnChanges,
-  SimpleChanges,
   OnDestroy,
-  SecurityContext
+  OnInit,
+  Output,
+  SecurityContext,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { EmojiEvent, TaggedUser } from '../../models/comments-model';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FormControl, Validators } from '@angular/forms';
-import { Subject, fromEvent } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, filter, takeUntil, tap } from 'rxjs/operators';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { insertEmoji } from '../add-emoji/add-emoji';

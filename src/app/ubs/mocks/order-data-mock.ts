@@ -1,6 +1,5 @@
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { CourierLocations, OrderDetails, PersonalData } from '@ubs/ubs/models/ubs.interface';
-import { OrderStatus } from '@ubs/ubs/order-status.enum';
 
 export const ubsOrderServiseMock = {
   orderDetails: null,
@@ -60,19 +59,19 @@ export const mockLocations = {
   tariffInfoId: 1,
   regionDto: {
     nameEn: 'fake name en',
-    nameUk: 'fake name ua',
+    nameUk: 'fake name uk',
     regionId: 2
   },
   locationsDtosList: [
     {
       locationId: 3,
       nameEn: 'fake location en',
-      nameUk: 'fake location ua'
+      nameUk: 'fake location uk'
     }
   ],
   courierTranslationDtos: [
     {
-      languageCode: 'ua',
+      languageCode: 'uk',
       name: 'fake name'
     }
   ],
@@ -85,7 +84,7 @@ export const mockLocations = {
 export const orderDetailsMock: OrderDetails = {
   bags: [
     {
-      code: 'ua',
+      code: 'uk',
       capacity: 100,
       id: 0,
       price: 300,
@@ -94,7 +93,7 @@ export const orderDetailsMock: OrderDetails = {
       nameUk: 'def'
     },
     {
-      code: 'ua',
+      code: 'uk',
       capacity: 100,
       id: 1,
       price: 300,
@@ -150,6 +149,7 @@ export const fakeInputOrderData: IUserOrderInfo = {
   paidAmount: 1100,
   paymentStatusUk: 'Оплачено',
   paymentStatusEn: 'Paid',
+  paymentLink: null,
   sender: {
     senderEmail: 'm.kovalushun@gmail.com',
     senderName: 'Mykola',

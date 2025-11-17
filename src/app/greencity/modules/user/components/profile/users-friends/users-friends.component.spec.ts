@@ -27,7 +27,7 @@ describe('UsersFriendsComponent', () => {
     'languageBehaviourSubject'
   ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
 

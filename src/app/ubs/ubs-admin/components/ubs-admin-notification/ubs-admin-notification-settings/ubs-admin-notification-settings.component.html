@@ -36,12 +36,8 @@
           [placeholder]="'ubs-notifications.settings-popup.placeholders.trigger' | translate"
           formControlName="trigger"
         >
-          <mat-option
-            class="option-trigger"
-            *ngFor="let trigger of triggers"
-            [value]="trigger.trigger"
-            [appLangValue]="{ ua: trigger.triggerDescription, en: trigger.triggerDescriptionEng }"
-          >
+          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger.trigger">
+            <span [appLangValue]="{ uk: trigger.triggerDescription, en: trigger.triggerDescriptionEng }"></span>
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
@@ -56,12 +52,8 @@
           [placeholder]="'ubs-notifications.settings-popup.placeholders.time' | translate"
           formControlName="time"
         >
-          <mat-option
-            class="option-trigger"
-            *ngFor="let time of times"
-            [value]="time.time"
-            [appLangValue]="{ ua: time.timeDescription, en: time.timeDescriptionEng }"
-          >
+          <mat-option class="option-trigger" *ngFor="let time of times" [value]="time.time">
+            <span [appLangValue]="{ uk: time.timeDescription, en: time.timeDescriptionEng }"></span>
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
@@ -71,7 +63,12 @@
     <div>
       <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.schedule' | translate }}</p>
       <div class="field-wrapper">
-        <div class="select-schedule-trigger" [matMenuTriggerFor]="selectSchedule" #menuTrigger="matMenuTrigger">
+        <div
+          class="select-schedule-trigger"
+          [matMenuTriggerFor]="data.scheduleUpdateForbidden ? null : selectSchedule"
+          [attr.aria-disabled]="data.scheduleUpdateForbidden"
+          #menuTrigger="matMenuTrigger"
+        >
           <input
             class="select-schedule"
             type="text"
@@ -79,9 +76,13 @@
             matInput
             [value]="schedule | cron: lang"
             readonly
+            [disabled]="data.scheduleUpdateForbidden"
           />
           <img class="gear-icon" [src]="icons.gear" alt="" />
         </div>
+        <p class="disabled-field-message" *ngIf="data.scheduleUpdateForbidden">
+          {{ 'ubs-notifications.settings-popup.errors.changeForbidden' | translate }}
+        </p>
       </div>
       <mat-menu class="cron-picker-overlay" #selectSchedule="matMenu">
         <app-cron-picker

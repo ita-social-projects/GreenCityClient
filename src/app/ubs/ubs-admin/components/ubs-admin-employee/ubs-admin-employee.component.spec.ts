@@ -64,7 +64,7 @@ describe('UbsAdminEmployeeComponent', () => {
           locationId: 3,
           locationStatus: 'фейк1',
           locationTranslationDtoList: [
-            { languageCode: 'ua', locationName: 'Фейк1' },
+            { languageCode: 'uk', locationName: 'Фейк1' },
             { languageCode: 'en', locationName: 'Fake1' }
           ],
           longitude: 17
@@ -74,7 +74,7 @@ describe('UbsAdminEmployeeComponent', () => {
           locationId: 5,
           locationStatus: 'фейк2',
           locationTranslationDtoList: [
-            { languageCode: 'ua', locationName: 'Фейк2' },
+            { languageCode: 'uk', locationName: 'Фейк2' },
             { languageCode: 'en', locationName: 'Fake2' }
           ],
           longitude: 155
@@ -82,7 +82,7 @@ describe('UbsAdminEmployeeComponent', () => {
       ],
       regionId: 1,
       regionTranslationDtos: [
-        { regionName: 'Фейк область', languageCode: 'ua' },
+        { regionName: 'Фейк область', languageCode: 'uk' },
         { regionName: 'Fake region', languageCode: 'en' }
       ]
     }
@@ -95,7 +95,7 @@ describe('UbsAdminEmployeeComponent', () => {
         locationId: 159,
         locationStatus: 'active',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'фейк' },
+          { languageCode: 'uk', locationName: 'фейк' },
           { languageCode: 'en', locationName: 'fake' }
         ],
         longitude: 0
@@ -105,7 +105,7 @@ describe('UbsAdminEmployeeComponent', () => {
         locationId: 0,
         locationStatus: 'active',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'фейк2' },
+          { languageCode: 'uk', locationName: 'фейк2' },
           { languageCode: 'en', locationName: 'fake' }
         ],
         longitude: 0
@@ -115,7 +115,7 @@ describe('UbsAdminEmployeeComponent', () => {
     regionTranslationDtos: [
       {
         regionName: 'fake',
-        languageCode: 'ua'
+        languageCode: 'uk'
       }
     ]
   };
@@ -146,12 +146,12 @@ describe('UbsAdminEmployeeComponent', () => {
     'languageBehaviourSubject',
     'getAccessToken'
   ]);
-  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('uk'));
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs', 'getLangValue']);
-  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('uk'));
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
@@ -199,6 +199,7 @@ describe('UbsAdminEmployeeComponent', () => {
     service = TestBed.inject(UbsAdminEmployeeService);
     httpMock = TestBed.inject(HttpTestingController);
     store = TestBed.inject(Store) as MockStore;
+    component.searchValueIncorrect = false;
   });
 
   it('should create', () => {
@@ -414,7 +415,7 @@ describe('UbsAdminEmployeeComponent', () => {
         id: 3,
         name: 'Фейк1',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'Фейк1' },
+          { languageCode: 'uk', locationName: 'Фейк1' },
           { languageCode: 'en', locationName: 'Fake1' }
         ]
       },
@@ -422,7 +423,7 @@ describe('UbsAdminEmployeeComponent', () => {
         id: 5,
         name: 'Фейк2',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'Фейк2' },
+          { languageCode: 'uk', locationName: 'Фейк2' },
           { languageCode: 'en', locationName: 'Fake2' }
         ]
       }
@@ -444,7 +445,7 @@ describe('UbsAdminEmployeeComponent', () => {
         locationTranslationDtoList: [
           {
             locationName: 'fakeValue',
-            languageCode: 'ua'
+            languageCode: 'uk'
           },
           {
             locationName: 'FakeValue1',
@@ -458,7 +459,7 @@ describe('UbsAdminEmployeeComponent', () => {
         locationTranslationDtoList: [
           {
             locationName: 'fakeValue',
-            languageCode: 'ua'
+            languageCode: 'uk'
           },
           {
             locationName: 'FakeValue2',
@@ -573,7 +574,7 @@ describe('UbsAdminEmployeeComponent', () => {
       locationTranslationDtoList: [
         {
           locationName: 'Олександрія',
-          languageCode: 'ua'
+          languageCode: 'uk'
         },
         {
           locationName: 'Oleksandriya',
@@ -611,10 +612,23 @@ describe('UbsAdminEmployeeComponent', () => {
 
   it('should applyFilter()', () => {
     const event = {
-      target: { value: 'Fake Filter ' }
+      target: { value: 'Fake Filter' }
+    } as unknown as Event;
+    const nextSpy = spyOn(service.searchValue, 'next');
+    component.applyFilter(event);
+
+    expect((event.target as HTMLInputElement).value).toEqual('Fake Filter');
+    expect(nextSpy).toHaveBeenCalledWith('fake filter');
+    expect(component.searchValueIncorrect).toBeFalse();
+  });
+
+  it('should not find restricted symbols', () => {
+    const event = {
+      target: { value: '#Wrong &Filter?' }
     } as unknown as Event;
     component.applyFilter(event);
-    expect((event.target as HTMLInputElement).value).toEqual('Fake Filter ');
-    expect(service.searchValue.next('fake filter')).toBeUndefined();
+
+    expect((event.target as HTMLInputElement).value).toEqual('#Wrong &Filter?');
+    expect(component.searchValueIncorrect).toBeTrue();
   });
 });

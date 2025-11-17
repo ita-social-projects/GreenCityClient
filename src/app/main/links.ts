@@ -22,6 +22,7 @@ export const googleSecurityLink = mainUserLink + 'googleSecurity';
 // User Controller
 export const userLink = mainUserLink + 'user';
 
+export const greenCityUserLink = mainLink + 'users';
 export const categoryLink = mainLink + 'category';
 export const placeLink = mainLink + 'place/';
 export const favoritePlaceLink = mainLink + 'favorite_place/';

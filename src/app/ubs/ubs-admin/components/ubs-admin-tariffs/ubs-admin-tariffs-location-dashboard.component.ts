@@ -220,7 +220,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   isRegionValueAll() {
-    return this.region.value.toLowerCase() === TariffRegionAll.en || this.region.value.toLowerCase() === TariffRegionAll.ua;
+    return this.region.value.toLowerCase() === TariffRegionAll.en || this.region.value.toLowerCase() === TariffRegionAll.uk;
   }
 
   checkisCardExist(): void {
@@ -329,7 +329,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
   isAllOptionSelected(value: string) {
-    return value && (value.toLowerCase() === TariffRegionAll.ua || value.toLowerCase() === TariffRegionAll.en);
+    return value && (value.toLowerCase() === TariffRegionAll.uk || value.toLowerCase() === TariffRegionAll.en);
   }
   onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
@@ -363,7 +363,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       name.locationTranslationDtoList.find((elem) => elem.locationName === event.option.viewValue)
     );
     const selectedCityId = selectedCity.locationId;
-    const selectedCityName = this.getSelectedCityName(selectedCity, Language.UA);
+    const selectedCityName = this.getSelectedCityName(selectedCity, Language.UK);
     const selectedCityEnglishName = this.getSelectedCityName(selectedCity, Language.EN);
     const tempItem = {
       name: this.languageService.getLangValue(selectedCityName, selectedCityEnglishName),
@@ -464,7 +464,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   transformCityToSelectedCity(city: any) {
-    const selectedCityName = this.getSelectedCityName(city, Language.UA);
+    const selectedCityName = this.getSelectedCityName(city, Language.UK);
     const selectedCityEnglishName = this.getSelectedCityName(city, Language.EN);
     return {
       name: this.languageService.getLangValue(selectedCityName, selectedCityEnglishName),
@@ -611,6 +611,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             region: el.regionDto.nameUk,
             city: el.locationInfoDtos.map((it) => it.nameUk),
             tariff: el.tariffStatus,
+            tariffName: el.tariffNameUk || '',
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
@@ -620,6 +621,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             region: el.regionDto.nameEn,
             city: el.locationInfoDtos.map((it) => it.nameEn),
             tariff: el.tariffStatus,
+            tariffName: el.tariffNameEn || '',
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
@@ -640,7 +642,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   checkRegionValue(value): void {
     let currentRegion;
-    if (value.toLowerCase() === TariffRegionAll.ua || value.toLowerCase() === TariffRegionAll.en || !value) {
+    if (value.toLowerCase() === TariffRegionAll.uk || value.toLowerCase() === TariffRegionAll.en || !value) {
       currentRegion = this.locations;
     } else {
       currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
@@ -653,14 +655,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const locationNames = this.locations.flatMap((it) =>
       it.regionTranslationDtos.filter((ob) => ob.languageCode === this.currentLang).map((ob) => ob.regionName)
     );
-    this.canRegionInputValueBeRegion = value && !!this._filter(value, [...locationNames, TariffRegionAll.ua, TariffRegionAll.en]).length;
+    this.canRegionInputValueBeRegion = value && !!this._filter(value, [...locationNames, TariffRegionAll.uk, TariffRegionAll.en]).length;
   }
 
   onChangeRegion() {
     if (
       this.canRegionInputValueBeRegion &&
       !this.isRegionValueAll() &&
-      !this._filter(this.region.value, [TariffRegionAll.en, TariffRegionAll.ua]).length
+      !this._filter(this.region.value, [TariffRegionAll.en, TariffRegionAll.uk]).length
     ) {
       const firstSuitableRegion = this.locations
         .filter((element) =>
@@ -670,8 +672,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.region.setValue(firstSuitableRegion);
       this.regionSelected({ option: { value: firstSuitableRegion } });
     } else {
-      this.region.setValue(this.languageService.getLangValue(TariffRegionAll.ua, TariffRegionAll.en));
-      this.regionSelected({ option: { value: this.languageService.getLangValue(TariffRegionAll.ua, TariffRegionAll.en) } });
+      this.region.setValue(this.languageService.getLangValue(TariffRegionAll.uk, TariffRegionAll.en));
+      this.regionSelected({ option: { value: this.languageService.getLangValue(TariffRegionAll.uk, TariffRegionAll.en) } });
     }
   }
 
@@ -692,7 +694,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
           .map((dto) => dto.regionName)[0];
 
         this.regionNameUk = selectedLocation.regionTranslationDtos
-          .filter((dto) => dto.languageCode === Language.UA)
+          .filter((dto) => dto.languageCode === Language.UK)
           .map((dto) => dto.regionName)[0];
 
         Object.assign(this.filterData, { region: this.regionId });
@@ -784,6 +786,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         regionEnglishName: this.selectedCard ? card.regionEn : enCard.region,
         cityNameUk: this.selectedCard ? card.citiesUk : ukCard.city,
         cityNameEn: this.selectedCard ? card.citiesEn : enCard.city,
+        tariffNameUk: this.selectedCard ? card.tariffNameUk : ukCard.tariffName,
+        tariffNameEn: this.selectedCard ? card.tariffNameEn : enCard.tariffName,
         action: 'ubs-tariffs-add-location-pop-up.edit_button',
         edit: true,
         button: 'edit'
@@ -806,6 +810,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.selectedCard.regionUk = res.regionUk;
     this.selectedCard.regionId = res.regionId;
     this.selectedCard.station = res.station;
+    this.selectedCard.tariffNameUk = res.tariffNameUk;
+    this.selectedCard.tariffNameEn = res.tariffNameEn;
   }
 
   openAddCourierDialog(): void {
@@ -892,9 +898,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const data = {
       courierNameUk: result.selectedValue?.nameUk,
       courierEnglishName: result.selectedValue?.nameEn,
-      regionNameUk: result.selectedRegionValue.map((region) => region.nameUa),
+      regionNameUk: result.selectedRegionValue.map((region) => region.nameUk),
       regionEnglishName: result.selectedRegionValue.map((region) => region.name),
-      cityNameUk: result.selectedCitiesValue.map((city) => city.nameUa),
+      cityNameUk: result.selectedCitiesValue.map((city) => city.nameUk),
       cityNameEn: result.selectedCitiesValue.map((city) => city.name),
       stationNames: result.selectedStations.map((it) => it.name),
       isDeactivate: result.isDeactivation,
@@ -960,6 +966,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         cityNameUk: this.selectedCard ? card.citiesUk : ukCard.city,
         cityNameEn: this.selectedCard ? card.citiesEn : enCard.city,
         stationNames: card.station,
+        tariffNameUk: this.selectedCard ? card.tariffNameUk : ukCard.tariffName,
+        tariffNameEn: this.selectedCard ? card.tariffNameEn : enCard.tariffName,
         isDeactivate: isItDeactivate,
         isRestore: isItRestore
       }

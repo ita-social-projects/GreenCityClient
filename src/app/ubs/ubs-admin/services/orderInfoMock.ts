@@ -1,5 +1,5 @@
 import { IOrderInfo, IEmployee, IPaymentInfoDto } from '../models/ubs-admin.interface';
-import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
 import { limitStatus } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 

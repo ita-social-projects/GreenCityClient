@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { environment } from '@environment/environment';
-import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from '../../ubs/enums/order-status.enum';
 import { IOrderInfo } from '../models/ubs-admin.interface';
 
 describe('OrderService', () => {
@@ -323,10 +323,10 @@ describe('OrderService', () => {
   });
 
   it('should return order history', () => {
-    service.getOrderHistory(1, 'ua').subscribe((data) => {
+    service.getOrderHistory(1, 'uk').subscribe((data) => {
       expect(data).toBe([]);
     });
-    const req = httpMock.expectOne(`${urlMock}/order_history/1?lang=ua`);
+    const req = httpMock.expectOne(`${urlMock}/order_history/1?lang=uk`);
     expect(req.request.method).toBe('GET');
   });
 

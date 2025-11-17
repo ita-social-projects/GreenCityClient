@@ -1,5 +1,9 @@
 @import '../../../../../typography/colorsUbs';
 
+:host ::ng-deep .select-disabled .mat-mdc-select-arrow-wrapper {
+  display: none;
+}
+
 mat-cell,
 mat-header-cell,
 mat-footer-cell {
@@ -34,6 +38,7 @@ mat-cell {
   color: var(--ubs-primary-grey);
   font-size: 14px;
   font-family: var(--primary-font);
+  min-width: 48px;
 }
 
 mat-header-row {
@@ -328,7 +333,8 @@ mat-spinner {
 
 .scrolling {
   height: 70vh !important;
-  overflow: scroll;
+  overflow: auto scroll;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
 }
 
 .btn-group {
@@ -386,7 +392,6 @@ mat-spinner {
   border-radius: 5px;
   border: 1px solid var(--ubs-button-light-green);
   color: var(--ubs-tertiary-dark-grey);
-  margin-right: 5px;
   min-width: 25px;
 }
 

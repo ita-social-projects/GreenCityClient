@@ -11,6 +11,8 @@ import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.ser
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { ProjectNameEnum } from '../models/auth/project-name.enum';
+import { TProjectName } from '../models/auth/project-name.type';
 
 interface NewTokenPair {
   accessToken: string;
@@ -54,8 +56,8 @@ export class InterceptorService implements HttpInterceptor {
       // if there is no internet, open Error Window
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
-          this.openErrorWindow('snack-bar.error.no-internet');
-          return EMPTY;
+          this.openErrorWindow('noInternet');
+          return throwError(() => error);
         })
       );
     } else {
@@ -188,8 +190,11 @@ export class InterceptorService implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
-      return this.getNewTokenPair(this.localStorageService.getRefreshToken()).pipe(
-        catchError((error: HttpErrorResponse) => this.handleRefreshTokenIsNotValid(error)),
+      const currentUrl = this.router.url;
+      const isUbs = currentUrl.includes('ubs');
+      const projectName = isUbs ? ProjectNameEnum.UBS : ProjectNameEnum.GREENCITY;
+      return this.getNewTokenPair(this.localStorageService.getRefreshToken(), projectName).pipe(
+        catchError((error: HttpErrorResponse) => this.handleRefreshTokenIsNotValid(error, currentUrl, isUbs)),
         switchMap((newTokenPair: NewTokenPair) => {
           this.localStorageService.setAccessToken(newTokenPair.accessToken);
           this.localStorageService.setRefreshToken(newTokenPair.refreshToken);
@@ -213,10 +218,10 @@ export class InterceptorService implements HttpInterceptor {
    * Handles a situation when refresh token is expired.
    *
    * @param error - {@link HttpErrorResponse}
+   * @param currentUrl
+   * @param isUBS
    */
-  private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
-    const currentUrl = this.router.url;
-    const isUBS = currentUrl.includes('ubs');
+  private handleRefreshTokenIsNotValid(error: HttpErrorResponse, currentUrl: string, isUBS: boolean): Observable<HttpEvent<any>> {
     this.localStorageService.clear();
     this.dialog.closeAll();
     this.userOwnAuthService.isLoginUserSubject.next(false);
@@ -256,8 +261,9 @@ export class InterceptorService implements HttpInterceptor {
    * Send refresh token in order to get new access/refresh token pair.
    *
    * @param refreshToken - {@link string} refresh token.
+   * @param projectName
    */
-  private getNewTokenPair(refreshToken: string): Observable<NewTokenPair> {
-    return this.http.get<NewTokenPair>(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
+  private getNewTokenPair(refreshToken: string, projectName: TProjectName): Observable<NewTokenPair> {
+    return this.http.get<NewTokenPair>(`${updateAccessTokenLink}?refreshToken=${refreshToken}&projectName=${projectName}`);
   }
 }

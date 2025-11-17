@@ -39,6 +39,9 @@
     "get-notification-in": "Отримувати сповіщення у",
     "subtitle": "Заповніть, будь ласка, Ваш профіль, щоб зробити процес замовлення максимально швидким і зручним",
     "error-change-pass": "Пароль не правильний",
+    "telegram-subscription-title": "Підписка на сповіщення Telegram",
+    "telegram-subscription-message": "Щоб отримувати сповіщення через Telegram, вам потрібно підписатися на нашого бота. Натисніть 'Запустити бота', щоб відкрити Telegram і підписатися.",
+    "telegram-start-bot": "Запустити бота",
     "btn": {
       "edit": "Редагувати дані",
       "cancel": "Скасувати зміни",
@@ -58,8 +61,8 @@
       "yes": "Так",
       "no": "Ні",
       "certificate-activated": {
-        "activated-oversum": "Сертифікат на суму {{certificateSum}}.00 грн активовано, що перевищує суму вашого замовлення. Залишок у розмірі {{certificateLeft}}.00 грн не повертається. Строк дії сертифікату - до {{certDate}}",
-        "sum": "Сертифікат на суму {{certificateSum}}.00 грн активовано.",
+        "activated-oversum": "Сертифікат на суму {{certificateSum}} грн активовано, що перевищує суму вашого замовлення. Залишок у розмірі {{certificateLeft}}.00 грн не повертається. Строк дії сертифікату - до {{certDate}}",
+        "sum": "Сертифікат на суму {{certificateSum}} грн активовано.",
         "data": "Строк дії сертифікату - до {{certDate}}"
       },
       "choose-payment": "Ви можете здійснити оплату одним з вибраних способів нижче.",
@@ -121,6 +124,12 @@
     "date": "Дата:",
     "info-about-date": "Додано:"
   },
+  "view-violation-modal": {
+    "about-violation": "Інформація про порушення",
+    "violation-level": "Ступінь порушення",
+    "violation-description": "Опис порушення",
+    "close": "Закрити"
+  },
   "return-payment": {
     "message": "Чи ви дійсно бажаєте повернути кошти?",
     "accept-refund-application": "Ваша заявка прийнята. Наш менеджер зв'яжеться з вами пізніше.",
@@ -174,6 +183,12 @@
       "done": "Виконано",
       "not-taken-out": "Не вивезли",
       "canceled": "Скасовано"
+    },
+    "not-taken": {
+      "reason": "Причина: ",
+      "images": "Фотографії",
+      "img-alt": "Фото {{index}}",
+      "no-images": "Фотографії відсутні"
     },
     "payment-status": {
       "paid": "Оплачено",
@@ -234,7 +249,7 @@
     "label-reason": "Опишіть, що сталося",
     "placeholder": "Опишіть деталі, які Ви хотіли б повідомити щодо цього замовлення",
     "reason-error-message": "Кількість символів повинна бути не більше 255",
-    "title-photo": "Фотографії порушення",
+    "title-photo": "Фотографії",
     "label-for-photo-container": "Фотографії є обов'язковими, якщо причина невивезення замовлення - порушення правил сортування",
     "requirement": "Ви можете завантажити зображення у форматі PNG чи JPG розміром до 10MB",
     "drag-photo": "Перетягніть фото сюди",
@@ -293,7 +308,8 @@
       "title": "Порушення клієнта",
       "amount": "Всього",
       "current-order": "Поточне замовлення",
-      "button": "Додати порушення"
+      "button": "Додати порушення",
+      "button-view-violation": "Переглянути порушення"
     }
   },
   "customer-details": {
@@ -378,7 +394,8 @@
     "add-certificate": "Додати сертифікат",
     "all-elements": "Відображати всі колонки",
     "apply-filters": "Застосувати",
-    "clear-filters": "Скасувати",
+    "clear-filters": "Очистити всі фільтри",
+    "cancel": "Скасувати",
     "date-range": "Відрізок часу",
     "date-from": "Від",
     "date-to": "До",
@@ -393,7 +410,14 @@
     "orders-number": "Кількість замовлень",
     "search": "Пошук",
     "link-placeholder": "Надайте посилання на чат із клієнтом",
-    "go-to-chat": "В чат"
+    "go-to-chat": "В чат",
+    "restricted-symbols": "Введено заборонені символи",
+    "customer-status": {
+      "activated": "Активовано",
+      "deactivated": "Деактивовано",
+      "blocked": "Заблоковано",
+      "deleted": "Видалено"
+    }
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",
@@ -611,6 +635,9 @@
       "deactivate": "Деактивувати",
       "no": "Ні",
       "yes": "Так"
+    },
+    "filter": {
+      "no-content": "За вашими фільтрами нічого не знайдено"
     }
   },
   "ubs-sidebar": {
@@ -622,7 +649,8 @@
     "tariffs": "Тарифи",
     "notifications": "Повідомлення",
     "user-agreement": "Угода користувача",
-    "chat": "Чат"
+    "chat": "Чат",
+    "settings": "Налаштування"
   },
   "chat": {
     "empty-chat": "В чаті нема повідомлень",
@@ -636,10 +664,15 @@
     "delete-message-cancel": "Ні",
     "active-chat-placeholder": "Введіть ваше повідомлення",
     "attach-file": "Прикріпити файл",
+    "no-file-chosen": "Файл не обрано",
+    "no-dialogs-found": "Діалогів не знайдено",
     "status": {
       "READ": "Прочитано",
-      "UNREAD": "Не прочитано"
-    }
+      "UNREAD": "Не прочитано",
+      "EDITED": "Змінено {{editDateTime}}"
+    },
+    "edit-message": "Редагувати повідомлення",
+    "edit-option": "Редагувати"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
@@ -746,6 +779,7 @@
     "location-already-used": "Ця локація вже використовується. Для збереження внесіть зміни.",
     "card-exist": "За цими критеріями вже існує тарифна картка.",
     "card-not-found": "Картку тарифу не знайдено. Бажаєте створити нову?",
+    "tariff-name": "Назва тарифу",
     "btn": {
       "add_service": "Додати сервіс",
       "add_service2": "Додати послугу",
@@ -1122,12 +1156,15 @@
       "buttons": {
         "cancel": "Скасувати",
         "change": "Змінити"
+      },
+      "errors": {
+        "changeForbidden": "Поле не може бути змінено"
       }
     },
     "text-editing-popup": {
       "title": "Редагувати повідомлення для",
       "labels": {
-        "ua": "Українською",
+        "uk": "Українською",
         "en": "Англійською",
         "text": "Текст повідомлення",
         "select": "Обрати"
@@ -1298,6 +1335,7 @@
     "duration-field-format": "Поле може містити лише числа в від 1 до 12",
     "discount-field-format": "Поле може містити лише числа в форматі від 1 до 999"
   },
+  "settings-page": "Сторінка налаштувань",
   "ubs-user-agreement": {
     "edit": "Редагувати угоду користувача",
     "author": "Автор",
@@ -1311,6 +1349,59 @@
       "back": "Назад",
       "confirm": "Підтвердити",
       "save": "Зберегти"
+    }
+  },
+  "settings": {
+    "edit": "Налаштування домашньої сторінки",
+    "lang": {
+      "uk": "Українською",
+      "en": "Англійською"
+    },
+    "section": {
+      "bonuses": {
+        "title": "Бонус",
+        "caption": "Заголовок",
+        "content": "Зміст"
+      },
+      "header": {
+        "title": "Хедер",
+        "caption": "Заголовок",
+        "content": "Зміст"
+      },
+      "how_works": {
+        "title": "Принцип роботи",
+        "content": "Зміст",
+        "route": "Шлях",
+        "route_caption": "Шлях Заголовок",
+        "working_hours": "Робочі години",
+        "working_hours_caption": "Робочі години Заголовок"
+      },
+      "preparing": {
+        "title": "Підготовка",
+        "caption": "Заголовок",
+        "step_01": "Крок 1",
+        "step_02": "Крок 2",
+        "step_03": "Крок 3",
+        "step_04": "Крок 4",
+        "step_05": "Крок 5"
+      },
+      "price": {
+        "title": "Інструкція замовлення",
+        "caption_steps": "Заголовок",
+        "steps_title_01": "Крок 1 Заголовок",
+        "steps_content_01": "Крок 1 Зміст",
+        "steps_title_02": "Крок 2 Заголовок",
+        "steps_content_02": "Крок 2 Зміст",
+        "steps_title_03": "Крок 3 Заголовок",
+        "steps_content_03": "Крок 3 Зміст",
+        "steps_title_04": "Крок 4 Заголовок",
+        "steps_content_04": "Крок 4 Зміст"
+      },
+      "rules": {
+        "title": "Правила",
+        "caption": "Заголовок",
+        "content": "Зміст"
+      }
     }
   },
   "deleting-profile-reason-pop-up": {
@@ -1335,6 +1426,7 @@
     "amount-before-payment": "Сума до сплати",
     "paid-amount": "Сума оплачено",
     "order-full-price": "Загальна сума",
+    "chat-id": "ID чату",
     "bags-title": "Пакети",
     "service": "Послуга",
     "capacity": "Обʼєм",
@@ -1344,6 +1436,37 @@
     "loading": "Завантаження інформації...",
     "error": "Не вдалося завантажити інформацію.",
     "no-orders": "У цього клієнта немає замовлень",
-    "order-info-title": "Інформація про замовлення"
+    "order-info-title": "Інформація про замовлення",
+    "all-orders": "Переглянути всі замовлення",
+    "completed-orders": "Виконані замовлення"
+  },
+  "telegram-bot-responses": {
+    "edit": "Редагувати відповіді Telegram-бота",
+    "lang": {
+      "en": "Англійська",
+      "uk": "Українська"
+    },
+    "section": {
+      "ADMISSION_RULES_TEXT": "Правила прийому",
+      "BAD_FEEDBACK_MESSAGE": "Відповідь на поганий відгук",
+      "CLIENT_END_SUPPORT_NOTIFICATION": "Сповіщення про завершення підтримки клієнтом",
+      "CLIENT_STOP_SUPPORT_MODE": "Клієнт припинив режим підтримки",
+      "CLIENT_SUPPORT_MESSAGE_CALLBACK_QUERY": "Запит до служби підтримки менеджера",
+      "CLIENT_SUPPORT_MESSAGE_CHANGE_LANGUAGE": "Зміна мови клієнта",
+      "CLIENT_WANT_TO_SPEAK": "Клієнт хоче поговорити з менеджером",
+      "EMPLOYEE_NOT_MANAGER": "Співробітник не є менеджером",
+      "ENTERING_EMAIL_MESSAGE": "Введення запиту на електронну пошту",
+      "FEEDBACK_MESSAGE": "Запит на відгук",
+      "FEEDBACK_THANK_YOU_MESSAGE": "Повідомлення з подякою у відгуку",
+      "FORBIDDEN_COMMANDS_MANAGER": "Заборонена команда для менеджера",
+      "GREAT_FEEDBACK_MESSAGE": "Відповідь на хороший відгук",
+      "GREEN_OFFICE_SUBJECT": "Тема Green Office",
+      "GREEN_OFFICE_TEXT": "Партнерство Green Office",
+      "GREEN_OFFICE_THANK_YOU_MESSAGE": "Повідомлення з подякою електронною поштою Green Office",
+      "GREETING_MANAGER_MESSAGE": "Привітання менеджера",
+      "GREETING_MESSAGE": "Привітання користувача",
+      "INCORRECT_LOGIN_FORMAT": "Неправильний формат для входу",
+      "INVALID_EMAIL_MESSAGE": "Недійсна електронна пошта"
+    }
   }
 }

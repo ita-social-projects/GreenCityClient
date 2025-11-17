@@ -8,7 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymentEnrollment } from '@ubs/ubs/enums/order-status.enum';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 import { FormGroup } from '@angular/forms';

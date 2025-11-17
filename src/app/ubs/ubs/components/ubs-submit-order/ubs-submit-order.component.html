@@ -13,7 +13,7 @@
     <ul class="services-list w-100 p-0 m-0">
       <li class="services-list_item d-flex justify-content-between align-items-baseline" *ngFor="let bag of bags">
         <ng-container *ngIf="bag.quantity">
-          <span class="bag-name" [appLangValue]="{ ua: bag.nameUk, en: bag.nameEn }"></span>
+          <span class="bag-name" [appLangValue]="{ uk: bag.nameUk, en: bag.nameEn }"></span>
           <span class="bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
           <span class="bag-name">{{ bag.price }} {{ 'order-details.currency' | translate }}</span>
           <span class="bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
@@ -68,14 +68,14 @@
           <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
           <ul class="order-list" *ngIf="personalData.senderFirstName; else defaultCase">
             <li class="order-list-item">{{ personalData.senderFirstName }} {{ personalData.senderLastName }}</li>
-            <li class="order-list-item">{{ formattedSenderPhoneNumber }}</li>
             <li class="order-list-item">{{ personalData.senderEmail }}</li>
+            <li class="order-list-item">{{ formattedSenderPhoneNumber }}</li>
           </ul>
           <ng-template #defaultCase>
             <ul class="order-list">
               <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
-              <li class="order-list-item">{{ formattedPhoneNumber }}</li>
               <li class="order-list-item">{{ personalData.email }}</li>
+              <li class="order-list-item">{{ formattedPhoneNumber }}</li>
             </ul>
           </ng-template>
         </div>
@@ -94,19 +94,19 @@
           <ul class="order-list">
             <li class="order-list-item">
               <span>{{ 'personal-info.address-city' | translate }} </span>
-              <span [appLangValue]="{ ua: personalData.city, en: personalData.cityEn }" suffix=", "></span>
-              <span [appLangValue]="{ ua: personalData.street, en: personalData.streetEn }" suffix=", "></span>
-              <span> {{ personalData.houseNumber }}, </span>
-              <span *ngIf="personalData.houseCorpus"> {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }} </span>
-              <span *ngIf="personalData.entranceNumber">
-                {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}
+              <span [appLangValue]="{ uk: personalData.city, en: personalData.cityEn }" suffix=", "></span>
+              <span>{{ 'personal-info.address-district' | translate }} </span>
+              <span [appLangValue]="{ uk: personalData.district.split(' ')[0], en: personalData.districtEn.split(' ')[0] }" suffix=", ">
               </span>
+              <span [appLangValue]="{ uk: personalData.street, en: personalData.streetEn }" suffix=", "></span>
+              <span> {{ personalData.houseNumber }}</span>
+              <span *ngIf="personalData.houseCorpus">, {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}</span>
+              <span *ngIf="personalData.entranceNumber"
+                >, {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}</span
+              >
             </li>
             <li class="order-list-item">
-              <span>{{ 'personal-info.address-district' | translate }} </span>
-              <span [appLangValue]="{ ua: personalData.district.split(' ')[0], en: personalData.districtEn.split(' ')[0] }" suffix=", ">
-              </span>
-              <span [appLangValue]="{ ua: personalData.region, en: personalData.regionEn }"></span>
+              <span [appLangValue]="{ uk: personalData.region, en: personalData.regionEn }"></span>
             </li>
           </ul>
         </div>
@@ -117,7 +117,6 @@
           <p class="order-comment-width">{{ personalData.addressComment }}</p>
         </div>
       </div>
-      <hr />
     </div>
   </div>
 </div>

@@ -75,7 +75,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   private setDayName(source: Date): string {
-    return source.toLocaleDateString(this.language === 'ua' ? Locale.UA : Locale.EN, { weekday: 'short' });
+    return source.toLocaleDateString(this.language === 'uk' ? Locale.UK : Locale.EN, { weekday: 'short' });
   }
 
   private getLanguage(): void {
@@ -87,7 +87,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   buildWeekCalendarTitle(): void {
-    const language = this.language === 'ua' ? Locale.UA : Locale.EN;
+    const language = this.language === 'uk' ? Locale.UK : Locale.EN;
     const firstDay = this.weekDates[0].date.getDate();
     const lastDay = this.weekDates[6].date.getDate();
     const firstDayMonth = this.weekDates[0].date.toLocaleDateString(language, { month: 'long' });

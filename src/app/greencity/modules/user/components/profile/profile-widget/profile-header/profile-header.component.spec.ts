@@ -27,7 +27,7 @@ describe('ProfileHeaderComponent', () => {
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getUserId = () => mockId;
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getUserCity']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;

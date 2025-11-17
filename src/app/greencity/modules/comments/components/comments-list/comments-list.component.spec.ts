@@ -11,7 +11,6 @@ import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { WarningPopUpComponent } from '@shared/components';
 import { AddedCommentDTO } from '../../models/comments-model';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -75,14 +74,15 @@ describe('CommentsListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CommentsListComponent, DateLocalisationPipe],
+      declarations: [CommentsListComponent],
       imports: [
         HttpClientTestingModule,
         NgxPaginationModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
         RouterTestingModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        DateLocalisationPipe
       ],
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },

@@ -82,11 +82,14 @@ export class EmployeesEffects {
       mergeMap((action: { data: FormData; employee: EmployeeDataToSend }) =>
         this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
           map((data: EmployeeDataResponse) => {
-            const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
-            employee.tariffs = data.tariffs;
-            if (employee.image !== data.employeeDto.image) {
-              employee.image = data.employeeDto.image;
-            }
+            const updatedEmployeeDto = data.employeeDto;
+            const employee = {
+              ...data.employeeDto,
+              id: updatedEmployeeDto.id,
+              image: updatedEmployeeDto.image as string,
+              tariffs: data.tariffs
+            };
+
             return UpdateEmployeeSuccess({ employee });
           }),
           catchError((error) => of(ReceivedFailure(error)))

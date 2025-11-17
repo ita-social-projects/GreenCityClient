@@ -1,18 +1,18 @@
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
-import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil, finalize, tap, concatMap, switchMap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { concatMap, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ubsMainPageImages } from '@ubs/shared/image-paths/ubs-main-page-images';
 import {
-  Bag,
-  OrderDetails,
-  LocationsDtosList,
   ActiveCourierDto,
+  ActiveRegionDto,
   AllActiveLocationsDtosResponse,
-  ActiveRegionDto
+  Bag,
+  LocationsDtosList,
+  OrderDetails
 } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
@@ -21,15 +21,16 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable } from 'rxjs';
+import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
+import { AdminHomepageSettingsService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
 
 @Component({
   selector: 'app-ubs-main-page',
   templateUrl: './ubs-main-page.component.html',
-  styleUrls: ['./ubs-main-page.component.scss']
+  styleUrls: ['./ubs-main-page.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly subs = new Subscription();
   private readonly destroy: Subject<boolean> = new Subject<boolean>();
   ubsMainPageImages = ubsMainPageImages;
@@ -50,99 +51,56 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   locationsToShowBags: LocationsDtosList[];
   locationToShow: LocationsDtosList;
   isTarriffLoading = true;
-
-  perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title';
-
-  stepsOrderTitle = 'ubs-homepage.ubs-courier.price.caption-steps';
-  stepsOrder = [
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_1',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_1'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_2',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_2'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_3',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_3'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_4',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_4'
-    }
-  ];
-
-  preparingContent = [
-    'ubs-homepage.ubs-courier.preparing.content.li_1',
-    'ubs-homepage.ubs-courier.preparing.content.li_1.1',
-    'ubs-homepage.ubs-courier.preparing.content.li_1.2',
-    'ubs-homepage.ubs-courier.preparing.content.li_2',
-    'ubs-homepage.ubs-courier.preparing.content.li_3',
-    'ubs-homepage.ubs-courier.preparing.content.li_4',
-    'ubs-homepage.ubs-courier.preparing.content.li_5'
-  ];
-
-  rules = [
-    'ubs-homepage.ubs-courier.rules.content.li_1',
-    'ubs-homepage.ubs-courier.rules.content.li_2',
-    'ubs-homepage.ubs-courier.rules.content.li_2.1',
-    'ubs-homepage.ubs-courier.rules.content.li_3'
-  ];
-
-  bonuses = [
-    'ubs-homepage.ubs-courier.bonuses.content.li_1',
-    'ubs-homepage.ubs-courier.bonuses.content.li_2',
-    'ubs-homepage.ubs-courier.bonuses.content.li_3',
-    'ubs-homepage.ubs-courier.bonuses.content.li_3.1'
-  ];
-
-  howWorksPickUp = [
-    {
-      header: 'ubs-homepage.ubs-courier.how-works.header.pre_1',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1',
-      content_2: null
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.how-works.header.pre_2',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2',
-      content_2: 'ubs-homepage.ubs-courier.how-works.time.pre_3'
-    }
-  ];
+  content: THomepageContent;
+  currentLanguage: string;
 
   constructor(
     private readonly store: Store,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly checkTokenservice: CheckTokenService,
+    private readonly checkTokenService: CheckTokenService,
     private readonly localStorageService: LocalStorageService,
     private readonly orderService: OrderService,
     private readonly jwtService: JwtService,
-    private readonly cdref: ChangeDetectorRef,
-    public languageService: LanguageService
+    private readonly adminHomepageSettingsService: AdminHomepageSettingsService,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
+    this.adminHomepageSettingsService.getHomepageContent().subscribe((res) => {
+      this.content = res;
+    });
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
     this.getActiveCouriers()
-      .pipe(
-        concatMap(() => this.getActiveLocationsToShow()),
-        takeUntil(this.destroy)
-      )
+      .pipe(concatMap(() => this.getActiveLocationsToShow()))
       .subscribe(() => {
         this.getBags();
       });
     this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
-    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.languageService
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((lang) => {
+        this.currentLanguage = lang.toLowerCase();
+      });
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
+    this.updateSizes();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateSizes();
+  }
+
+  private updateSizes(): void {
     this.screenWidth = document.documentElement.clientWidth;
-    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
-    this.calcLineSize();
-    this.cdref.detectChanges();
+    const container = document.querySelector('.main-container');
+    this.boxWidth = container ? container.getBoundingClientRect().width : 0;
+    requestAnimationFrame(() => this.calcLineSize());
   }
 
   ngOnDestroy() {
@@ -183,12 +141,12 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       const halfCircleHeight = 11;
       const circleIndent = 6;
       const boxesIndent = 16;
-
       this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
     }
   }
+
   onCheckToken(): void {
-    this.subs.add(this.checkTokenservice.onCheckToken());
+    this.subs.add(this.checkTokenService.onCheckToken());
   }
 
   redirectToOrder(): void {
@@ -228,10 +186,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   getActiveCouriers(): Observable<ActiveCourierDto[]> {
-    return this.orderService.getAllActiveCouriers().pipe(
-      takeUntil(this.destroy),
-      tap((res) => (this.activeCouriers = res))
-    );
+    return this.orderService.getAllActiveCouriers().pipe(tap((res) => (this.activeCouriers = res)));
   }
 
   getLocations(courierName: string): void {
@@ -263,7 +218,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   private getActiveLocationsToShow(): Observable<AllActiveLocationsDtosResponse> {
     const courier = this.findCourierByName(this.ubsCourierName);
     return this.orderService.getLocations(courier.courierId, true).pipe(
-      takeUntil(this.destroy),
       tap((res) => {
         this.locationsToShowBags = res.allActiveLocationsDtos.reduce(
           (acc, region) => [
@@ -313,17 +267,21 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       });
   }
 
-  getElementDescription(nameUk: string, nameEn: string, capacity: number): string {
-    let nameUk1 = nameUk.toLowerCase();
-    nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
+  sliceContent(content: any) {
+    if (!content) {
+      return;
+    }
 
-    const ukrDescription = `${nameUk1} об'ємом ${capacity} л`;
-    const engDescription = `With ${nameEn.toLowerCase()} with a volume of ${capacity} l`;
-    return this.languageService.getLangValue(ukrDescription, engDescription);
+    return Object.keys(content)
+      .slice(1)
+      .sort((a, b) => a.localeCompare(b));
   }
 
-  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
-    event.stopPropagation();
-    trigger.openPanel();
+  getSteps(content: any) {
+    if (!content) {
+      return;
+    }
+
+    return Array.from({ length: this.sliceContent(content).length / 2 });
   }
 }

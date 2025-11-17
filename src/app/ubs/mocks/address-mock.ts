@@ -243,8 +243,8 @@ export const ADDRESSESMOCK = {
   },
   GOOGLEREQUEST: {
     input: 'вулиця Київська, 2 Київ, Україна',
-    language: 'ua',
+    language: 'uk',
     types: ['(cities)'],
-    componentRestrictions: { country: 'ua' }
+    componentRestrictions: { country: 'uk' }
   }
 };

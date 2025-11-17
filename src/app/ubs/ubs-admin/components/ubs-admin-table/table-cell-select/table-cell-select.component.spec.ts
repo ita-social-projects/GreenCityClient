@@ -24,8 +24,8 @@ class MockServerTranslatePipe implements PipeTransform {
     if (typeof value !== 'object' && typeof value !== 'function') {
       return value;
     }
-    if (currentLang === 'ua') {
-      return value.uk || value.ua;
+    if (currentLang === 'uk') {
+      return value.uk || value.uk;
     } else {
       return value.en;
     }
@@ -586,7 +586,7 @@ describe('TableCellSelectComponent', () => {
 
     it('should return the correct index for a given newOption in Ukrainian', () => {
       component.optional = mockOptionalData;
-      component.lang = 'ua';
+      component.lang = 'uk';
       component['newOption'] = 'Сформовано';
       expect(component['findKeyForNewOption']()).toBe(1);
     });

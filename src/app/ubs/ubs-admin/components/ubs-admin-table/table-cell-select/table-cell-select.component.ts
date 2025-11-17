@@ -6,7 +6,7 @@ import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.se
 import { IDataForPopUp } from '../../../models/ubs-admin.interface';
 import { OrderService } from '../../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { UbsAdminConfirmStatusChangePopUpComponent } from '../../ubs-admin-confirm-status-change-pop-up/ubs-admin-confirm-status-change-pop-up.component';
@@ -253,6 +253,6 @@ export class TableCellSelectComponent implements OnInit {
   }
 
   private findKeyForNewOption(): number {
-    return this.optional.findIndex((item) => item[this.lang === 'ua' ? 'uk' : this.lang] === this.newOption);
+    return this.optional.findIndex((item) => item[this.lang === 'uk' ? 'uk' : this.lang] === this.newOption);
   }
 }

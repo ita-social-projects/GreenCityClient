@@ -115,7 +115,7 @@
               formControlName="senderEmail"
             />
             <div class="validation" *ngIf="senderEmail.invalid && senderEmail.touched">
-              <app-ubs-input-error [formElement]="senderEmail"> </app-ubs-input-error>
+              <app-ubs-input-error [formElement]="senderEmail"></app-ubs-input-error>
             </div>
           </div>
         </div>
@@ -141,13 +141,18 @@
           </div>
         </div>
         <button
-          *ngIf="isViolationBtnShowed() && isEmployeeCanEditOrder"
-          class="btn"
-          [disabled]="userViolationForCurrentOrder >= 1"
+          *ngIf="canAddViolation || canViewViolation"
           type="button"
-          (click)="openModal(false)"
+          class="btn"
+          [class.btn-view-violation]="!canAddViolation"
+          (click)="openModal()"
         >
-          {{ 'customer-info.violation.button' | translate }}
+          <ng-container *ngIf="canAddViolation; else viewBtn">
+            {{ 'customer-info.violation.button' | translate }}
+          </ng-container>
+          <ng-template #viewBtn>
+            {{ 'customer-info.violation.button-view-violation' | translate }}
+          </ng-template>
         </button>
       </div>
     </div>

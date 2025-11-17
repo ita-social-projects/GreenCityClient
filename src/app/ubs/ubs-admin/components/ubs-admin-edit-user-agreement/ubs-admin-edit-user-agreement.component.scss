@@ -1,11 +1,15 @@
 @import 'src/typography/_resp.scss';
 
+.expand-btn {
+  height: 40px;
+  gap: 10px;
+}
+
 .page {
   &-title {
     font-family: var(--primary-font);
     font-size: 24px;
     line-height: 32px;
-    margin-bottom: 32px;
   }
 
   &-btn {
@@ -49,6 +53,37 @@
   }
 }
 
+.page-top-bar {
+  display: flex;
+  align-items: center;
+}
+
+.collapse-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.transform {
+  display: flex;
+  transform: rotate(180deg);
+  justify-self: center;
+}
+
+.collapsed-content {
+  margin-top: 7px;
+  overflow: hidden;
+  opacity: 1;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
+
+  &.hidden {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
 .agreement {
   display: flex;
   flex-direction: column;
@@ -65,4 +100,9 @@
       flex-direction: column;
     }
   }
+}
+
+.centered-title {
+  width: 100%;
+  text-align: center;
 }

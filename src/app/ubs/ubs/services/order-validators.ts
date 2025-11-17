@@ -56,7 +56,7 @@ function getPackageWord(amount: number, lang: string): string {
       singular: 'package',
       plural: 'packages'
     },
-    ua: {
+    uk: {
       one: 'пакет',
       few: 'пакети',
       many: 'пакетів'
@@ -69,12 +69,12 @@ function getPackageWord(amount: number, lang: string): string {
   const lastDigit = amount % 10;
   const lastTwoDigits = amount % 100;
   if (lastDigit === 1 && lastTwoDigits !== 11) {
-    return pluralForms.ua.one;
+    return pluralForms.uk.one;
   }
   if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
-    return pluralForms.ua.few;
+    return pluralForms.uk.few;
   }
-  return pluralForms.ua.many;
+  return pluralForms.uk.many;
 }
 
 function validateSumLimit(filtredBags: Bag[], group: FormGroup, courierInfo: ICourierInfo): ValidationErrors | null {

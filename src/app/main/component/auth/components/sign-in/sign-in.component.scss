@@ -29,6 +29,10 @@ $inputHeight: 36px;
   text-underline-offset: 3px;
 }
 
+input {
+  font-weight: 700;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -242,4 +246,9 @@ h2 {
       margin-left: 0;
     }
   }
+}
+
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+  display: none;
 }

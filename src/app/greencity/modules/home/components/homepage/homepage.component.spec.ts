@@ -43,8 +43,8 @@ describe('HomepageComponent', () => {
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject', 'getUserId']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  localStorageServiceMock.languageSubject = new BehaviorSubject('ua');
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.languageSubject = new BehaviorSubject('uk');
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['countActivatedUsers']);
   userServiceMock.countActivatedUsers = () => of(1111);

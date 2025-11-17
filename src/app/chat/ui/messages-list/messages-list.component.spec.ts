@@ -1,10 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MessagesListComponent } from './messages-list.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChatMessageView } from '../../model/chat-page.interface';
+import { fakeAsync, tick } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MessagesListComponent', () => {
   let fixture: ComponentFixture<MessagesListComponent>;
   let component: MessagesListComponent;
+
+  const mockTrigger = jasmine.createSpyObj('MatMenuTrigger', ['openMenu']);
+  const event = new MouseEvent('contextmenu');
 
   const msg = (over: Partial<ChatMessageView> = {}): ChatMessageView => ({
     from: 'User',
@@ -17,7 +22,7 @@ describe('MessagesListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MessagesListComponent]
+      imports: [MessagesListComponent, HttpClientTestingModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MessagesListComponent);
@@ -29,41 +34,87 @@ describe('MessagesListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('accepts and exposes messages input', () => {
-    const data: ChatMessageView[] = [msg({ text: 'm1' }), msg({ text: 'm2', images: ['img-1.png'] })];
-    component.messages = data;
-    fixture.detectChanges();
-
-    expect(component.messages.length).toBe(2);
-    expect(component.messages[1].images).toEqual(['img-1.png']);
+  it('onMenuClosed should set selectedMessage to null', () => {
+    component.selectedMessage = msg({ from: 'Me' });
+    component.onMenuClosed();
+    expect(component.selectedMessage).toBeNull();
   });
 
-  it('openImage output: emits a URL (class-level)', () => {
-    const spy = jasmine.createSpy('openImage');
-    const url = 'u1.png';
-    component.openImage.subscribe(spy);
-    component.openImage.emit(url);
-
-    expect(spy).toHaveBeenCalledOnceWith(url);
+  it('should return early if message is not from "Me"', () => {
+    const message = msg({ from: 'Other' });
+    component.onRightClick(event, mockTrigger, message);
+    expect(mockTrigger.openMenu).not.toHaveBeenCalled();
+    expect(component.selectedMessage).toBeUndefined();
   });
 
-  it('openImage output: emits when an image is clicked in the template (if <img> exists)', () => {
-    const imgs = ['u1.png', 'u2.png'];
-    component.messages = [msg({ images: imgs })];
-    const spy = jasmine.createSpy('openImageDom');
-    component.openImage.subscribe(spy);
+  it('should return early if message has images', () => {
+    const message = msg({ from: 'Me', images: ['a.png'] });
+    component.onRightClick(event, mockTrigger, message);
+    expect(mockTrigger.openMenu).not.toHaveBeenCalled();
+  });
+
+  it('should return early if message has fileUrl', () => {
+    const message = msg({ from: 'Me', fileUrl: 'file.pdf' as any });
+    component.onRightClick(event, mockTrigger, message);
+    expect(mockTrigger.openMenu).not.toHaveBeenCalled();
+  });
+
+  it('should not scroll if message count is unchanged', () => {
+    component.messages = [msg()];
+    fixture.detectChanges();
+
+    component.ngAfterViewChecked();
+    const spy = spyOn<any>(component as any, 'scrollToBottom');
+
+    component.ngAfterViewChecked();
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should call scrollToBottom if new messages have no images', () => {
+    const spy = spyOn<any>(component as any, 'scrollToBottom');
+    component.messages = [msg({ text: 'no images' })];
+    fixture.detectChanges();
+
+    component.ngAfterViewChecked();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should wait for images before scrolling if new messages contain images', fakeAsync(() => {
+    const spy = spyOn<any>(component as any, 'scrollToBottom');
+
+    (component as any).lastMsgCount = 0;
+    component.messages = [msg({ images: ['a.png'] })];
 
     fixture.detectChanges();
-    const el: HTMLElement = fixture.nativeElement;
-    const img: HTMLImageElement | null = el.querySelector(`img[src="${imgs[0]}"]`) || el.querySelector('img');
 
-    if (!img) {
-      // Template might not use <img>; don’t fail—just note we’re skipping DOM click assert.
-      pending('No <img> element found in template; skipped DOM click emission test.');
-      return;
-    }
+    const imgElement = fixture.nativeElement.querySelector('img');
+    Object.defineProperty(imgElement, 'complete', { value: false });
 
-    img.click();
-    expect(spy).toHaveBeenCalledWith(imgs[0]);
+    component.ngAfterViewChecked();
+
+    imgElement.dispatchEvent(new Event('load'));
+
+    tick();
+
+    expect(spy).toHaveBeenCalled();
+  }));
+  it('scrollToBottom should do nothing if scrollContainer is null', () => {
+    (component as any).scrollContainer = null;
+    expect(() => (component as any).scrollToBottom()).not.toThrow();
+  });
+
+  it('waitForImagesToLoad resolves immediately if el is missing', async () => {
+    (component as any).scrollContainer = null;
+    await expectAsync((component as any).waitForImagesToLoad()).toBeResolved();
+  });
+
+  it('waitForImagesToLoad resolves immediately if all images are complete', async () => {
+    const div = document.createElement('div');
+    const img = document.createElement('img');
+    Object.defineProperty(img, 'complete', { value: true });
+    div.appendChild(img);
+    (component as any).scrollContainer = { nativeElement: div };
+
+    await expectAsync((component as any).waitForImagesToLoad()).toBeResolved();
   });
 });

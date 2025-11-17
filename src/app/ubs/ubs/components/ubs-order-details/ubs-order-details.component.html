@@ -29,7 +29,7 @@
       <div class="main" formGroupName="bags">
         <ul class="main-box">
           <li *ngFor="let bag of bags" class="main-list-item">
-            <span class="bag-name" [appLangValue]="{ ua: bag.nameUk, en: bag.nameEn }"></span>
+            <span class="bag-name" [appLangValue]="{ uk: bag.nameUk, en: bag.nameEn }"></span>
             <span class="bag-name">{{ bag.capacity | volume }}</span>
             <span class="bag-name">{{ bag.price | localizedCurrency: true }}</span>
             <div class="bag-name form-group count">
@@ -40,7 +40,7 @@
                 <input
                   appRemoveLeadingZero
                   formControlName="quantity{{ bag.id }}"
-                  class="shadow-none form-control input"
+                  class="shadow-none form-control input font-weight-bold"
                   type="number"
                   [id]="'quantity' + bag.id"
                   min="0"
@@ -72,13 +72,13 @@
               <p class="total-content" *ngIf="certificateUsed">
                 <span>{{ 'order-details.certificate' | translate }} </span>
                 <span>
-                  <strong class="money-saved">-{{ certificateUsed | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ certificateUsed | localizedCurrency: true }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="pointsUsed">
                 <span>{{ 'order-details.bonuses' | translate }}</span>
                 <span>
-                  <strong class="money-saved">-{{ pointsUsed | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ pointsUsed | localizedCurrency: true }}</strong>
                 </span>
               </p>
               <p class="total-content">
@@ -90,7 +90,7 @@
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
-          <app-ubs-order-certificate></app-ubs-order-certificate>
+          <app-ubs-order-certificate [orderDetails]="existingOrderInfo"></app-ubs-order-certificate>
         </div>
       </div>
       <div class="bottom">

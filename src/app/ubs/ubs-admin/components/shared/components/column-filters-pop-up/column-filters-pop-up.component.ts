@@ -41,7 +41,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   searchTerm = '';
   isPopupOpened = false;
-  showButtons = false;
+  disableButtons = true;
   selectedFiltersCount = 0;
 
   private allFilters: IFilters;
@@ -59,12 +59,12 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
-      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      const locale = lang !== 'uk' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
     this.setPopupPosUnderButton();
     this.initListeners();
-    this.showButtons = false;
+    this.disableButtons = true;
 
     this.isLocationColumn = columnsToFilterByName.includes(this.data.columnName);
     this.isLocationColumn ? this.getLocationsForFiltering() : this.getOptionsForFiltering();
@@ -148,7 +148,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   }
 
   onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    this.showButtons = true;
+    this.disableButtons = false;
     this.adminTableService.setNewFilters(checked, currentColumn, option);
   }
 
@@ -158,7 +158,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   }
 
   onDateChange(): void {
-    this.showButtons = true;
+    this.disableButtons = false;
     const swappedDates = this.adminTableService.swapDatesIfNeeded(this.dateFrom, this.dateTo, this.dateChecked);
 
     this.dateFrom = swappedDates ? swappedDates.dateFrom : this.dateFrom;

@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { of, Subject } from 'rxjs';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { OrderService } from '../../services/order.service';
-import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
@@ -18,7 +17,13 @@ describe('UbsAdminOrderStatusComponent', () => {
   let fixture: ComponentFixture<UbsAdminOrderStatusComponent>;
 
   const OrderServiceFake = {
-    getAvailableOrderStatuses: jasmine.createSpy('getAvailableOrderStatuses')
+    getAvailableOrderStatuses: jasmine.createSpy('getAvailableOrderStatuses'),
+    getNotTakenOutReason: jasmine.createSpy('getNotTakenOutReason').and.returnValue(
+      of({
+        description: 'desc',
+        images: ['src']
+      })
+    )
   };
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);

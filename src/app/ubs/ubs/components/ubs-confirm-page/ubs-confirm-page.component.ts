@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
@@ -30,7 +30,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     private readonly shareFormService: UBSOrderFormService,
     public readonly localStorageService: LocalStorageService,
     private readonly orderService: OrderService,
-    public readonly router: Router
+    public readonly router: Router,
+    public readonly activatedRoute: ActivatedRoute
   ) {}
 
   toPersonalAccount(): void {
@@ -43,6 +44,26 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((qp) => {
+      const status = (qp['status'] || '').toLowerCase();
+      if (status) {
+        const orderId = qp['orderId']?.trim() ?? '';
+        if (orderId.length > 0) {
+          this.localStorageService.setUbsPaymentOrderId(orderId);
+        }
+        const isPaid = status === 'paid';
+        if (isPaid) {
+          this.localStorageService.setUserPagePayment(true);
+          this.ubsOrderFormService.setOrderStatus(true);
+          this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+        } else {
+          this.localStorageService.setUserPagePayment(false);
+          this.ubsOrderFormService.setOrderStatus(false);
+          this.ubsOrderFormService.setOrderResponseErrorStatus(true);
+        }
+      }
+    });
+
     const orderIdWithoutPayment = this.localStorageService.getUbsPaymentOrderId();
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
       if (!oderID && this.localStorageService.getUbsBonusesOrderId()) {

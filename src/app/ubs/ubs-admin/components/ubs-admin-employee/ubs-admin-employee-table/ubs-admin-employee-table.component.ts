@@ -45,6 +45,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   isTooltipOpened: boolean;
   isStatusActive = EmployeeStatus.active;
   isStatusInactive = EmployeeStatus.inactive;
+  totalElements = 0;
   deleteDialogData = {
     popupTitle: 'employees.warning-title',
     popupConfirm: 'employees.btn.deactivate',
@@ -108,6 +109,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
     this.employees$.pipe(takeUntil(this.destroy$)).subscribe((item: Employees) => {
       if (item) {
+        this.totalElements = item.totalElements;
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
           this.isLoading = false;
@@ -172,7 +174,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'delete-dialog-container'
+      panelClass: 'delete-dialog-container',
+      autoFocus: true
     });
 
     matDialogRef

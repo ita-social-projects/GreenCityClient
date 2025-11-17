@@ -1,0 +1,45 @@
+<div *ngIf="!isLoading; else spinner">
+  <div class="page-top-bar d-flex justify-content-center expand-btn">
+    <button class="d-flex align-items-center border-0 bg-transparent expand-btn" (click)="collapseView()">
+      <span class="settings__title">
+        {{ 'telegram-bot-responses.edit' | translate }}
+      </span>
+      <img
+        [ngClass]="!isCollapsed ? { transform: 'rotate(180deg)' } : {}"
+        src="../../../../../../assets/icons/arrow-down-green.svg"
+        alt="collapse"
+        class="collapse-icon"
+      />
+    </button>
+  </div>
+
+  <div class="collapsed-content" [class.hidden]="isCollapsed">
+    <form class="settings__form" [formGroup]="telegramResponsesContentForm">
+      <div class="settings__form-lang" *ngFor="let lang of languages">
+        <h4 class="settings__form-lang-title">{{ 'telegram-bot-responses.lang.' + lang.toLowerCase() | translate }}</h4>
+
+        <div class="settings__form-section" *ngFor="let section of telegramResponsesContent[lang.toLowerCase()] | keyvalue">
+          <h4 class="settings__form-section-title">{{ 'telegram-bot-responses.section.' + section.key | translate }}</h4>
+
+          <fieldset class="settings__form-fieldset" *ngFor="let field of section.value | keyvalue">
+            <quill-editor class="settings__form-fieldset-input" type="text" [formControlName]="lang + section.key + field.key" />
+          </fieldset>
+        </div>
+      </div>
+    </form>
+    <button class="btn" (click)="onSave()" [disabled]="telegramResponsesContentForm.pristine || telegramResponsesContentForm.invalid">
+      {{ 'ubs-user-agreement.btn.save' | translate }}
+    </button>
+
+    <img
+      *ngIf="!isCollapsed"
+      src="../../../../../../assets/icons/arrow-down-green.svg"
+      alt="collapse"
+      (click)="collapseView()"
+      class="collapse-icon transform"
+    />
+  </div>
+</div>
+<ng-template class="spinner" #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

@@ -1,4 +1,4 @@
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -9,7 +9,7 @@ import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max
 import { CorrectUnitPipe } from '@global-user/pipe/correct-unit-pipe/correct-unit.pipe';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/shared/i18n/Language';
-import { of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FriendStatusValues, UserDashboardTab } from 'src/app/greencity/modules/user/models/friend.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +31,7 @@ describe('FriendItemComponent', () => {
     'userIdBehaviourSubject',
     'getAccessToken'
   ]);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;

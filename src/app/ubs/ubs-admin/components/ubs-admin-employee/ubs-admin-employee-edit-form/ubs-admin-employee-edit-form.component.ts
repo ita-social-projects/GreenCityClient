@@ -35,7 +35,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   };
   roles: EmployeePositions[];
   employeeForm: FormGroup;
-  employeePositions: EmployeePositions[];
+  employeePositionIds: number[] = [];
   tariffs: TariffForEmployee[] = [];
   employeeDataToSend: EmployeeDataToSend;
   phoneMask = Masks.phoneMask;
@@ -64,9 +64,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     tariffs: (tariffData) =>
       tariffData.map((tariff) => ({
         id: tariff.cardId,
-        courier: { en: tariff.courierDto.nameEn, ua: tariff.courierDto.nameUk },
-        region: { en: tariff.regionDto.nameEn, ua: tariff.regionDto.nameUk },
-        locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
+        courier: { en: tariff.courierDto.nameEn, uk: tariff.courierDto.nameUk },
+        region: { en: tariff.regionDto.nameEn, uk: tariff.regionDto.nameUk },
+        locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, uk: loc.nameUk })),
         selected: false,
         hasChat: false
       }))
@@ -76,9 +76,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     tariffs: (tariffData) =>
       tariffData.map((tariff) => ({
         id: tariff.id,
-        courier: { en: tariff.courier.nameEn, ua: tariff.courier.nameUk },
-        region: { en: tariff.region.nameEn, ua: tariff.region.nameUk },
-        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
+        courier: { en: tariff.courier.nameEn, uk: tariff.courier.nameUk },
+        region: { en: tariff.region.nameEn, uk: tariff.region.nameUk },
+        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, uk: loc.nameUk })),
         selected: true,
         hasChat: !!tariff.hasChat
       }))
@@ -106,7 +106,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern(Patterns.ubsMailPattern), Validators.minLength(3), Validators.maxLength(72)]
       ]
     });
-    this.employeePositions = this.data?.employeePositions ?? [];
+    this.employeePositionIds = this.data?.employeePositions?.map((p) => p.id) ?? [];
     this.imageURL = this.data?.image;
     this.editMode = !!this.data;
     if (this.editMode) {
@@ -117,7 +117,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         phoneNumber: this.data.phoneNumber.replace('+', ''),
         email: this.data?.email,
         imageURL: this.data?.image,
-        employeePositionsIds: this.employeePositions.map((position) => position.id)
+        employeePositionsIds: [...this.employeePositionIds]
       };
       this.tariffsFromEditForm = this.editMappers.tariffs(this.data?.tariffs) ?? [];
     }
@@ -125,9 +125,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.search.valueChanges.subscribe((term) => {
       this.filteredTariffs = this.tariffs.filter((tariff) => {
         const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
-        const regionMatch = match(tariff.region.en, term) || match(tariff.region.ua, term);
-        const locationsMatch = tariff.locations.some((location) => match(location.en, term) || match(location.ua, term));
-        const courierMatch = match(tariff.courier.en, term) || match(tariff.courier.ua, term);
+        const regionMatch = match(tariff.region.en, term) || match(tariff.region.uk, term);
+        const locationsMatch = tariff.locations.some((location) => match(location.en, term) || match(location.uk, term));
+        const courierMatch = match(tariff.courier.en, term) || match(tariff.courier.uk, term);
         return [regionMatch, locationsMatch, courierMatch].some((cond) => cond);
       });
     });
@@ -206,9 +206,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   onCheckChangeRole(role) {
     if (this.doesIncludeRole(role)) {
-      this.employeePositions = this.employeePositions.filter((position) => position.id !== role.id);
+      this.employeePositionIds = this.employeePositionIds.filter((positionId) => positionId !== role.id);
     } else {
-      this.employeePositions = [...this.employeePositions, role];
+      this.employeePositionIds.push(role.id);
     }
     if (this.editMode) {
       this.isInitialPositionsChanged = this.checkIsInitialPositionsChanged();
@@ -224,23 +224,30 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   doesIncludeRole(role) {
-    return this.employeePositions.some((existingRole) => existingRole.id === role.id);
+    return this.employeePositionIds.some((existingId) => existingId === role.id);
   }
 
   checkIsInitialPositionsChanged(): boolean {
-    if (this.initialData.employeePositionsIds.length !== this.employeePositions.length) {
+    const initialPositions = this.initialData.employeePositionsIds;
+    const currentPositions = this.employeePositionIds;
+
+    if (initialPositions.length !== currentPositions.length) {
       return true;
     }
-    return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
+
+    const initialSorted = [...initialPositions].sort((a, b) => a - b);
+    const currentSorted = [...currentPositions].sort((a, b) => a - b);
+
+    return initialSorted.some((value, index) => value !== currentSorted[index]);
   }
 
-  prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): FormData {
+  async prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): Promise<FormData> {
     this.isUploading = true;
     const selectedTariffs = this.filteredTariffs.filter((it) => it.selected);
     this.employeeDataToSend = {
       employeeDto: {
         ...this.employeeForm.value,
-        employeePositions: this.employeePositions
+        employeePositionIds: this.employeePositionIds
       },
       tariffs: selectedTariffs.map((tariff) => {
         return { tariffId: tariff.id, hasChat: tariff.hasChat };
@@ -255,8 +262,10 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(this.employeeDataToSend);
     formData.append(dto, stringifiedDataToSend);
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
+
+    if (this.imageURL && this.imageURL !== this.defaultPhotoURL) {
+      const blob = await fetch(this.imageURL as string).then((res) => res.blob());
+      formData.append('image', blob, this.imageName);
     }
     return formData;
   }
@@ -274,15 +283,15 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateEmployee(): void {
-    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employee', image);
+  async updateEmployee(): Promise<void> {
+    const image = !this.selectedFile ? this.defaultPhotoURL : this.imageURL;
+    const dataToSend = await this.prepareEmployeeDataToSend('employee', image);
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
-  createEmployee(): void {
-    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employee', image);
+  async createEmployee(): Promise<void> {
+    const image = !this.selectedFile ? this.defaultPhotoURL : this.imageURL;
+    const dataToSend = await this.prepareEmployeeDataToSend('employee', image);
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
@@ -368,7 +377,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   isButtonDisabled(): boolean {
     return (
       this.employeeForm.invalid ||
-      !this.employeePositions.length ||
+      !this.employeePositionIds.length ||
       this.isUploading ||
       !this.isAnyTariffSelected ||
       (this.editMode &&

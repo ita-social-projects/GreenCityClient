@@ -11,13 +11,14 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { select, Store } from '@ngrx/store';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { timer } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { MouseEvents } from 'src/app/shared/models/mouse-events';
 
 import {
   AddFilterMultiAction,
   AddFiltersAction,
   ChangingOrderData,
+  ClearFilters,
   GetColumns,
   GetLocationsDetails,
   GetTable,
@@ -33,11 +34,12 @@ import {
   locationsDetailsSelector
 } from 'src/app/store/selectors/big-order-table.selectors';
 import { IAppState } from 'src/app/store/state/app.state';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { IAlertInfo, IEditCell } from '../../models/edit-cell.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import {
   IBigOrderTable,
+  IBigOrderTableOrderInfo,
   IBigOrderTableParams,
   ICityDetails,
   IColumnDTO,
@@ -56,7 +58,6 @@ import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { IBigOrderTableOrderInfo } from '../../models/ubs-admin.interface';
 import { isCursorWaiteSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 
 @Component({
@@ -104,7 +105,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   stickyColumnsAmount = 4;
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;
-  isFiltersOpened = false;
   isTimePickerOpened = false;
   showPopUp: boolean;
   cancellationReason: string;
@@ -145,9 +145,11 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     private destroyRef: DestroyRef
   ) {
     this.dateAdapter.setLocale('en-GB');
+    this.filterValue = history.state?.clientFilter ?? '';
   }
 
   ngOnInit() {
+    this.getTable();
     this.getCurrentLanguage();
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
@@ -289,7 +291,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   initFiltersListener(): void {
-    this.store.pipe(select(filtersSelector), filter(Boolean), takeUntilDestroyed(this.destroyRef)).subscribe((filters: IFilters) => {
+    this.store.pipe(select(filtersSelector), takeUntilDestroyed(this.destroyRef)).subscribe((filters: IFilters) => {
       this.dateForm.patchValue(filters);
       this.filters = this.dateForm.value;
       this.allFilters = filters;
@@ -304,9 +306,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.isAllColumnsDisplayed = this.displayedColumns.length === this.displayedColumnsView.length;
   }
 
-  applyFilter(filterValue: string): void {
+  applySearchFilter(filterValue: string): void {
     this.filterValue = filterValue;
-    this.localStorageService.setAdminOrdersDateFilter(this.filters);
+    this.applyFilters();
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
@@ -416,10 +418,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.sortColumnsToDisplay();
   }
 
-  toggleFilters(): void {
-    this.isFiltersOpened = !this.isFiltersOpened;
-  }
-
   toggleTableView(): void {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
@@ -432,10 +430,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   private getColumns() {
     this.store.dispatch(GetColumns());
-  }
-
-  private getTable(filterValue: string = '', columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', reset = true) {
-    this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
   }
 
   formatTableData() {
@@ -497,7 +491,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     return locations
       .filter((location) => location.nameEn.toLowerCase().includes(term) || location.nameUk.toLowerCase().includes(term))
       ?.slice(0, 100)
-      .map((location) => ({ key: location.id, en: location.nameEn, ua: location.nameUk }));
+      .map((location) => ({ key: location.id, en: location.nameEn, uk: location.nameUk }));
   }
 
   getCitiesForFiltering(): ICityDetails[] {
@@ -565,6 +559,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       this.updateTableData();
     }
   }
+
   editDetails(): void {
     const keys: TableKeys[] = [
       TableKeys.receivingStation,
@@ -577,6 +572,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .filter((el) => keys.includes(TableKeys[el.title.key as keyof typeof TableKeys]))
       .forEach((field) => this.dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
   }
+
   // checks if all required fields is filled in
   openPopUpRequires(orderId?: number): void {
     const keysForEditDetails = [
@@ -643,6 +639,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.count = this.displayedColumnsViewTitles.length;
     this.sortColumnsToDisplay();
   }
+
   private setUnDisplayedColumns(): void {
     this.displayedColumnsViewTitles = [];
     this.displayedColumns = ['select'];
@@ -736,7 +733,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     event.stopImmediatePropagation();
     const lengthStrUa = title.uk.split('').length;
     const lengthStrEn = title.en.split('').length;
-    if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
+    if ((this.currentLang === 'uk' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
       tooltip.toggle();
     }
 
@@ -848,6 +845,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     }
   }
 
+  clearAllFilters(e: Event): void {
+    e.stopPropagation();
+    this.adminTableService.clearFilters();
+    this.store.dispatch(ClearFilters({ fetchTable: true }));
+  }
+
   openColumnFilterPopup(event: MouseEvent, column) {
     const popupWidth = 350;
     const popupHeight = 400;
@@ -943,6 +946,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       document.addEventListener('mouseup', onMouseUp);
     }
   }
+
   setColumnsForFiltering(columns): void {
     this.adminTableService.setColumnsForFiltering(columns);
   }
@@ -1012,6 +1016,14 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   saveColumnsWidthPreference(): void {
     this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
     this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
+  }
+
+  private getTable(filterValue?: string, columnName?: string, sortingType?: string, reset: boolean = true) {
+    const f = filterValue ?? this.filterValue ?? '';
+    const c = columnName ?? this.sortingColumn ?? 'id';
+    const s = sortingType ?? this.sortType ?? 'DESC';
+    const payload = { columnName: c, page: this.currentPage, filter: f, size: this.pageSize, sortingType: s, reset };
+    this.store.dispatch(GetTable(payload));
   }
 
   @HostListener('window:beforeunload', ['$event'])

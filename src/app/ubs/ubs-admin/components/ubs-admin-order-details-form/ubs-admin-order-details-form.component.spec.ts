@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminOrderDetailsFormComponent } from './ubs-admin-order-details-form.component';
 import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
 

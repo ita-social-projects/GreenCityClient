@@ -36,7 +36,7 @@ class MatDialogMock {
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  const mockLang = 'ua';
+  const mockLang = 'uk';
   const mockLangId = 1;
   const userId = 'userId';
   const initialState = {
@@ -236,19 +236,19 @@ describe('HeaderComponent', () => {
     it('should change current language onKeydownLangOption with Enter key', () => {
       const changeLangSpy = spyOn(component, 'changeCurrentLanguage');
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
-      const mockArrayLang = [{ lang: 'EN' }, { lang: 'UA' }];
+      const mockArrayLang = [{ lang: 'EN' }, { lang: 'UK' }];
       component.arrayLang = mockArrayLang as any;
       component.onKeydownLangOption(event, 1);
-      expect(changeLangSpy).toHaveBeenCalledWith('UA', 1);
+      expect(changeLangSpy).toHaveBeenCalledWith('UK', 1);
     });
 
     it('should change current language onKeydownLangOption with Space key', () => {
       const changeLangSpy = spyOn(component, 'changeCurrentLanguage');
       const event = new KeyboardEvent('keydown', { key: ' ' });
-      const mockArrayLang = [{ lang: 'EN' }, { lang: 'UA' }];
+      const mockArrayLang = [{ lang: 'EN' }, { lang: 'UK' }];
       component.arrayLang = mockArrayLang as any;
       component.onKeydownLangOption(event, 1);
-      expect(changeLangSpy).toHaveBeenCalledWith('UA', 1);
+      expect(changeLangSpy).toHaveBeenCalledWith('UK', 1);
     });
 
     it('should prevent default event onKeydownLangOption', () => {
@@ -364,12 +364,12 @@ describe('HeaderComponent', () => {
   });
 
   describe('Language methods', () => {
-    it('should initialize language to UA if no language is set', () => {
+    it('should initialize language to UK if no language is set', () => {
       spyOn(languageServiceMock, 'getCurrentLanguage').and.returnValue(null);
       spyOn(languageServiceMock, 'changeCurrentLanguage');
       component['initLanguage']();
-      expect(component.currentLanguage).toEqual(Language.UA);
-      expect(languageServiceMock.changeCurrentLanguage).toHaveBeenCalledWith(Language.UA);
+      expect(component.currentLanguage).toEqual(Language.UK);
+      expect(languageServiceMock.changeCurrentLanguage).toHaveBeenCalledWith(Language.UK);
     });
   });
 

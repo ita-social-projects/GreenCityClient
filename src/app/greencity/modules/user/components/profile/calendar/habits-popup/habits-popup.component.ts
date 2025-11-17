@@ -77,7 +77,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   formatSelectedDate(dateString?: string) {
     const date = dateString ? new Date(dateString) : new Date();
-    const monthLow = date.toLocaleDateString(this.language === 'ua' ? 'uk' : this.language, { month: 'long' });
+    const monthLow = date.toLocaleDateString(this.language === 'uk' ? 'uk' : this.language, { month: 'long' });
     const month = monthLow.charAt(0).toUpperCase() + monthLow.slice(1);
     const day = date.getDate();
     const year = date.getFullYear();

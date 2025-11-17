@@ -102,6 +102,7 @@ div {
       justify-content: space-between;
       align-items: center;
       flex-wrap: nowrap;
+      gap: 8px;
 
       div {
         display: flex;
@@ -110,7 +111,7 @@ div {
     }
 
     .user-data-text-date {
-      font-family: var(--primary-font);
+      font-family: var(--primary-font), sans-serif;
       font-size: 14px;
       line-height: 20px;
       color: var(--quaternary-grey);
@@ -124,16 +125,11 @@ div {
 
       &:nth-child(2) {
         span {
-          width: 110px;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
         }
       }
-    }
-
-    .user {
-      padding-left: 10px;
     }
 
     .user-data-like {
@@ -180,16 +176,6 @@ div {
             text-overflow: ellipsis;
           }
         }
-
-        &:nth-child(2) {
-          span {
-            width: 85px;
-          }
-        }
-      }
-
-      .user {
-        padding-left: 8px;
       }
     }
   }
@@ -206,12 +192,6 @@ div {
             width: 85px;
           }
         }
-
-        &:nth-child(2) {
-          span {
-            width: 105px;
-          }
-        }
       }
     }
   }
@@ -226,16 +206,6 @@ div {
         &:nth-of-type(1) {
           display: none;
         }
-
-        &:nth-child(2) {
-          span {
-            width: 115px;
-          }
-        }
-      }
-
-      .user {
-        padding-left: 0;
       }
     }
   }
@@ -244,15 +214,5 @@ div {
 @include responsivePCFirst(sm) {
   .list-gallery {
     width: 288px;
-
-    .list-gallery-content {
-      .user-data-text-date {
-        &:nth-child(2) {
-          span {
-            width: 145px;
-          }
-        }
-      }
-    }
   }
 }

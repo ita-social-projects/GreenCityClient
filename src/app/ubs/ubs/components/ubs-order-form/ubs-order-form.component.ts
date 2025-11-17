@@ -100,7 +100,6 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   ngAfterViewInit(): void {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;
     this.secondStepForm = this.stepTwoComponent.personalDataForm;
-    this.thirdStepForm = this.stepThreeComponent.paymentForm;
     this.cdr.detectChanges();
   }
 

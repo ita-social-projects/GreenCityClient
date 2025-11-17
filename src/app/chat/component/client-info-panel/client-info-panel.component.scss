@@ -16,6 +16,17 @@
     color: var(--secondary-dark-grey);
   }
 
+  .action {
+    display: block;
+    margin: 20px auto;
+    background: var(--ubs-button-light-green);
+    border-radius: 5px;
+    border: 1px solid var(--ubs-button-light-green);
+    color: var(--ubs-tertiary-dark-grey);
+    width: fit-content;
+    padding: 2px 5px;
+  }
+
   .section-title {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
@@ -42,6 +53,11 @@
 
     .value {
       color: var(--secondary-dark-grey);
+
+      &-id {
+        color: black;
+        text-decoration: underline;
+      }
     }
   }
 

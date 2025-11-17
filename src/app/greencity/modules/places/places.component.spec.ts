@@ -33,7 +33,7 @@ describe('PlacesComponent', () => {
     'languageBehaviourSubject'
   ]);
   localStorageServiceMock.languageSubject = new Subject();
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.languageSubject.unsubscribe = jasmine.createSpy();
 

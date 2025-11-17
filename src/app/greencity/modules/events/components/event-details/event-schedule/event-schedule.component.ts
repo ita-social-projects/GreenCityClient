@@ -22,7 +22,7 @@ export class EventScheduleComponent {
     if (location.streetEn) {
       return this.eventService.getFormattedAddress(location);
     } else {
-      return `https://www.google.com.ua/maps?q=${location.latitude},${location.longitude}`;
+      return `https://www.google.com.uk/maps?q=${location.latitude},${location.longitude}`;
     }
   }
 }

@@ -21,6 +21,7 @@ const columnMapping: { [key: string]: string } = {
   district: 'districtsEn',
   region: 'regionEn'
 };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -198,7 +199,14 @@ export class AdminTableService {
     this.selectedFilters[columnName + 'To'] = dateTo;
   }
 
-  swapDatesIfNeeded(dateFrom: Date | null, dateTo: Date | null, dateChecked: boolean): { dateFrom: Date | null; dateTo: Date | null } {
+  swapDatesIfNeeded(
+    dateFrom: Date | null,
+    dateTo: Date | null,
+    dateChecked: boolean
+  ): {
+    dateFrom: Date | null;
+    dateTo: Date | null;
+  } {
     if (dateChecked && dateFrom?.getTime() > dateTo?.getTime()) {
       return { dateFrom: dateTo, dateTo: dateFrom };
     } else if (!dateChecked) {
@@ -228,6 +236,10 @@ export class AdminTableService {
       this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== (isLocation ? option.en : option.key));
     }
     this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+  }
+
+  clearFilters(): void {
+    this.selectedFilters = null;
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
@@ -386,6 +398,7 @@ export class AdminTableService {
   getUbsAdminOrdersTableColumnsWidthPreference(): Observable<Map<string, number>> {
     return this.http.get<Map<string, number>>(`${this.url}orderTableColumnsWidth`);
   }
+
   getOrderTotalElements(): Observable<{ orderCount: number }> {
     return this.http.get<{ orderCount: number }>(`${this.url}orders/count`);
   }

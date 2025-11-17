@@ -54,7 +54,16 @@
       }
 
       .search-input {
+        position: relative;
         width: 100%;
+
+        .input-error {
+          position: absolute;
+          top: calc(100% + 4px);
+          margin: 0;
+          color: var(--quintynary-light-grey);
+          font-size: 12px;
+        }
       }
 
       .search-input input {
@@ -123,11 +132,25 @@
     min-height: 120px;
     align-items: center;
     justify-content: center;
+
+    @media screen and (max-width: 820px) {
+      padding: 0 10px;
+    }
   }
 
   .d-flex {
     margin-bottom: 18px;
     margin-top: 24px;
+
+    @media screen and (max-width: 820px) {
+      flex-direction: column;
+
+      .col-item {
+        width: 100%;
+        margin-bottom: 16px;
+        margin-right: 0;
+      }
+    }
   }
 
   .col-text {

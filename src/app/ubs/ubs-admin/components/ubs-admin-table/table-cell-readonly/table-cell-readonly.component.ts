@@ -4,7 +4,7 @@ import { IColumnBelonging } from '../../../models/ubs-admin.interface';
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   paid: boolean;
   halfpaid: boolean;
   dataObj: IColumnBelonging = null;
-  data: string | number | { ua: string; en: string } | null;
+  data: string | number | { uk: string; en: string } | null;
   private readonly font = '12px Lato, sans-serif';
   adminTableService = inject(AdminTableService);
 
@@ -44,7 +44,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
 
       const replaceRules = {
         [Language.EN]: { regex: /л|шт/gi, match: { л: 'L', шт: 'p' } },
-        [Language.UA]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
+        [Language.UK]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
       };
 
       if (this.key === TableKeys.bagsAmount && replaceRules[this.lang]) {

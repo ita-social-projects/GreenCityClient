@@ -179,6 +179,7 @@
 <table class="table-location">
   <thead *ngIf="cards.length || !this.showAllTariff">
     <tr>
+      <th *ngIf="showAllTariff" id="tariff-name">{{ 'ubs-tariffs.tariff-name' | translate }}</th>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
       <th id="courier">{{ 'ubs-tariffs.courier' | translate }}</th>
@@ -189,6 +190,9 @@
   </thead>
   <tbody *ngIf="showAllTariff">
     <tr *ngFor="let card of cards" class="cursor-pointer" (click)="page($event.target['className'], card.cardId)">
+      <td>
+        {{ card.tariffName }}
+      </td>
       <td>
         {{ card.region }}
       </td>
@@ -236,14 +240,14 @@
   </tbody>
   <tbody *ngIf="!showAllTariff && !isLoading">
     <tr class="selected-card">
-      <td [appLangValue]="{ ua: selectedCard.regionUk, en: selectedCard.regionEn }"></td>
+      <td [appLangValue]="{ uk: selectedCard.regionUk, en: selectedCard.regionEn }"></td>
       <td>
         <div *ngFor="let item of languageService.getLangValue(selectedCard.citiesUk, selectedCard.citiesEn)">
           {{ item }}
         </div>
       </td>
       <td>
-        <div [appLangValue]="{ ua: selectedCard.courierUk, en: selectedCard.courierEn }"></div>
+        <div [appLangValue]="{ uk: selectedCard.courierUk, en: selectedCard.courierEn }"></div>
       </td>
       <td>
         <div *ngFor="let item of selectedCard.station">

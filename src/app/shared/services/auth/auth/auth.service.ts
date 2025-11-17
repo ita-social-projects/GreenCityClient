@@ -6,6 +6,8 @@ import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, Observable, of } from 'rxjs';
 import { googleSecurityLink, mainUserLink } from 'src/app/main/links';
+import { TProjectName } from '../../../models/auth/project-name.type';
+import { ProjectNameEnum } from '../../../models/auth/project-name.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,8 @@ export class AuthService {
 
   private readonly API_ROUTES = {
     signIn: () => `${mainUserLink}ownSecurity/signIn`,
-    signInWithGoogle: (token: string, lang: string) => `${googleSecurityLink}?token=${token}&lang=${lang}`
+    signInWithGoogle: (token: string, lang: string, projectName: TProjectName) =>
+      `${googleSecurityLink}?token=${token}&lang=${lang}&projectName=${projectName}`
   };
 
   getCurrentUser(): Observable<ISignInResponse | null> {
@@ -41,9 +44,10 @@ export class AuthService {
     return this.http.post<ISignInResponse>(this.API_ROUTES.signIn(), data).pipe(map((response) => this.decodeUserRole(response)));
   }
 
-  signInWithGoogle(token: string, lang = 'ua'): Observable<ISignInResponse> {
+  signInWithGoogle(token: string, isUbs: boolean, lang = 'uk'): Observable<ISignInResponse> {
+    const projectName = isUbs ? ProjectNameEnum.UBS : ProjectNameEnum.GREENCITY;
     return this.http
-      .get<ISignInResponse>(this.API_ROUTES.signInWithGoogle(token, lang))
+      .get<ISignInResponse>(this.API_ROUTES.signInWithGoogle(token, lang, projectName))
       .pipe(map((response) => this.decodeUserRole(response)));
   }
 

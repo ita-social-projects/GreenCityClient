@@ -1,22 +1,23 @@
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import {
+  ActiveCourierDto,
+  ActiveTariffInfo,
   Address,
   AddressData,
+  AllActiveLocationsDtosResponse,
   AllLocationsDtos,
   CourierLocations,
-  ActiveCourierDto,
   DistrictEnum,
-  ICertificateResponse,
-  OrderDetails,
   DistrictsDtos,
+  ICertificateResponse,
   IProcessOrderResponse,
+  KyivNamesEnum,
   Order,
-  AllActiveLocationsDtosResponse,
-  KyivNamesEnum
+  OrderDetails
 } from '../models/ubs.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -77,7 +78,15 @@ export class OrderService {
       : this.getLocations(courierId, false).pipe(map((allLocations) => allLocations[0].locations[0].locationId));
   }
 
-  getLocationName(location: { nameUk: string; nameEn: string } | string, region: { nameUk: string; nameEn: string } | string): string {
+  getLocationName(
+    location: { nameUk: string; nameEn: string } | string,
+    region:
+      | {
+          nameUk: string;
+          nameEn: string;
+        }
+      | string
+  ): string {
     const locationName = this.getName(location);
     const regionName = this.getName(region);
 
@@ -117,6 +126,10 @@ export class OrderService {
     return this.http.post<IProcessOrderResponse>(`${this.url}/processOrder`, order);
   }
 
+  cancelExistingPayment(id: number): Observable<IProcessOrderResponse> {
+    return this.http.post<IProcessOrderResponse>(`${this.url}/cancelPaymentAttempt/${id}`, {});
+  }
+
   processExistingOrder(order: Order, orderId: number): Observable<IProcessOrderResponse> {
     return this.http.post<IProcessOrderResponse>(`${this.url}/processOrder/${orderId}`, order);
   }
@@ -148,7 +161,7 @@ export class OrderService {
         map((districts) => {
           if (districts.length > 1) {
             return districts.map((item) => ({
-              nameUk: item.nameUk + DistrictEnum.UA,
+              nameUk: item.nameUk + DistrictEnum.UK,
               nameEn: item.nameEn + DistrictEnum.EN
             }));
           } else {
@@ -220,5 +233,17 @@ export class OrderService {
     this.cleanOrderState();
     localStorage.removeItem('UBSExistingOrderId');
     this.localStorageService.removeUbsPaymentOrderId();
+  }
+
+  getActiveTariffsInfo(): Observable<ActiveTariffInfo[]> {
+    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo`);
+  }
+
+  getTariffName(tariff: ActiveTariffInfo): string {
+    return this.langService.getLangValue(tariff.tariffNameUk, tariff.tariffNameEn);
+  }
+
+  getTariffDescription(tariff: ActiveTariffInfo): string | null {
+    return this.langService.getLangValue(tariff.descriptionMessageUk, tariff.descriptionMessageEn);
   }
 }

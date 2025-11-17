@@ -14,6 +14,7 @@ import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.ser
 
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up.component';
 import { ICertificatePayment } from '../models/ICertificate.interface';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
 
 describe('UbsUserOrderPaymentPopUpComponent', () => {
   let component: UbsUserOrderPaymentPopUpComponent;
@@ -58,7 +59,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'setUbsPaymentOrderId',
     'clearPaymentInfo',
-    'setUserPagePayment'
+    'setUserPagePayment',
+    'getCurrentLanguage'
   ]);
   const ubsOrderFormServiceMock = jasmine.createSpyObj('ubsOrderFormService', [
     'transferOrderId',
@@ -68,7 +70,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsUserOrderPaymentPopUpComponent],
+      declarations: [UbsUserOrderPaymentPopUpComponent, LocalizedCurrencyPipe],
       imports: [FormsModule, ReactiveFormsModule, MatRadioModule, IMaskModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },

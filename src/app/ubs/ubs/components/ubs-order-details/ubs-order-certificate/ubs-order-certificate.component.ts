@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { Subject, combineLatest } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { AddCertificate, RemoveCertificate, SetCertificateUsed, SetCertificates, SetPointsUsed } from 'src/app/store/actions/order.actions';
+import { AddCertificate, RemoveCertificate, SetCertificates, SetCertificateUsed, SetPointsUsed } from 'src/app/store/actions/order.actions';
 import { GetUserBonuses } from 'src/app/store/actions/ubs-user.actions';
 import { certificatesSelector, isFirstFormValidSelector, orderSumSelector } from 'src/app/store/selectors/order.selectors';
 import { userBonusesSelector } from 'src/app/store/selectors/ubs-user.selectors';
@@ -11,6 +11,7 @@ import { ICertificateResponse } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderService } from '../../../services/order.service';
+import { ICertificate, IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-order-certificate',
@@ -28,6 +29,17 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   certificateMask = Masks.certificateMask;
   certificatePattern = Patterns.serteficatePattern;
   private $destroy: Subject<void> = new Subject<void>();
+
+  @Input()
+  set orderDetails(value: IUserOrderInfo) {
+    if (value?.certificate?.length) {
+      value.certificate.forEach((c: ICertificate, index) => {
+        this.addNewCertificate();
+        this.formArrayCertificates.controls.at(index).setValue(c.code);
+        this.onActivateCertififcate(index);
+      });
+    }
+  }
 
   get bonus() {
     return this.orderBonusesForm?.controls.bonus;
@@ -53,7 +65,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(GetUserBonuses());
-
     this.initForm();
     this.initListeners();
   }
@@ -140,9 +151,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     const invalidInput = this.formArrayCertificates.controls[index].invalid;
     const formInvalid = !this.isFirstFormValid;
     const noAmountLeft = this.getFinalSum() === 0;
-    const bonusesNotSelected = !this.orderBonusesForm.get('bonus')?.value;
 
-    return alreadyEntered || invalidInput || formInvalid || noAmountLeft || bonusesNotSelected;
+    return alreadyEntered || invalidInput || formInvalid || noAmountLeft;
   }
 
   isCanAddCertificate(): boolean {

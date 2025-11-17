@@ -31,7 +31,7 @@ const location = [
         locationId: 1,
         locationStatus: 'фейк',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'Фейк1' },
+          { languageCode: 'uk', locationName: 'Фейк1' },
           { languageCode: 'en', locationName: 'Fake1' }
         ],
         longitude: 13
@@ -39,7 +39,7 @@ const location = [
     ],
     regionId: 1,
     regionTranslationDtos: [
-      { regionName: 'Фейк область', languageCode: 'ua' },
+      { regionName: 'Фейк область', languageCode: 'uk' },
       { regionName: 'Fake region', languageCode: 'en' }
     ]
   }
@@ -78,7 +78,7 @@ const station = {
 
 const editLocation = {
   nameEn: 'name',
-  nameUa: 'назва',
+  nameUk: 'назва',
   locationId: 1
 };
 
@@ -134,7 +134,7 @@ describe('TariffsService', () => {
 
   it('should transform date', () => {
     const date = new Date(2022, 11, 10);
-    const datePipe = new DatePipe('ua');
+    const datePipe = new DatePipe('uk-UA');
     const result = datePipe.transform(date, 'MMM dd, yyyy');
     expect(result).toEqual('груд. 10, 2022');
   });

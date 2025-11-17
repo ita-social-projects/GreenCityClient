@@ -16,6 +16,7 @@ export interface IUserOrderInfo {
   paidAmount: number;
   paymentStatusUk: string;
   paymentStatusEn: string;
+  paymentLink: string;
   sender: IUserInfo;
   refundedBonuses: number;
   refundedMoney: number;

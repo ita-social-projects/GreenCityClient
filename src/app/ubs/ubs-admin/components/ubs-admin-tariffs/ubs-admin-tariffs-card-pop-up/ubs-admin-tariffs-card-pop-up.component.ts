@@ -146,7 +146,13 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
       this.currentLanguage = lang;
-      this.datePipe = new DatePipe(this.currentLanguage);
+      // Map language codes to proper locale codes for DatePipe
+      const localeMap = {
+        uk: 'uk-UA',
+        en: 'en-GB'
+      };
+      const locale = localeMap[this.currentLanguage] || this.currentLanguage;
+      this.datePipe = new DatePipe(locale);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
 
@@ -367,7 +373,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.value));
 
     this.regionEnglishName = this.getRegionNameByLanguageCode(selectedValue, Language.EN);
-    this.regionUkrainianName = this.getRegionNameByLanguageCode(selectedValue, Language.UA);
+    this.regionUkrainianName = this.getRegionNameByLanguageCode(selectedValue, Language.UK);
     this.currentRegionTranslated = this.languageService.getLangValue(this.regionEnglishName, this.regionUkrainianName);
 
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
@@ -413,7 +419,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     let englishLocation;
     let locationId;
     event.option.value.locationTranslationDtoList.forEach((el) => {
-      if (el.languageCode === Language.UA) {
+      if (el.languageCode === Language.UK) {
         location = el.locationName;
       }
       if (el.languageCode === Language.EN) {
@@ -558,10 +564,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         panelClass: 'address-matDialog-styles-w-100',
         data: {
           title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-          courierNameUa: this.courierUkrainianName,
+          couriernameUk: this.courierUkrainianName,
           courierNameEn: this.courierEnglishName,
           stationNames: this.selectedStation.map((it) => it.name),
-          regionNameUa: this.regionUkrainianName,
+          regionnameUk: this.regionUkrainianName,
           regionNameEn: this.regionEnglishName,
           locationNames: this.selectedCities,
           action: 'ubs-tariffs-add-location-pop-up.create_button'

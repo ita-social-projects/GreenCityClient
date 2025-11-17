@@ -15,7 +15,7 @@ describe('UbsUserOrderDetailsComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
-  languageServiceMock.getCurrentLangObs = () => of('ua');
+  languageServiceMock.getCurrentLangObs = () => of('uk');
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -40,19 +40,5 @@ describe('UbsUserOrderDetailsComponent', () => {
   it('method ngOnInit should calcuate certificatesAmount', () => {
     component.ngOnInit();
     expect(component.certificatesAmount).toBe(510);
-  });
-
-  describe('isOrderPaid', () => {
-    it('order  is paid', () => {
-      fakeInputOrderData.paymentStatusEn = 'Paid';
-      const isOrderPaidRes = component.isPaid(fakeInputOrderData as IUserOrderInfo);
-      expect(isOrderPaidRes).toBeTruthy();
-    });
-
-    it('order is not unpaid', () => {
-      fakeInputOrderData.paymentStatusEn = 'Unpaid';
-      const isOrderPaidRes = component.isPaid(fakeInputOrderData as IUserOrderInfo);
-      expect(isOrderPaidRes).toBeFalsy();
-    });
   });
 });

@@ -7,59 +7,80 @@
         <span>{{ generalInfo.dateFormed | localizedDate | date: 'dd.MM.y' }}</span>
       </div>
     </div>
-    <div class="row">
-      <div class="col-4">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-row">
-              <div class="form-group col-sm-10 col-md-7">
-                <label for="order" class="form__label">
-                  {{ 'order-edit.status.order-label' | translate }}
-                </label>
-                <select
-                  id="order"
-                  *ngIf="isOrderStatusSelected"
-                  [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
-                  formControlName="orderStatus"
-                  (change)="onChangedOrderStatus($event.target['value'])"
-                >
-                  <option
-                    *ngFor="let status of availableOrderStatuses"
-                    [selected]="status?.key === generalInfo.orderStatus"
-                    [value]="status?.key"
-                    [appLangValue]="{ ua: status?.uk, en: status?.en }"
-                  ></option>
-                </select>
+    <div class="col">
+      <div class="row">
+        <div class="col-4">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-row">
+                <div class="form-group col-sm-10 col-md-7">
+                  <label for="order" class="form__label">
+                    {{ 'order-edit.status.order-label' | translate }}
+                  </label>
+                  <select
+                    id="order"
+                    *ngIf="isOrderStatusSelected"
+                    [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
+                    formControlName="orderStatus"
+                    (change)="onChangedOrderStatus($event.target['value'])"
+                  >
+                    <option
+                      *ngFor="let status of availableOrderStatuses"
+                      [selected]="status?.key === generalInfo.orderStatus"
+                      [value]="status?.key"
+                      [appLangValue]="{ uk: status?.uk, en: status?.en }"
+                    ></option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-12">
-            <div class="form-row">
-              <div class="form-group col-sm-10 col-md-7">
-                <label class="form__label">
-                  {{ 'order-edit.status.payment-label' | translate }}
-                </label>
-                <div class="form-control readonly payment" *ngIf="currentPaymentStatus" [appLangValue]="currentPaymentStatus"></div>
+            <div class="col-12">
+              <div class="form-row">
+                <div class="form-group col-sm-10 col-md-7">
+                  <label class="form__label">
+                    {{ 'order-edit.status.payment-label' | translate }}
+                  </label>
+                  <div class="form-control readonly payment" *ngIf="currentPaymentStatus" [appLangValue]="currentPaymentStatus"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group">
-          <label for="comment" class="form__label">{{ 'order-edit.comment.label' | translate }}</label>
-          <textarea
-            [ngClass]="!uneditableStatus && isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
-            class="mw-100"
-            id="comment"
-            formControlName="adminComment"
-            placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
-          ></textarea>
-          <div class="validation" *ngIf="adminComment.invalid && adminComment.touched">
-            <app-ubs-input-error [formElement]="adminComment"> </app-ubs-input-error>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="comment" class="form__label">{{ 'order-edit.comment.label' | translate }}</label>
+            <textarea
+              [ngClass]="!uneditableStatus && isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
+              class="mw-100"
+              id="comment"
+              formControlName="adminComment"
+              placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
+            ></textarea>
+            <div class="validation" *ngIf="adminComment.invalid && adminComment.touched">
+              <app-ubs-input-error [formElement]="adminComment"></app-ubs-input-error>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="not-taken-block col" *ngIf="orderNotTakenOutReason">
+      <div class="flex-row">
+        <span class="form__label">{{ 'order-edit.not-taken.reason' | translate }}</span>
+        <span> {{ orderNotTakenOutReason.description }}</span>
+      </div>
+      <ng-container *ngIf="orderNotTakenOutReason.images?.length; else noImages">
+        <div class="flex-column">
+          <span class="form__label">{{ 'order-edit.not-taken.images' | translate }}</span>
+          <div class="image-row row">
+            <div class="image-wrapper" *ngFor="let image of orderNotTakenOutReason.images; let i = index" (click)="openImg(i)">
+              <img [src]="image" [alt]="'order-edit.not-taken.img-alt' | translate: { index: i + 1 }" />
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noImages>
+        <span class="form__label">{{ 'order-edit.not-taken.no-images' | translate }}</span>
+      </ng-template>
     </div>
   </div>
   <hr />

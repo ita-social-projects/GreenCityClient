@@ -53,7 +53,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     region: 'Київська область',
     regionEn: 'Kyiv region',
     entranceNumber: 13,
-    street: 'fake street UA',
+    street: 'fake street UK',
     streetEn: 'fake street EN',
     addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK,
     houseCorpus: 12,
@@ -81,8 +81,8 @@ describe('UBSAddAddressPopUpComponent', () => {
     'getUserId',
     'getLocations'
   ]);
-  fakeLocalStorageService.getCurrentLanguage = () => Language.UA as Language;
-  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject(Language.UA);
+  fakeLocalStorageService.getCurrentLanguage = () => Language.UK as Language;
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject(Language.UK);
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
     'getDistrictAuto',

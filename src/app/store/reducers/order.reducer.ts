@@ -289,7 +289,8 @@ export const orderReducer = createReducer(
         houseNumber: action.address?.houseNumber ?? '',
         entranceNumber: action.address?.entranceNumber ?? null,
         longitude: action.address?.coordinates.longitude ?? null,
-        latitude: action.address?.coordinates.latitude ?? null
+        latitude: action.address?.coordinates.latitude ?? null,
+        addressComment: action.address?.addressComment ?? ''
       }
     };
   }),

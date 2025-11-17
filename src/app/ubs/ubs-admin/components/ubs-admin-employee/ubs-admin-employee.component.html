@@ -7,6 +7,7 @@
       <div class="search">
         <div class="search-input">
           <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event)" />
+          <p class="input-error" *ngIf="searchValueIncorrect">{{ 'ubs-tables.restricted-symbols' | translate }}</p>
         </div>
         <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
       </div>
@@ -33,11 +34,15 @@
           <mat-autocomplete #autoposition="matAutocomplete" (optionSelected)="onSelectPosition($event, autocompleteTriggerPosition)">
             <div class="option-wrapper">
               <mat-option value="all">
-                <mat-checkbox [checked]="isPositionChecked()" value="all"></mat-checkbox>
+                <mat-checkbox [checked]="isPositionChecked()" value="all" [value]="selectOptions.all"></mat-checkbox>
                 {{ 'ubs-tariffs.states.all' | translate }}</mat-option
               >
-              <mat-option *ngFor="let position of positionName">
-                <mat-checkbox class="mr-1" [checked]="checkSelectedItem(position, selectedPositions)"></mat-checkbox>
+              <mat-option *ngFor="let position of positionName" [value]="position">
+                <mat-checkbox
+                  class="mr-1"
+                  (click)="$event.stopPropagation()"
+                  [checked]="checkSelectedItem(position, selectedPositions)"
+                ></mat-checkbox>
                 <span class="checkbox-text">{{ position }}</span>
               </mat-option>
             </div>
@@ -47,7 +52,7 @@
         <div class="filtrs-list">
           <div *ngFor="let position of selectedPositions" class="filter-item">
             <div class="remove-item-btn" (click)="removeItem(position, 'position')"></div>
-            <span class="filter-content" [appLangValue]="{ ua: position.ukrainianName, en: position.englishName }"></span>
+            <span class="filter-content" [appLangValue]="{ uk: position.ukrainianName, en: position.englishName }"></span>
           </div>
         </div>
       </div>
@@ -149,7 +154,7 @@
         <div class="filtrs-list">
           <div class="filter-item" *ngFor="let courier of selectedCouriers">
             <div class="remove-item-btn" (click)="removeItem(courier, 'courier')"></div>
-            <span class="filter-content" [appLangValue]="{ ua: courier.ukrainianName, en: courier.englishName }"></span>
+            <span class="filter-content" [appLangValue]="{ uk: courier.ukrainianName, en: courier.englishName }"></span>
           </div>
         </div>
       </div>
@@ -170,8 +175,8 @@
             <div class="option-wrapper">
               <mat-option
                 *ngFor="let state of employeeStates"
-                [value]="languageService.getLangValue(state.nameUa, state.nameEn)"
-                [appLangValue]="{ ua: state.nameUa, en: state.nameEn }"
+                [value]="languageService.getLangValue(state.nameUk, state.nameEn)"
+                [appLangValue]="{ uk: state.nameUk, en: state.nameEn }"
               >
               </mat-option>
             </div>
@@ -181,7 +186,7 @@
         <div class="filtrs-list">
           <div class="filter-item" *ngFor="let state of selectedState">
             <div class="remove-item-btn" (click)="removeItem(state, 'state')"></div>
-            <span class="filter-content" [appLangValue]="{ ua: state.nameUa, en: state.nameEn }"></span>
+            <span class="filter-content" [appLangValue]="{ uk: state.nameUk, en: state.nameEn }"></span>
           </div>
         </div>
       </div>
