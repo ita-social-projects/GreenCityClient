@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatListItem } from '../../model/chat-page.interface';
@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [NgForOf, FormsModule, StatusTicksComponent, TranslateModule, NgIf],
   templateUrl: './chat-sidebar.component.html'
 })
-export class ChatSidebarComponent {
+export class ChatSidebarComponent implements OnChanges {
   @Input() chats: ChatListItem[] = [];
   @Input() loading = false;
   @Output() selectChat = new EventEmitter<ChatListItem>();
@@ -22,5 +22,11 @@ export class ChatSidebarComponent {
   }
   trackById(_: number, c: ChatListItem) {
     return c.chatInternalId;
+  }
+
+  ngOnChanges(): void {
+    if (this.chats.length === 1) {
+      this.selectChat.emit(this.chats[0]);
+    }
   }
 }

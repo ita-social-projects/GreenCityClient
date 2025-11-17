@@ -314,15 +314,18 @@
             [disabled]="!canEditClient"
             [class.select-disabled]="!canEditClient"
             [value]="row[column.title.key]"
+            [panelWidth]="'fit-content'"
             (selectionChange)="onChangeStatus($event, row)"
           >
             <mat-option *ngFor="let status of customerStatus" [value]="status | uppercase">
               {{ 'ubs-tables.customer-status.' + status | translate }}
             </mat-option>
           </mat-select>
-          <button class="action" *ngSwitchCase="'chatId'" (click)="onOpenChat(row[column.title.key])" [disabled]="!row[column.title.key]">
-            {{ 'ubs-tables.go-to-chat' | translate }}
-          </button>
+          <div class="w-100 d-flex justify-content-center" *ngSwitchCase="'toChat'">
+            <button class="action" (click)="onOpenChat(row['chatId'])" [disabled]="!row['chatId']">
+              {{ 'ubs-tables.go-to-chat' | translate }}
+            </button>
+          </div>
           <div
             *ngSwitchDefault
             class="column_cell"

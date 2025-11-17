@@ -65,7 +65,7 @@ export const columnsParams: ColumnParam[] = [
   },
   {
     title: {
-      key: 'chatId',
+      key: 'toChat',
       uk: 'Чат з клієнтом',
       en: 'Client chat'
     },
@@ -73,11 +73,19 @@ export const columnsParams: ColumnParam[] = [
   },
   {
     title: {
+      key: 'chatId',
+      uk: 'ID чату',
+      en: 'Chat ID'
+    },
+    width: 60
+  },
+  {
+    title: {
       key: 'status',
       uk: 'Статус',
       en: 'Status'
     },
-    width: 200
+    width: 150
   }
 ];
 

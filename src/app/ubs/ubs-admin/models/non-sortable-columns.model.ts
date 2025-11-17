@@ -23,5 +23,6 @@ export const nonSortableColumns = [
   'recipientEmail',
   'orderId',
   'points',
-  'chatLink'
+  'toChat',
+  'chatId'
 ];

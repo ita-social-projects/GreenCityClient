@@ -1,9 +1,9 @@
 <div class="search-bar">
-  <label>
+  <label class="w-100">
     <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="onInput()" />
   </label>
 </div>
-<ul class="chat-list">
+<ul class="chat-list" *ngIf="chats.length; else noChats">
   <li class="chat-item" *ngFor="let chat of chats; trackBy: trackById" (click)="selectChat.emit(chat)">
     <div class="avatar">{{ chat.initial }}</div>
 
@@ -23,3 +23,8 @@
     </div>
   </li>
 </ul>
+<ng-template #noChats>
+  <div class="d-flex w-100 justify-content-center">
+    {{ 'chat.no-dialogs-found' | translate }}
+  </div>
+</ng-template>
