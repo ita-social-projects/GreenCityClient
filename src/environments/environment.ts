@@ -11,7 +11,7 @@ export const environment = {
   frontendLink: 'https://www.pick-up.city/',
   socket: 'https://greencity.pick-up.city/socket',
   userSocket: 'https://greencity-user.greencity.cx.ua/socket',
-  chatSocket: 'https://greencity-chat.pick-up.city/socket',
+  ubsSocket: 'https://greencity-ubs.greencity.cx.ua/socket',
   ubsAdmin: {
     backendUbsAdminLink: 'https://greencity-ubs.pick-up.city/ubs'
   },

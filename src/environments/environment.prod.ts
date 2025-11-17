@@ -12,7 +12,7 @@ export const environment = {
   socket: 'https://greencity.pick-up.city/socket',
   // TODO: change to pick-up if exists
   userSocket: 'https://greencity-user.greencity.cx.ua/socket',
-  chatSocket: 'https://greencity-chat.pick-up.city/socket',
+  ubsSocket: 'https://greencity-ubs.greencity.cx.ua/socket',
   ubsAdmin: {
     backendUbsAdminLink: 'https://greencity-ubs.pick-up.city/ubs'
   },

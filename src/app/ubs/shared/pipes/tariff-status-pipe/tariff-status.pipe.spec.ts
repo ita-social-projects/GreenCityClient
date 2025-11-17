@@ -1,4 +1,3 @@
-import { Language } from 'src/app/shared/i18n/Language';
 import { TariffStatusPipe } from './tariff-status.pipe';
 
 describe('TariffStatusPipe', () => {
