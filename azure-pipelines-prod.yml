@@ -33,7 +33,7 @@ stages:
             displayName: Retrieve secrets from Azure Key Vault
             inputs:
               azureSubscription: '$(azureSub)'
-              KeyVaultName: 'greencity-values'
+              KeyVaultName: 'greencity-app'
               SecretsFilter: 'ENV-PROD'
 
           - task: NodeTool@0
