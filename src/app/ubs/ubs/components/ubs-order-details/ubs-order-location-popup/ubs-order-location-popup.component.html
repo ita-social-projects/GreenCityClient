@@ -19,8 +19,8 @@
           #autocompleteTrigger="matAutocompleteTrigger"
         />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let city of cities" [value]="city" (click)="changeLocation(city.locationId, city.locationName)">
-            {{ city.locationName }}
+          <mat-option *ngFor="let tariff of activeTariffs" [value]="tariff" (click)="changeTariff(tariff)">
+            {{ getTariffName(tariff.id) }}
           </mat-option>
         </mat-autocomplete>
         <img
