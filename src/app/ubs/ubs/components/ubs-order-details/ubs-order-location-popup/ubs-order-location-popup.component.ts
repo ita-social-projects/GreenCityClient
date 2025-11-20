@@ -1,20 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject, Observable, of, iif, forkJoin } from 'rxjs';
-import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
-import {
-  CourierLocations,
-  AllLocationsDtos,
-  LocationsName,
-  AllActiveLocationsDtosResponse,
-  ActiveTariffInfo
-} from '../../../models/ubs.interface';
+import { Subject } from 'rxjs';
+import { ActiveTariffInfo, CourierLocations } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
-import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -23,19 +15,13 @@ import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/orde
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  locations: CourierLocations;
-  cities: LocationsName[];
   activeTariffs: ActiveTariffInfo[] = [];
-  selectedLocationId: number;
   selectedTariffId: number;
   isFetching = false;
-  private currentLanguage: string;
-  currentLocation: string;
+  myControl = new FormControl(null, Validators.required);
+  private locationForTariffs: CourierLocations;
+  private readonly currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  myControl = new FormControl('', Validators.required);
-  filteredOptions: Observable<any>;
-  courierUBS;
-  courierUBSName = 'UBS';
 
   constructor(
     private readonly orderService: OrderService,
@@ -51,63 +37,21 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     this.getActiveTariffs();
   }
 
-  filterOptions(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map((value: string | ActiveTariffInfo) => (typeof value === 'string' ? value : value.tariffNameEn)),
-      map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
-    );
-  }
-
-  displayFn(city: LocationsName): string {
-    return city?.locationName ? city.locationName : '';
-  }
-
-  private _filter(value: string): LocationsName[] {
-    this.currentLocation = null;
-    const filterValue = value.toLowerCase();
-    return this.cities.filter((option) => option.locationName.toLowerCase().includes(filterValue));
-  }
-
   getActiveTariffs() {
     this.orderService.getActiveTariffsInfo().subscribe((res) => {
       this.activeTariffs = res;
+      this.selectedTariffId = this.localStorageService.getLocationId() || 0;
+      const tariffName = res.find((tariff) => tariff.id === this.selectedTariffId);
+      this.myControl.setValue(tariffName, { emitEvent: false });
     });
   }
 
-  getLocations(): void {
-    this.isFetching = true;
-    of(true)
-      .pipe(
-        takeUntil(this.destroy$),
-        mergeMap(() => iif(() => this.data, of(this.data), this.orderService.getLocations(this.courierUBS.courierId, true)))
-      )
-      .subscribe((res: AllActiveLocationsDtosResponse) => {
-        this.isFetching = false;
-        this.cities = res.allActiveLocationsDtos.reduce(
-          (acc, region) => [
-            ...acc,
-            ...region.locations.map((city) => ({
-              locationId: city.locationId,
-              locationName: this.orderService.getLocationName(city, region)
-            }))
-          ],
-          []
-        );
-        this.cities.forEach((city) => {
-          if (city.locationId === 1) {
-            this.myControl.setValue({ locationId: city.locationId, locationName: city.locationName });
-            this.currentLocation = city.locationName;
-            this.changeLocation(city.locationId, city.locationName);
-            this.selectedTariffId = city.locationId;
-          }
-        });
-      });
-  }
+  displayFn = (tariff: ActiveTariffInfo): string => {
+    return tariff ? this.getTariffName(tariff) : '';
+  };
 
-  getTariffName(tariffId: number): string {
-    const tariff = this.activeTariffs.find((t) => t.id === tariffId);
-    return tariff ? this.orderService.getTariffName(tariff) : '';
+  getTariffName(tariff: ActiveTariffInfo): string {
+    return this.orderService.getTariffName(tariff) || '';
   }
 
   getTariffDescription(tariffId: number): string | null {
@@ -115,40 +59,40 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     return tariff ? this.orderService.getTariffDescription(tariff) : null;
   }
 
-  saveLocation(): void {
-    this.store.dispatch(
-      GetCourierLocations({
-        courierId: this.courierUBS.courierId,
-        locationId: this.selectedLocationId
-      })
-    );
-    this.orderService
-      .getInfoAboutTariff(this.courierUBS.courierId, this.selectedLocationId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: AllLocationsDtos) => {
-        if (res.orderIsPresent) {
-          this.locations = res.tariffsForLocationDto;
-          res.tariffsForLocationDto.locationsDtosList.forEach((location) => {
-            if (location.nameEn === this.currentLocation) {
-              this.selectedLocationId = location.locationId;
-            }
-          });
-          this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
-          this.store.dispatch(
-            GetOrderDetails({
-              locationId: this.selectedLocationId,
-              tariffId: this.selectedTariffId
-            })
-          );
-          this.localStorageService.setLocationId(this.selectedLocationId);
-          this.localStorageService.setTariffId(this.selectedTariffId);
-          this.localStorageService.setLocations(this.locations);
-          this.orderService.setLocationData(this.currentLocation);
-          this.orderService.completedLocation(true);
-          this.passDataToComponent();
-        }
-      });
-  }
+  // saveLocation(): void {
+  //   this.store.dispatch(
+  //     GetCourierLocations({
+  //       courierId: this.courierUBS.courierId,
+  //       locationId: this.selectedLocationId
+  //     })
+  //   );
+  //   this.orderService
+  //     .getInfoAboutTariff(this.courierUBS.courierId, this.selectedLocationId)
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe((res: AllLocationsDtos) => {
+  //       if (res.orderIsPresent) {
+  //         this.locations = res.tariffsForLocationDto;
+  //         res.tariffsForLocationDto.locationsDtosList.forEach((location) => {
+  //           if (location.nameEn === this.currentLocation) {
+  //             this.selectedLocationId = location.locationId;
+  //           }
+  //         });
+  //         this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
+  //         this.store.dispatch(
+  //           GetOrderDetails({
+  //             locationId: this.selectedLocationId,
+  //             tariffId: this.selectedTariffId
+  //           })
+  //         );
+  //         this.localStorageService.setLocationId(this.selectedLocationId);
+  //         this.localStorageService.setTariffId(this.selectedTariffId);
+  //         this.localStorageService.setLocations(this.locations);
+  //         this.orderService.setLocationData(this.currentLocation);
+  //         this.orderService.completedLocation(true);
+  //         this.passDataToComponent();
+  //       }
+  //     });
+  // }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
     event.stopPropagation();
@@ -157,18 +101,11 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   passDataToComponent(): void {
     this.dialogRef.close({
-      locationId: this.selectedLocationId,
+      tariff: this.selectedTariffId,
       currentLanguage: this.currentLanguage,
-      data: this.locations,
+      data: this.locationForTariffs,
       activeTariffs: this.activeTariffs
     });
-  }
-
-  changeLocation(id: number, locationName: string): number {
-    this.selectedLocationId = id;
-    this.currentLocation = locationName.split(',')[0];
-    this.selectedTariffId = id;
-    return id;
   }
 
   closePopUp(): void {
