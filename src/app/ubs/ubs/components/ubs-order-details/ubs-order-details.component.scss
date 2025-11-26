@@ -333,6 +333,10 @@ input[type='number'] {
     max-width: 455px;
   }
 
+  .bottom-text {
+    width: 360px;
+  }
+
   .custom-control {
     padding-left: 1.4rem;
   }
@@ -515,11 +519,6 @@ h5 {
       width: 215px;
     }
   }
-}
-
-.bottom-text {
-  width: 360px;
-  padding: 26px 0 0 16px;
 }
 
 .comment {
