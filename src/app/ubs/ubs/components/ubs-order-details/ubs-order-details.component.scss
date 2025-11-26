@@ -634,6 +634,14 @@ li {
     background: transparent;
     border: 1px solid var(--ubs-quaternary-dark-grey);
     border-radius: 4px;
+
+    &:disabled {
+      background: var(--ubs-quintynary-light-grey);
+      border-color: var(--ubs-quintynary-light-grey);
+      color: var(--ubs-primary-light-grey);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
   }
 
   .bottom_comment {
