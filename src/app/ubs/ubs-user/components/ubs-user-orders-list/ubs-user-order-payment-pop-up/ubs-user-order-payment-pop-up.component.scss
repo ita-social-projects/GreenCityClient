@@ -38,12 +38,13 @@
   .input-border {
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-quintynary-light-grey);
-    width: 200px;
+    width: 180px;
   }
 
   .question {
     font-size: 16px;
     padding-top: 20px;
+    padding-bottom: 5px;
     font-weight: bold;
   }
 
@@ -132,8 +133,10 @@
   }
 }
 
-@media (max-width: 420px) {
-  .dialog-container {
-    height: 100vh;
-  }
+@media (max-width: 480px) { 
+  .dialog-container .dialog-container-certificate { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 5px;  
+  } 
 }
