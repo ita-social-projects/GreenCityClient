@@ -236,7 +236,7 @@ export class OrderService {
   }
 
   getActiveTariffsInfo(): Observable<ActiveTariffInfo[]> {
-    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo/1`);
+    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo/1`); // 1 - UBS, may change in future if more couriers available
   }
 
   getTariffName(tariff: ActiveTariffInfo): string {

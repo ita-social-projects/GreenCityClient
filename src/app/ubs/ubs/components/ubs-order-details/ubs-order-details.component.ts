@@ -55,7 +55,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   courierLimits: ICourierInfo;
   orderDetailsForm: FormGroup;
   locationId: number;
-  currentLocation: string;
+  currentTariff: string;
   courierId: number;
   currentLanguage: string;
   orderSum = 0;
@@ -215,6 +215,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.store.pipe(select(locationIdSelector), distinctUntilChanged(), takeUntil(this.$destroy))
     ]).subscribe(([locations, locationId]) => {
       this.locations = locations;
+      console.log(locations);
+      console.log(locationId);
 
       if (locations && locationId !== null) {
         this.initLocation();
@@ -318,7 +320,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
     const region = this.locations.regionDto;
 
-    this.currentLocation = this.orderService.getLocationName(location, region);
+    this.currentTariff = this.orderService.getLocationName(location, region);
   }
 
   getLocationById(): LocationsDtosList | undefined {
@@ -416,15 +418,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       closeOnNavigation: false
     });
 
-    dialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (res?.data) {
-          this.orderDetailsForm.markAllAsTouched();
-        }
-        this.isDialogOpen = false;
-      });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res?.data) {
+        this.orderDetailsForm.markAllAsTouched();
+        this.locationId = res.data.tariffId;
+      }
+      this.isDialogOpen = false;
+    });
   }
 
   openExtraPackages(): void {

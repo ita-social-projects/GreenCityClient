@@ -40,6 +40,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   @Input() selectedCard;
 
   locations: Locations[];
+  tariffNameEn: string;
+  tariffNameUk: string;
   regionEnglishName: string;
   regionNameUk: string;
   regionId: number;
@@ -613,7 +615,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             tariff: el.tariffStatus,
             tariffName: el.tariffNameUk || '',
             regionId: el.regionDto.regionId,
-            cardId: el.cardId
+            cardId: el.cardId,
+            courierId: el.courierDto.courierId
           };
           const cardObjEn = {
             courier: el.courierDto.nameEn,
@@ -623,7 +626,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             tariff: el.tariffStatus,
             tariffName: el.tariffNameEn || '',
             regionId: el.regionDto.regionId,
-            cardId: el.cardId
+            cardId: el.cardId,
+            courierId: el.courierDto.courierId
           };
           this.courierNameEng = el.courierDto.nameEn;
           this.courierNameUk = el.courierDto.nameUk;
@@ -724,6 +728,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   createCardDto(): void {
     this.createCardObj = {
+      tariffNameEn: this.tariffNameEn,
+      tariffNameUk: this.tariffNameUk,
       courierId: this.courierId,
       receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
       regionId: this.regionId,
@@ -771,7 +777,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   openEditPopUp(card): void {
     const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
     const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
-
     const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
       disableClose: true,
       hasBackdrop: true,
@@ -781,6 +786,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         title: 'ubs-tariffs-add-location-pop-up.edit_card_title',
         courierUkrainianName: this.selectedCard ? card.courierUk : ukCard.courier,
         courierEnglishName: this.selectedCard ? card.courierEn : enCard.courier,
+        courierId: card.courierId,
         selectedStation: card.station,
         regionUkrainianName: this.selectedCard ? card.regionUk : ukCard.region,
         regionEnglishName: this.selectedCard ? card.regionEn : enCard.region,

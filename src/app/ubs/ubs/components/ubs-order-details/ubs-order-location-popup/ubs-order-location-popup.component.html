@@ -19,7 +19,7 @@
           #autocompleteTrigger="matAutocompleteTrigger"
         />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let tariff of activeTariffs" [value]="tariff">
+          <mat-option *ngFor="let tariff of activeTariffs" [value]="tariff" (click)="changeLocation(tariff)">
             {{ getTariffName(tariff) }}
           </mat-option>
         </mat-autocomplete>
@@ -32,9 +32,7 @@
       </div>
 
       <div class="tariff-description-container" *ngIf="selectedTariffId && getTariffDescription(selectedTariffId)">
-        <p class="tariff-description">
-          {{ getTariffDescription(selectedTariffId) }}
-        </p>
+        <p class="tariff-description">{{ getTariffDescription(selectedTariffId) }}</p>
       </div>
     </form>
     <ng-template #spinner>
@@ -46,7 +44,12 @@
     <button class="ubs-secondary-global-button" mat-dialog-close (click)="closePopUp()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
-    <button class="ubs-primary-global-button" [disabled]="isFetching || !selectedTariffId || myControl.invalid" cdkFocusInitial>
+    <button
+      class="ubs-primary-global-button"
+      [disabled]="isFetching || !selectedTariffId || myControl.invalid"
+      cdkFocusInitial
+      (click)="saveLocation()"
+    >
       {{ 'order-details.location.btn.continue' | translate }}
     </button>
   </mat-dialog-actions>

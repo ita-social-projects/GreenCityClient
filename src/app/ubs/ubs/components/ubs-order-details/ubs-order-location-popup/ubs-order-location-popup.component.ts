@@ -3,10 +3,11 @@ import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { ActiveTariffInfo, CourierLocations } from '../../../models/ubs.interface';
+import { ActiveTariffInfo, AllLocationsDtos, CourierLocations } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
+import { GetCourierLocations, GetOrderDetails } from '../../../../../store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -19,6 +20,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   selectedTariffId: number;
   isFetching = false;
   myControl = new FormControl(null, Validators.required);
+  private readonly ubsCourierId = 1;
   private locationForTariffs: CourierLocations;
   private readonly currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -59,40 +61,16 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     return tariff ? this.orderService.getTariffDescription(tariff) : null;
   }
 
-  // saveLocation(): void {
-  //   this.store.dispatch(
-  //     GetCourierLocations({
-  //       courierId: this.courierUBS.courierId,
-  //       locationId: this.selectedLocationId
-  //     })
-  //   );
-  //   this.orderService
-  //     .getInfoAboutTariff(this.courierUBS.courierId, this.selectedLocationId)
-  //     .pipe(takeUntil(this.destroy$))
-  //     .subscribe((res: AllLocationsDtos) => {
-  //       if (res.orderIsPresent) {
-  //         this.locations = res.tariffsForLocationDto;
-  //         res.tariffsForLocationDto.locationsDtosList.forEach((location) => {
-  //           if (location.nameEn === this.currentLocation) {
-  //             this.selectedLocationId = location.locationId;
-  //           }
-  //         });
-  //         this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
-  //         this.store.dispatch(
-  //           GetOrderDetails({
-  //             locationId: this.selectedLocationId,
-  //             tariffId: this.selectedTariffId
-  //           })
-  //         );
-  //         this.localStorageService.setLocationId(this.selectedLocationId);
-  //         this.localStorageService.setTariffId(this.selectedTariffId);
-  //         this.localStorageService.setLocations(this.locations);
-  //         this.orderService.setLocationData(this.currentLocation);
-  //         this.orderService.completedLocation(true);
-  //         this.passDataToComponent();
-  //       }
-  //     });
-  // }
+  saveLocation(): void {
+    this.localStorageService.setTariffId(this.selectedTariffId);
+    this.localStorageService.setLocations(this.locationForTariffs);
+    this.orderService.completedLocation(true);
+    this.passDataToComponent();
+  }
+
+  changeLocation(tariff: ActiveTariffInfo): void {
+    this.selectedTariffId = tariff.id;
+  }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
     event.stopPropagation();

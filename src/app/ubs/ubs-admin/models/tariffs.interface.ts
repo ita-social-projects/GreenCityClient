@@ -121,6 +121,8 @@ export interface EditLocationName {
 }
 
 export interface CreateCard {
+  tariffNameUk: string;
+  tariffNameEn: string;
   courierId: number;
   locationIdList: Array<number>;
   receivingStationsIdList: Array<number>;

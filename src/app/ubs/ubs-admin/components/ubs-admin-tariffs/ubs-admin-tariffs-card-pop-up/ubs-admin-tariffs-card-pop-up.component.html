@@ -9,6 +9,26 @@
   <form [formGroup]="CardForm">
     <div class="d-flex first-row">
       <div class="form-group">
+        <label for="tariff-name-uk">{{ 'ubs-tariffs.tariff-name' | translate }}</label>
+        <input
+          id="tariff-name-uk"
+          formControlName="tariffNameUk"
+          class="form-control"
+          [placeholder]="'ubs-tariffs.tariff-name-uk' | translate"
+        />
+      </div>
+      <div class="form-group">
+        <label for="tariff-name-en">{{ 'ubs-tariffs.tariff-name' | translate }}</label>
+        <input
+          id="tariff-name-en"
+          formControlName="tariffNameEn"
+          class="form-control"
+          [placeholder]="'ubs-tariffs.tariff-name-en' | translate"
+        />
+      </div>
+    </div>
+    <div class="d-flex first-row">
+      <div class="form-group">
         <label for="courierName">{{ 'ubs-tariffs.courier' | translate }}</label>
         <mat-select
           id="courierName"
@@ -134,7 +154,7 @@
       </button>
       <button
         class="primary-global-button btn m-0"
-        [disabled]="CardForm.invalid || isCardExist || !isCreationAllowed"
+        [disabled]="CardForm.invalid || isCardExist || (!nameChanged && !isCreationAllowed)"
         *ngIf="isEdit"
         (click)="editCard()"
       >
