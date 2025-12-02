@@ -7,7 +7,7 @@ import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
-import { CancellationReason, OrderStatus, PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
+import { OrderStatus, PaymentStatus, CancellationReason } from '@ubs/ubs/order-status.enum';
 import { OrderStatusEn, PaymentStatusEn } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 

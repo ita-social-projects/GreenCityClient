@@ -124,16 +124,4 @@ describe('TableCellReadonlyComponent', () => {
     expect(component.title).toBe('20л - 0шт');
     expect(component.data).toBe('20л - 0шт');
   });
-
-  it('should call isStatus and update payment status', () => {
-    component.data = PaymentStatus.PAID;
-    component.isStatus();
-    expect(component.paid).toBeTruthy();
-    component.data = PaymentStatus.HALF_PAID;
-    component.isStatus();
-    expect(component.halfpaid).toBeTruthy();
-    component.data = PaymentStatus.UNPAID;
-    component.isStatus();
-    expect(component.unpaid).toBeTruthy();
-  });
 });

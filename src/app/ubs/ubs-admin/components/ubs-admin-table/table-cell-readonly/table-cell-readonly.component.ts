@@ -32,7 +32,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.title) {
       if (this.key === TableKeys.generalDiscount) {
         this.title = !/^0\.00 (UAH|грн)$/.test(String(this.title)) ? `-${this.title}` : this.title;

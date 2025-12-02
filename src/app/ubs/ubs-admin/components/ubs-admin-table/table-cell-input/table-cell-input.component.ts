@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, EventEmitter, Input, NgZone, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, Input, Output } from '@angular/core';
 import { IAlertInfo, IEditCell } from '@ubs/ubs-admin/models/edit-cell.model';
 import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
@@ -40,13 +40,12 @@ export class TableCellInputComponent {
     public dialog: MatDialog,
     private orderService: OrderService,
     private destroyRef: DestroyRef,
-    private store: Store,
-    private cdr: ChangeDetectorRef,
-    private zone: NgZone
+    private store: Store
   ) {}
 
   edit(): void {
     this.store.dispatch(SetCursorWaite({ isWaiting: true }));
+    this.isEditable = false;
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.adminTableService
       .blockOrders(this.typeOfChange)
@@ -84,7 +83,6 @@ export class TableCellInputComponent {
         this.editCommentCell.emit(newCommentValue);
       }
       this.cancelEdit.emit(this.typeOfChange);
-      console.log(false);
       this.isEditable = false;
     });
   }

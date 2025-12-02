@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
-import { OrderStatus, PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { IOrderDetails, IOrderInfo, orderPaymentInfo } from '../../models/ubs-admin.interface';
 import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
+import { OrderStatus, PaymentStatus } from '@ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',

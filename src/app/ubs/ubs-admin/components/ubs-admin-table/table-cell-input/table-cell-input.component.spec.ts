@@ -82,12 +82,31 @@ describe('TableCellInputComponent', () => {
     expect(component.isEditable).toBeFalse();
   });
 
-  it('should call onMouseEnter() and show tooltip', () => {
-    const event = new MouseEvent('mouseenter');
-    const tooltip = {};
+  it('onMouseEnter should disable tooltip when text fits', () => {
+    const target = {
+      scrollWidth: 50,
+      clientWidth: 100
+    } as any;
+
+    const event = { target } as any;
+    const tooltip = { disabled: false };
 
     component.onMouseEnter(event, tooltip);
 
-    expect(adminTableService.showTooltip).toHaveBeenCalledWith(event, tooltip, '12px Lato, sans-serif');
+    expect(tooltip.disabled).toBeTrue();
+  });
+
+  it('onMouseEnter should enable tooltip when text overflows', () => {
+    const target = {
+      scrollWidth: 120,
+      clientWidth: 100
+    } as any;
+
+    const event = { target } as any;
+    const tooltip = { disabled: false };
+
+    component.onMouseEnter(event, tooltip);
+
+    expect(tooltip.disabled).toBeFalse();
   });
 });
