@@ -202,7 +202,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     component.selectedFile = 'fake';
     component.removeImage();
 
-    expect(component.imageURL).toBe(null);
+    expect(component.imageURL).toBe(component.defaultPhotoURL);
     expect(component.imageName).toBe(null);
     expect(component.selectedFile).toBe(null);
   });
@@ -337,7 +337,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       component.imageName = 'my-image.jpg';
       component.selectedFile = new File([''], 'my-image.jpg');
       component.removeImage();
-      expect(component.imageURL).toBeNull();
+      expect(component.imageURL).toBe(component.defaultPhotoURL);
       expect(component.imageName).toBeNull();
       expect(component.selectedFile).toBeNull();
     });

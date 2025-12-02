@@ -241,13 +241,14 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     return initialSorted.some((value, index) => value !== currentSorted[index]);
   }
 
-  async prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): Promise<FormData> {
+  async prepareEmployeeDataToSend(dto: string): Promise<FormData> {
     this.isUploading = true;
     const selectedTariffs = this.filteredTariffs.filter((it) => it.selected);
     this.employeeDataToSend = {
       employeeDto: {
         ...this.employeeForm.value,
-        employeePositionIds: this.employeePositionIds
+        employeePositionIds: this.employeePositionIds,
+        image: this.selectedFile ? undefined : this.imageURL
       },
       tariffs: selectedTariffs.map((tariff) => {
         return { tariffId: tariff.id, hasChat: tariff.hasChat };
@@ -256,16 +257,11 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     if (this.isUpdatingEmployee) {
       this.employeeDataToSend.employeeDto.id = this.data.id;
     }
-    if (image) {
-      this.employeeDataToSend.employeeDto.image = image;
-    }
-    const formData: FormData = new FormData();
-    const stringifiedDataToSend = JSON.stringify(this.employeeDataToSend);
-    formData.append(dto, stringifiedDataToSend);
+    const formData = new FormData();
+    formData.append(dto, JSON.stringify(this.employeeDataToSend));
 
-    if (this.imageURL && this.imageURL !== this.defaultPhotoURL) {
-      const blob = await fetch(this.imageURL as string).then((res) => res.blob());
-      formData.append('image', blob, this.imageName);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
     }
     return formData;
   }
@@ -284,14 +280,12 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   async updateEmployee(): Promise<void> {
-    const image = !this.selectedFile ? this.defaultPhotoURL : this.imageURL;
-    const dataToSend = await this.prepareEmployeeDataToSend('employee', image);
+    const dataToSend = await this.prepareEmployeeDataToSend('employee');
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
   async createEmployee(): Promise<void> {
-    const image = !this.selectedFile ? this.defaultPhotoURL : this.imageURL;
-    const dataToSend = await this.prepareEmployeeDataToSend('employee', image);
+    const dataToSend = await this.prepareEmployeeDataToSend('employee');
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
@@ -355,7 +349,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   removeImage() {
-    this.imageURL = null;
+    this.imageURL = this.defaultPhotoURL;
     this.imageName = null;
     this.selectedFile = null;
     if (this.editMode) {
