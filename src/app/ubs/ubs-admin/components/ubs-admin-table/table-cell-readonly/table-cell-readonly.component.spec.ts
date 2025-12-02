@@ -5,7 +5,6 @@ import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-
 import { TableCellReadonlyComponent } from './table-cell-readonly.component';
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '@ubs/ubs-admin/services/table-keys.enum';
-import { PaymentStatus } from '@ubs/ubs/order-status.enum';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

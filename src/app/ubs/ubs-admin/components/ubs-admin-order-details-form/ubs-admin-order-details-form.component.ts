@@ -4,7 +4,7 @@ import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { IOrderDetails, IOrderInfo, orderPaymentInfo } from '../../models/ubs-admin.interface';
 import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
-import { OrderStatus, PaymentStatus } from '@ubs/ubs/order-status.enum';
+import { OrderStatus, PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',

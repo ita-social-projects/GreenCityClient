@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
 
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { MatTooltip } from '@angular/material/tooltip';
-import { PaymentStatus } from '@ubs/ubs/order-status.enum';
+import { PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
 
 @Component({
   selector: 'app-table-cell-readonly',

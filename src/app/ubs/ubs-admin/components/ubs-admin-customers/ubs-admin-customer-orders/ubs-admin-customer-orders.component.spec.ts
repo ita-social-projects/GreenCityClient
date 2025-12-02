@@ -11,7 +11,7 @@ import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { UbsAdminCustomerOrdersComponent } from './ubs-admin-customer-orders.component';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { of } from 'rxjs';
-import { PaymentStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
 
 describe('UbsAdminCustomerOrdersComponent', () => {
   let component: UbsAdminCustomerOrdersComponent;
