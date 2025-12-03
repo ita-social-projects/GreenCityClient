@@ -180,7 +180,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
     title: {
       key: 'certificateStatus',
       uk: 'Статус сертифіката',
-      en: 'Sertificate status'
+      en: 'Certificate status'
     },
     width: 164
   },
