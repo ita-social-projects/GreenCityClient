@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
-import { Address, AddressData, CourierLocations, OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
+import { ActiveTariffInfo, Address, AddressData, CourierLocations, OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 
 export enum OrderActions {
@@ -25,6 +25,7 @@ export enum OrderActions {
   GetLocationId = '[Order] Get Location Id',
   GetLocationIdSuccess = '[Order] Get Location Id Success',
 
+  SetTariff = '[Order] Set Tariff',
   GetOrderDetails = '[Order] Get Order Details',
   GetOrderDetailsSuccess = '[Order] Get Order Details Success',
 
@@ -66,6 +67,7 @@ export enum OrderActions {
   ClearOrderData = '[Order] Clear Order Data'
 }
 
+// export const SetTariff
 export const SetCurrentStep = createAction(OrderActions.SetCurrentStep, props<{ step: number }>());
 export const SetBags = createAction(OrderActions.SetBags, props<{ bagId: number; bagValue: number }>());
 export const SetOrderSum = createAction(OrderActions.SetOrderSum, props<{ orderSum: number }>());
@@ -87,6 +89,7 @@ export const GetUbsCourierIdSuccess = createAction(OrderActions.GetUbsCourierIdS
 export const GetLocationId = createAction(OrderActions.GetLocationId, props<{ courierId: number }>());
 export const GetLocationIdSuccess = createAction(OrderActions.GetLocationIdSuccess, props<{ locationId: number }>());
 
+export const SetTariff = createAction(OrderActions.SetTariff, props<{ tariff: ActiveTariffInfo }>());
 export const GetOrderDetails = createAction(OrderActions.GetOrderDetails, props<{ locationId: number; tariffId: number }>());
 export const GetOrderDetailsSuccess = createAction(OrderActions.GetOrderDetailsSuccess, props<{ orderDetails: OrderDetails }>());
 
