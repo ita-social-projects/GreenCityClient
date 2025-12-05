@@ -138,6 +138,8 @@ export interface FilterData {
 }
 
 export interface TariffCard {
+  tariffNameEn: string;
+  tariffNameUk: string;
   cardId: number;
   regionDto: RegionDto;
   locationInfoDtos: LocationInfoDtos[];
