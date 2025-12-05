@@ -46,8 +46,6 @@
                   min="0"
                   max="999"
                   placeholder="0"
-                  [unmask]="false"
-                  [imask]="servicesMask"
                   (keypress)="checkOnNumber($event)"
                 />
                 <button (click)="changeQuantity(bag.id, 1)" type="button">

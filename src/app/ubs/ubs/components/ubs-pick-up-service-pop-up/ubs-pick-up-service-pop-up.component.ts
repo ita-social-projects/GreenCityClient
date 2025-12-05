@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { howWorksPickUp, courierPickUp, pricePickUp, extraoffer, minimumVolume, conditions } from './pick-up-text';
 import { Store } from '@ngrx/store';
 import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/order.actions';
-import { orderDetailsSelector, tariffIdIdSelector } from 'src/app/store/selectors/order.selectors';
+import { orderDetailsSelector, tariffSelector } from 'src/app/store/selectors/order.selectors';
 import { filter, map, pairwise, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { AllActiveLocationsDtosResponse, Bag, CourierDto, LocationsName } from '@ubs/ubs/models/ubs.interface';
 import { OrderService } from '@ubs/ubs/services/order.service';
@@ -89,15 +89,15 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
     this.isFetching = true;
     this.store.dispatch(GetCourierLocations({ courierId, locationId }));
     this.store
-      .select(tariffIdIdSelector)
+      .select(tariffSelector)
       .pipe(
         pairwise(),
         filter(([prev, curr]) => curr !== prev),
         map(([, curr]) => curr),
         take(1),
         takeUntil(this.destroy$),
-        switchMap((tariffId) => {
-          this.store.dispatch(GetOrderDetails({ locationId, tariffId }));
+        switchMap((tariff) => {
+          this.store.dispatch(GetOrderDetails({ locationId, tariffId: tariff.id }));
           return this.store.select(orderDetailsSelector).pipe(
             pairwise(),
             filter(([prev, curr]) => prev?.bags !== curr?.bags),

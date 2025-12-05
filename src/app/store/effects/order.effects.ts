@@ -4,31 +4,31 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 import {
   CreateAddress,
+  CreateAddressFail,
   CreateAddressSuccess,
   DeleteAddress,
   DeleteAddressSuccess,
+  GetAddresses,
+  GetAddressesSuccess,
   GetCourierLocations,
   GetCourierLocationsSuccess,
   GetExistingOrderDetails,
   GetExistingOrderDetailsSuccess,
+  GetExistingOrderInfo,
+  GetExistingOrderInfoSuccess,
+  GetExistingOrderTariff,
+  GetExistingOrderTariffSuccess,
   GetLocationId,
   GetLocationIdSuccess,
   GetOrderDetails,
   GetOrderDetailsSuccess,
   GetPersonalData,
   GetPersonalDataSuccess,
-  GetExistingOrderTariff,
-  GetExistingOrderTariffSuccess,
   GetUbsCourierId,
   GetUbsCourierIdSuccess,
-  GetAddresses,
-  GetAddressesSuccess,
   UpdateAddress,
-  UpdateAddressSuccess,
-  GetExistingOrderInfo,
-  GetExistingOrderInfoSuccess,
-  CreateAddressFail,
-  UpdateAddressFail
+  UpdateAddressFail,
+  UpdateAddressSuccess
 } from 'src/app/store/actions/order.actions';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';

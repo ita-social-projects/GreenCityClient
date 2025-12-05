@@ -1,32 +1,32 @@
-import { Observable, Subject, combineLatest } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
-import { debounceTime, distinctUntilChanged, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { combineLatest, Observable, Subject, withLatestFrom } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
-import { Bag, CourierLocations, KyivNamesEnum, LocationsDtosList, OrderDetails } from '../../models/ubs.interface';
+import { ActiveTariffInfo, Bag, CourierLocations, KyivNamesEnum, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import {
   GetCourierLocations,
   GetExistingOrderDetails,
+  GetExistingOrderTariff,
   GetLocationId,
   GetOrderDetails,
-  GetExistingOrderTariff,
   GetUbsCourierId,
   SetAdditionalOrders,
+  SetBags,
   SetFirstFormStatus,
   SetOrderComment,
   SetOrderSum,
-  SetBags
+  SetTariff
 } from 'src/app/store/actions/order.actions';
 import {
-  UBSCourierIdSelector,
   certificateUsedSelector,
   courierLocationsSelector,
   existingOrderInfoSelector,
@@ -34,7 +34,8 @@ import {
   locationIdSelector,
   orderDetailsSelector,
   pointsUsedSelector,
-  tariffIdIdSelector
+  tariffSelector,
+  UBSCourierIdSelector
 } from 'src/app/store/selectors/order.selectors';
 import { courierLimitValidator, uniqueArrayValidator } from 'src/app/ubs/ubs/services/order-validators';
 import { ICourierInfo, IValidationConfig } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -73,7 +74,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   servicesMask = Masks.servicesMask;
   commentPattern = Patterns.ubsCommentPattern;
   additionalOrdersPattern = Patterns.orderEcoStorePattern;
-  private readonly $destroy: Subject<void> = new Subject<void>();
+  private readonly destroy$: Subject<void> = new Subject<void>();
 
   popupConfig = {
     hasBackdrop: true,
@@ -106,7 +107,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   getBagQuantity(id: number): number {
     const control = this.getBagQuantityFormControl(id);
-    return control ? +control.value : 0;
+    return Number(control?.value) || 0;
   }
 
   constructor(
@@ -123,23 +124,81 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      this.existingOrderId = params.existingOrderId;
-      this.existingOrderId >= 0 ? this.fetchDataForExistingOrder() : this.fetchDataForNewOrder();
-    });
+    this.route.queryParams
+      .pipe(
+        map((params) => {
+          const orderId = params['existingOrderId'];
+          if (orderId) {
+            this.store.dispatch(GetExistingOrderDetails({ orderId: orderId }));
+            this.store.dispatch(GetExistingOrderTariff({ orderId: orderId }));
+            return orderId;
+          }
+          return null;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((orderId: number | null) => {
+        this.existingOrderId = orderId;
+        this.isOrderDetailsLoading = this.store.pipe(select(isOrderDetailsLoadingSelector));
+        this.getTariff();
+        this.listenToTariffAndInitForm();
+        this.subscribeToLangChange();
+      });
+  }
 
-    this.initForm();
-    this.subscribeToLangChange();
+  getTariff(): void {
+    this.store.dispatch(GetUbsCourierId({ name: this.courierUBSName }));
+    const tariffId = this.localStorageService.getTariffId();
+    if (tariffId) {
+      this.orderService
+        .getActiveTariffsInfo()
+        .pipe(map((tariffs) => tariffs.find((t) => t.id === tariffId)))
+        .subscribe((tariff) => {
+          this.currentTariff = this.orderService.getTariffName(tariff);
+          this.store.dispatch(SetTariff({ tariff }));
+        });
+    } else {
+      this.openLocationDialog();
+    }
+  }
+
+  listenToTariffAndInitForm(): void {
+    this.store
+      .pipe(
+        select(tariffSelector),
+        filter(Boolean),
+        distinctUntilChanged(),
+        withLatestFrom(this.store.select(UBSCourierIdSelector)),
+        tap(([tariff, courierId]: [ActiveTariffInfo, number]) => {
+          this.currentTariff = this.orderService.getTariffName(tariff);
+          this.store.dispatch(GetOrderDetails({ locationId: 1, tariffId: tariff.id })); //TODO mocked
+          this.store.dispatch(GetCourierLocations({ courierId, locationId: 1 })); //TODO mocked
+        }),
+        switchMap(() =>
+          combineLatest([this.store.select(orderDetailsSelector), this.store.select(courierLocationsSelector)]).pipe(
+            filter(([orderDetails, courierLocations]) => Boolean(orderDetails) && Boolean(courierLocations)),
+            take(1)
+          )
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(([orderDetails, locations]: [OrderDetails, CourierLocations]) => {
+        this.bags = orderDetails.bags;
+        this.locations = locations;
+        this.initForm();
+        this.initFormBags();
+        this.dispatchAdditionalOrders();
+        this.dispatchOrderComment();
+      });
   }
 
   fetchDataForNewOrder(): void {
-    this.store.dispatch(GetUbsCourierId({ name: this.courierUBSName }));
     this.store
       .pipe(
         select(UBSCourierIdSelector),
         filter((id) => typeof id === 'number' && !isNaN(id)),
         distinctUntilChanged(),
-        takeUntil(this.$destroy),
+        takeUntil(this.destroy$),
         switchMap((courierId) => {
           this.courierId = courierId;
           this.store.dispatch(GetLocationId({ courierId }));
@@ -147,7 +206,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
             select(locationIdSelector),
             filter((id) => typeof id === 'number' && !isNaN(id)),
             distinctUntilChanged(),
-            takeUntil(this.$destroy)
+            takeUntil(this.destroy$)
           );
         })
       )
@@ -156,30 +215,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.initListeners();
         this.store.dispatch(GetCourierLocations({ courierId: this.courierId, locationId }));
       });
-
-    this.store
-      .pipe(
-        select(tariffIdIdSelector),
-        filter((id) => typeof id === 'number' && !isNaN(id)),
-        distinctUntilChanged(),
-        takeUntil(this.$destroy)
-      )
-      .subscribe((tariffId) => {
-        if (this.locationId >= 0) {
-          this.store.dispatch(GetOrderDetails({ locationId: this.locationId, tariffId }));
-        }
-      });
   }
 
   fetchDataForExistingOrder(): void {
-    this.store.dispatch(GetExistingOrderDetails({ orderId: this.existingOrderId }));
-    this.store.dispatch(GetExistingOrderTariff({ orderId: this.existingOrderId }));
-
     this.store
       .pipe(
         select(locationIdSelector),
         distinctUntilChanged(),
-        takeUntil(this.$destroy),
+        takeUntil(this.destroy$),
         filter((id) => id !== null)
       )
       .subscribe((locationId) => {
@@ -187,7 +230,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.initListeners();
       });
 
-    this.store.pipe(select(existingOrderInfoSelector), filter(Boolean), takeUntil(this.$destroy)).subscribe((orderInfo: IUserOrderInfo) => {
+    this.store.pipe(select(existingOrderInfoSelector), filter(Boolean), takeUntil(this.destroy$)).subscribe((orderInfo: IUserOrderInfo) => {
       this.existingOrderInfo = orderInfo;
       this.initExistingOrderValues();
     });
@@ -199,7 +242,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.store.pipe(select(courierLocationsSelector), distinctUntilChanged(), filter(Boolean)),
       this.store.pipe(select(orderDetailsSelector), distinctUntilChanged(), filter(Boolean))
     ])
-      .pipe(takeUntil(this.$destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([locations, orderDetails]: [CourierLocations, OrderDetails]) => {
         if (!this.bags || this.bags[0]?.id !== orderDetails.bags[0].id) {
           this.locations = locations;
@@ -211,23 +254,21 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       });
 
     combineLatest([
-      this.store.pipe(select(courierLocationsSelector), distinctUntilChanged(), takeUntil(this.$destroy)),
-      this.store.pipe(select(locationIdSelector), distinctUntilChanged(), takeUntil(this.$destroy))
+      this.store.pipe(select(courierLocationsSelector), distinctUntilChanged(), takeUntil(this.destroy$)),
+      this.store.pipe(select(locationIdSelector), distinctUntilChanged(), takeUntil(this.destroy$))
     ]).subscribe(([locations, locationId]) => {
       this.locations = locations;
-      console.log(locations);
-      console.log(locationId);
 
       if (locations && locationId !== null) {
         this.initLocation();
       }
     });
 
-    this.store.pipe(select(pointsUsedSelector), takeUntil(this.$destroy)).subscribe((pointsUsed) => {
+    this.store.pipe(select(pointsUsedSelector), takeUntil(this.destroy$)).subscribe((pointsUsed) => {
       this.pointsUsed = pointsUsed;
       this.calculateFinalSum();
     });
-    this.store.pipe(select(certificateUsedSelector), takeUntil(this.$destroy)).subscribe((certificateUsed) => {
+    this.store.pipe(select(certificateUsedSelector), takeUntil(this.destroy$)).subscribe((certificateUsed) => {
       this.certificateUsed = certificateUsed;
       this.calculateFinalSum();
     });
@@ -241,13 +282,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
     this.addOrder();
 
-    this.orderDetailsForm.statusChanges.pipe(distinctUntilChanged(), takeUntil(this.$destroy)).subscribe((state) => {
+    this.orderDetailsForm.statusChanges.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((state) => {
       this.changeSecondStepDisabled(state === 'INVALID');
       this.store.dispatch(SetFirstFormStatus({ isValid: state === 'VALID' }));
     });
 
-    this.additionalOrders.valueChanges.pipe(debounceTime(400), takeUntil(this.$destroy)).subscribe(() => this.dispatchAdditionalOrders());
-    this.orderComment.valueChanges.pipe(debounceTime(400), takeUntil(this.$destroy)).subscribe(() => this.dispatchOrderComment());
+    this.additionalOrders.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$)).subscribe(() => this.dispatchAdditionalOrders());
+    this.orderComment.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$)).subscribe(() => this.dispatchOrderComment());
 
     if (this.existingOrderInfo) {
       this.initExistingOrderValues();
@@ -279,14 +320,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const validationConfig: IValidationConfig = {
       courierInfo: this.courierLimits,
       currentLang: this.langService.getCurrentLanguage(),
-      isKyiv: this.getLocationById().nameEn === KyivNamesEnum.KyivEn
+      isKyiv: this.locations.locationsDtosList.some((location) => location.nameEn === KyivNamesEnum.KyivEn)
     };
 
     const newBagsGroup = this.fb.group({}, { validators: courierLimitValidator(this.bags, validationConfig) });
 
     this.bags.forEach((bag: Bag) => {
       const quantity = this.getBagQuantity(bag.id);
-      newBagsGroup.addControl(`quantity${bag.id}`, new FormControl(String(quantity ?? 0), [Validators.min(0), Validators.max(999)]));
+      newBagsGroup.addControl(`quantity${bag.id}`, new FormControl<number>(quantity || 0, [Validators.min(0), Validators.max(999)]));
     });
     this.orderDetailsForm.setControl('bags', newBagsGroup);
   }
@@ -312,32 +353,25 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   initLocation(): void {
-    const location = this.getLocationById();
-
-    if (!location) {
-      return;
-    }
-
-    const region = this.locations.regionDto;
-
-    this.currentTariff = this.orderService.getLocationName(location, region);
-  }
-
-  getLocationById(): LocationsDtosList | undefined {
-    return this.locations.locationsDtosList.find((el) => el.locationId === this.locationId);
+    // const location = this.getLocationById();
+    // if (!location) {
+    //   return;
+    // }
+    //
+    // const region = this.locations.regionDto;
+    // this.currentTariff = this.orderService.getLocationName(location, region);
   }
 
   changeQuantity(id: number, value: number): void {
     const formControl = this.getBagQuantityFormControl(id);
     const maxValue = 999;
     const minValue = 0;
-    const newValue = +this.getBagQuantity(id) + value;
-
+    const newValue = formControl.value + value;
     if (newValue <= maxValue && newValue >= minValue) {
-      formControl.setValue(String(newValue));
+      formControl.setValue(newValue);
       this.calculateOrderSum();
+      this.store.dispatch(SetBags({ bagId: id, bagValue: newValue }));
     }
-    this.store.dispatch(SetBags({ bagId: id, bagValue: this.getBagQuantity(id) }));
   }
 
   checkOnNumber(event: KeyboardEvent): boolean {
@@ -365,14 +399,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   subscribeToQuantityChanges(): void {
-    this.bags.forEach((bag) => {
-      const formControl = this.getBagQuantityFormControl(bag.id);
-
-      if (formControl) {
-        formControl.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
-          this.calculateOrderSum();
-        });
-      }
+    this.bagsGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.calculateOrderSum();
     });
   }
 
@@ -403,7 +431,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   isFormInitialized(): boolean {
-    return Object.keys(this.bagsGroup.controls).length > 0;
+    return Boolean(this.bagsGroup?.controls);
   }
 
   getFormValues(): boolean {
@@ -421,7 +449,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     dialogRef.afterClosed().subscribe((res) => {
       if (res?.data) {
         this.orderDetailsForm.markAllAsTouched();
-        this.locationId = res.data.tariffId;
       }
       this.isDialogOpen = false;
     });
@@ -441,7 +468,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private subscribeToLangChange(): void {
-    this.localStorageService.languageSubject.pipe(takeUntil(this.$destroy)).subscribe(() => {
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.initLocation();
       this.updateValidator();
@@ -449,7 +476,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private getBagQuantityFormControl(id: number): AbstractControl | null {
-    return this.orderDetailsForm.controls.bags.get('quantity' + id);
+    return this.orderDetailsForm.get(`bags.quantity${id}`);
   }
 
   onCancel(): void {
@@ -467,7 +494,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnDestroy(): void {
-    this.$destroy.next();
-    this.$destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -3,11 +3,11 @@ import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { ActiveTariffInfo, AllLocationsDtos, CourierLocations } from '../../../models/ubs.interface';
+import { ActiveTariffInfo, CourierLocations } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
-import { GetCourierLocations, GetOrderDetails } from '../../../../../store/actions/order.actions';
+import { SetTariff } from '../../../../../store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -17,11 +17,11 @@ import { GetCourierLocations, GetOrderDetails } from '../../../../../store/actio
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
   activeTariffs: ActiveTariffInfo[] = [];
-  selectedTariffId: number;
+  selectedTariff: ActiveTariffInfo;
   isFetching = false;
   myControl = new FormControl(null, Validators.required);
   private readonly ubsCourierId = 1;
-  private locationForTariffs: CourierLocations;
+  private locationsForTariff: CourierLocations;
   private readonly currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -42,8 +42,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   getActiveTariffs() {
     this.orderService.getActiveTariffsInfo().subscribe((res) => {
       this.activeTariffs = res;
-      this.selectedTariffId = this.localStorageService.getLocationId() || 0;
-      const tariffName = res.find((tariff) => tariff.id === this.selectedTariffId);
+      const tariffId = this.localStorageService.getTariffId() || 0;
+      const tariffName = res.find((tariff) => tariff.id === tariffId);
       this.myControl.setValue(tariffName, { emitEvent: false });
     });
   }
@@ -62,14 +62,13 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   saveLocation(): void {
-    this.localStorageService.setTariffId(this.selectedTariffId);
-    this.localStorageService.setLocations(this.locationForTariffs);
-    this.orderService.completedLocation(true);
+    this.localStorageService.setTariffId(this.selectedTariff.id);
+    this.store.dispatch(SetTariff({ tariff: this.selectedTariff }));
     this.passDataToComponent();
   }
 
-  changeLocation(tariff: ActiveTariffInfo): void {
-    this.selectedTariffId = tariff.id;
+  changeTariff(tariff: ActiveTariffInfo): void {
+    this.selectedTariff = tariff;
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
@@ -79,9 +78,9 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   passDataToComponent(): void {
     this.dialogRef.close({
-      tariff: this.selectedTariffId,
+      tariff: this.selectedTariff.id,
       currentLanguage: this.currentLanguage,
-      data: this.locationForTariffs,
+      data: this.locationsForTariff,
       activeTariffs: this.activeTariffs
     });
   }

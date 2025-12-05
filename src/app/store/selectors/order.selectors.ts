@@ -11,7 +11,7 @@ export const personalDataSelector = createSelector(orderSelectors, (order) => or
 
 export const UBSCourierIdSelector = createSelector(orderSelectors, (order) => order.UBSCourierId);
 
-export const tariffIdIdSelector = createSelector(orderSelectors, (order) => order.courierLocations?.tariffInfoId);
+export const tariffSelector = createSelector(orderSelectors, (order) => order.tariff);
 
 export const locationIdSelector = createSelector(orderSelectors, (order) => order.locationId);
 

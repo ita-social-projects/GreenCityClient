@@ -1,9 +1,10 @@
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
-import { PersonalData, OrderDetails, CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { PersonalData, OrderDetails, CourierLocations, Address, ActiveTariffInfo } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 
 export interface IOrderState {
   currentStep: number;
+  tariff: ActiveTariffInfo;
   orderDetails: OrderDetails | null;
   courierLocations: CourierLocations | null;
   UBSCourierId: number | null;
@@ -26,6 +27,7 @@ export interface IOrderState {
 
 export const initialOrderState: IOrderState = {
   currentStep: 0,
+  tariff: null,
   orderDetails: null,
   courierLocations: null,
   UBSCourierId: null,
