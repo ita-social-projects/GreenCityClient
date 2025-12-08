@@ -3,12 +3,12 @@ import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { map, skip, startWith, takeUntil, debounceTime, tap } from 'rxjs/operators';
-import { combineLatest, filter, merge, Subject } from 'rxjs';
+import { map, skip, startWith, takeUntil } from 'rxjs/operators';
+import { filter, merge, Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { Locations, CreateCard, Couriers, Stations } from '../../../models/tariffs.interface';
+import { Couriers, CreateCard, Locations, Stations } from '../../../models/tariffs.interface';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -47,7 +47,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     tariffNameUk: new FormControl<string>('', Validators.required),
     tariffNameEn: new FormControl<string>('', Validators.required),
     courierName: new FormControl<string>('', Validators.required),
-    station: new FormControl<string>('', Validators.required),
+    station: new FormControl<string>('', [Validators.required]),
     regionName: new FormControl<string>('', Validators.required),
     city: new FormControl<string>({ value: '', disabled: true }, [Validators.maxLength(40), Validators.required])
   });
@@ -135,7 +135,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isEdit = this.modalData.edit;
-    this.isCreate = this.modalData.create;
     this.tariffId = this.modalData.tariffId;
     this.courierNameUk = this.modalData.courierUkrainianName;
     this.courierNameEn = this.modalData.courierEnglishName;
@@ -149,7 +148,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.courierId = this.modalData.courierId || null;
     this.courierEnglishName = this.modalData.courierEnglishName || '';
     this.courierUkrainianName = this.modalData.courierUkrainianName || '';
-    console.log(this.courierId);
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((firstName) => {
       this.name = firstName;
     });
@@ -190,21 +188,15 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.checkIfAlreadyExists();
   }
 
-  cityValidator(): ValidatorFn {
-    let error;
-    if (!this.selectedCities.length) {
-      error = this.city.setErrors({ emptySelectedCity: true });
-    }
-    this.checkIfAlreadyExists();
-    return error;
-  }
-
-  stationValidator(): ValidatorFn {
-    let error;
-    if (!this.selectedStation.length) {
-      error = this.station.setErrors({ emptySelectedStation: true });
-    }
-    return error;
+  lengthValidator(): ValidatorFn {
+    // return (control: FormControl) => {
+    //   const value = control.value;
+    //   if (!value?.lenght) {
+    //     return { emptyList: true };
+    //   }
+    //   return null;
+    // };
+    return null;
   }
 
   getCouriers(): void {
@@ -247,7 +239,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
           )
           .subscribe((data) => {
             this.filteredStations = data;
-            this.station.setValidators(this.stationValidator());
+            this.station.setValidators(this.lengthValidator);
           });
       });
   }
@@ -283,7 +275,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         id: selectedStationValue.id
       };
     });
-    this.station.setValidators(this.stationValidator());
+    this.station.setValidators(this.lengthValidator);
     this.station.setValue('');
     this.blurOnOption = false;
 
@@ -310,7 +302,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
     this.setCountOfSelectedCity();
     this.city.reset();
-    this.city.setValidators(this.cityValidator());
+    this.city.setValidators(this.lengthValidator);
     this.city.enable();
     this.city.markAsPristine();
   }
@@ -351,7 +343,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.selectedStation.push(tempItem);
     }
 
-    this.station.setValidators(this.stationValidator());
+    this.station.setValidators(this.lengthValidator);
     this.station.setValue('');
     this.setStationPlaceholder();
     if (trigger) {
@@ -364,7 +356,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   deleteStation(index): void {
     this.selectedStation.splice(index, 1);
     this.setStationPlaceholder();
-    this.station.setValidators(this.stationValidator());
+    this.station.setValidators(this.lengthValidator);
   }
 
   checkStation(item): boolean {
@@ -397,7 +389,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       if (!data) {
         this.filteredCities = currentRegion[0].locationsDto;
       }
-      this.city.setValidators(this.cityValidator());
+      this.city.setValidators(this.lengthValidator);
     });
 
     event.value ? this.city.enable() : this.city.disable();
@@ -414,7 +406,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectCity(event);
     this.setCountOfSelectedCity();
     this.city.setValue('');
-    this.city.setValidators(this.cityValidator());
+    this.city.setValidators(this.lengthValidator);
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -470,7 +462,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   deleteCity(index): void {
     this.selectedCities.splice(index, 1);
     this.setCountOfSelectedCity();
-    this.city.setValidators(this.cityValidator());
+    this.city.setValidators(this.lengthValidator);
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
@@ -486,7 +478,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   createCardDto() {
-    this.createCardObj = {
+    return {
       tariffNameEn: this.CardForm.get('tariffNameEn').value,
       tariffNameUk: this.CardForm.get('tariffNameUk').value,
       courierId: this.courierId,
@@ -501,32 +493,35 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   editCard(): void {
-    this.checkIfAlreadyExists();
-    if (!this.isCardExist) {
-      const body = {
-        courierId: this.courierId,
-        locationIds: this.selectedCities.map((val) => val.locationId),
-        receivingStationIds: this.selectedStation.map((station) => station.id)
-      };
+    const nameUk = this.CardForm.get('tariffNameUk').value;
+    const nameEn = this.CardForm.get('tariffNameEn').value;
+    const body = {
+      tariffNameUk: nameUk,
+      tariffNameEn: nameEn,
+      courierId: this.courierId,
+      locationIds: this.selectedCities.map((val) => val.locationId),
+      receivingStationIds: this.selectedStation.map((station) => station.id)
+    };
 
-      const newValueOfCard = {
-        citiesEn: this.selectedCities.map((city) => city.englishLocation),
-        citiesUk: this.selectedCities.map((city) => city.location),
-        courierEn: this.courierEnglishName,
-        courierUk: this.courierUkrainianName,
-        regionEn: this.regionEnglishName,
-        regionUk: this.regionUkrainianName,
-        regionId: this.regionId,
-        station: this.selectedStation.map((it) => it.name)
-      };
-      this.tariffsService
-        .editTariffInfo(body, this.tariffId)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.dialogRef.close(newValueOfCard);
-          this.snackBar.openSnackBar('successUpdateUbsData');
-        });
-    }
+    const newValueOfCard = {
+      tariffNameUk: nameUk,
+      tariffNameEn: nameEn,
+      citiesEn: this.selectedCities.map((city) => city.englishLocation),
+      citiesUk: this.selectedCities.map((city) => city.location),
+      courierEn: this.courierEnglishName,
+      courierUk: this.courierUkrainianName,
+      regionEn: this.regionEnglishName,
+      regionUk: this.regionUkrainianName,
+      regionId: this.regionId,
+      station: this.selectedStation.map((it) => it.name)
+    };
+    this.tariffsService
+      .editTariffInfo(body, this.tariffId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.dialogRef.close(newValueOfCard);
+        this.snackBar.openSnackBar('successUpdateUbsData');
+      });
   }
 
   fillFields(modalData) {
@@ -580,20 +575,16 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   checkIfAlreadyExists() {
-    this.isCreationAllowed = false;
+    // this.isCreationAllowed = false;
     if (this.CardForm.valid && this.CardForm.dirty) {
-      this.createCardDto();
-      this.tariffsService
-        .checkIfCardExist(this.createCardObj)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (response) => {
-            this.isCardExist = response.toString() === 'true';
-          },
-          complete: () => {
-            this.isCreationAllowed = !this.isCardExist && !this.CardForm.invalid;
-          }
-        });
+      this.tariffsService.checkIfCardExist(this.createCardDto()).subscribe({
+        next: (response) => {
+          // this.isCardExist = response.toString() === 'true';
+        },
+        complete: () => {
+          // this.isCreationAllowed = !this.isCardExist && !this.CardForm.invalid;
+        }
+      });
     }
   }
 
@@ -626,7 +617,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   onNoClick(): void {
-    if (this.selectedCities.length || this.selectedStation.length) {
+    if (this.CardForm.dirty) {
       const matDialogRef = this.dialog.open(ModalTextComponent, {
         hasBackdrop: true,
         panelClass: 'address-matDialog-styles-w-100',

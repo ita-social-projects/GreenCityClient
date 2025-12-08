@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
-import { takeUntil, skip, startWith } from 'rxjs/operators';
-import { Bag, Service, Locations, TariffCard, BagLimitDto, ILimit } from '../../../models/tariffs.interface';
+import { skip, startWith, takeUntil } from 'rxjs/operators';
+import { Bag, BagLimitDto, ILimit, Locations, Service, TariffCard } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -69,7 +69,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isEmployeeCanControlService: boolean;
   isEmployeeCanEditPricingCard: boolean;
   isEmployeeCanActivateDeactivate: boolean;
-  isEmployeeCanUseCrumbs: boolean;
   orderMaxLimit = { amount: 99999, sum: 9999999 };
 
   constructor(
@@ -77,14 +76,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<IAppState>
   ) {
-    this.location = injector.get(Location);
-    this.dialog = injector.get(MatDialog);
-    this.tariffsService = injector.get(TariffsService);
-    this.orderService = injector.get(OrderService);
-    this.localStorageService = injector.get(LocalStorageService);
-    this.langService = injector.get(LanguageService);
-    this.route = injector.get(ActivatedRoute);
-    this.fb = injector.get(FormBuilder);
+    this.location = this.injector.get(Location);
+    this.dialog = this.injector.get(MatDialog);
+    this.tariffsService = this.injector.get(TariffsService);
+    this.orderService = this.injector.get(OrderService);
+    this.localStorageService = this.injector.get(LocalStorageService);
+    this.langService = this.injector.get(LanguageService);
+    this.route = this.injector.get(ActivatedRoute);
+    this.fb = this.injector.get(FormBuilder);
   }
 
   ngOnInit(): void {
@@ -454,8 +453,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((card: TariffCard) => {
         this.selectedCard = {
+          tariffNameUk: card.tariffNameUk,
+          tariffNameEn: card.tariffNameEn,
           courierUk: card.courierDto.nameUk,
           courierEn: card.courierDto.nameEn,
+          courierId: card.courierDto.courierId,
           station: card.receivingStationDtos.map((it) => it.name),
           regionEn: card.regionDto.nameEn,
           regionUk: card.regionDto.nameUk,

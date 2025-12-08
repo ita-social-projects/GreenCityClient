@@ -147,17 +147,12 @@
       <button
         class="primary-global-button btn m-0"
         [disabled]="CardForm.invalid || isCardExist || !isCreationAllowed"
-        *ngIf="isCreate"
+        *ngIf="!isEdit"
         (click)="createCard()"
       >
         {{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}
       </button>
-      <button
-        class="primary-global-button btn m-0"
-        [disabled]="CardForm.invalid || isCardExist || (!nameChanged && !isCreationAllowed)"
-        *ngIf="isEdit"
-        (click)="editCard()"
-      >
+      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid || !CardForm.dirty" *ngIf="isEdit" (click)="editCard()">
         {{ 'ubs-tariffs-add-location-pop-up.edit_button' | translate }}
       </button>
     </div>

@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Couriers, CreateCard, Locations, Stations, Card, DeactivateCard } from '../../models/tariffs.interface';
+import { Couriers, CreateCard, Locations, Stations, Card, DeactivateCard, TariffCard } from '../../models/tariffs.interface';
 import { Subject, Observable, forkJoin, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -602,42 +602,40 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.isLoadingCards = true;
     this.cardsUk.length = 0;
     this.cardsEn.length = 0;
-    this.tariffsService
-      .getFilteredCard(filterData)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((card) => {
-        card.forEach((el) => {
-          const cardObjUk = {
-            courier: el.courierDto.nameUk,
-            station: el.receivingStationDtos.map((it) => it.name),
-            region: el.regionDto.nameUk,
-            city: el.locationInfoDtos.map((it) => it.nameUk),
-            tariff: el.tariffStatus,
-            tariffName: el.tariffNameUk || '',
-            regionId: el.regionDto.regionId,
-            cardId: el.cardId,
-            courierId: el.courierDto.courierId
-          };
-          const cardObjEn = {
-            courier: el.courierDto.nameEn,
-            station: el.receivingStationDtos.map((it) => it.name),
-            region: el.regionDto.nameEn,
-            city: el.locationInfoDtos.map((it) => it.nameEn),
-            tariff: el.tariffStatus,
-            tariffName: el.tariffNameEn || '',
-            regionId: el.regionDto.regionId,
-            cardId: el.cardId,
-            courierId: el.courierDto.courierId
-          };
-          this.courierNameEng = el.courierDto.nameEn;
-          this.courierNameUk = el.courierDto.nameUk;
-          this.regionEnglishName = el.regionDto.nameEn;
-          this.regionNameUk = el.regionDto.nameUk;
-          this.cardsUk.push(cardObjUk);
-          this.cardsEn.push(cardObjEn);
-        });
-        this.isLoadingCards = false;
+    this.tariffsService.getFilteredCard(filterData).subscribe((card) => {
+      card.forEach((el) => {
+        console.log(el);
+        const cardObjUk = {
+          courier: el.courierDto.nameUk,
+          station: el.receivingStationDtos.map((it) => it.name),
+          region: el.regionDto.nameUk,
+          city: el.locationInfoDtos.map((it) => it.nameUk),
+          tariff: el.tariffStatus,
+          tariffName: el.tariffNameUk || '',
+          regionId: el.regionDto.regionId,
+          cardId: el.cardId,
+          courierId: el.courierDto.courierId
+        };
+        const cardObjEn = {
+          courier: el.courierDto.nameEn,
+          station: el.receivingStationDtos.map((it) => it.name),
+          region: el.regionDto.nameEn,
+          city: el.locationInfoDtos.map((it) => it.nameEn),
+          tariff: el.tariffStatus,
+          tariffName: el.tariffNameEn || '',
+          regionId: el.regionDto.regionId,
+          cardId: el.cardId,
+          courierId: el.courierDto.courierId
+        };
+        this.courierNameEng = el.courierDto.nameEn;
+        this.courierNameUk = el.courierDto.nameUk;
+        this.regionEnglishName = el.regionDto.nameEn;
+        this.regionNameUk = el.regionDto.nameUk;
+        this.cardsUk.push(cardObjUk);
+        this.cardsEn.push(cardObjEn);
       });
+      this.isLoadingCards = false;
+    });
   }
 
   private setCard(): void {
@@ -745,7 +743,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       panelClass: 'address-matDialog-styles-w-100',
       data: {
         title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-        create: true,
+        edit: false,
         provideValues: true,
         receivingStationsIdList: this.selectedStation.map((it) => it.id),
         courierUkrainianName: this.courier.value ? this.courierNameUk : '',
