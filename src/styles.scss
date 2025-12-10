@@ -21,6 +21,7 @@ $main-palette: (
   700: #52e452,
   800: #9e9d24,
   900: #827717,
+  950: #5639bb,
   A100: #f4ff81,
   A200: #eeff41,
   A400: #c6ff00,
@@ -36,6 +37,7 @@ $main-palette: (
     700: var(--primary-white),
     800: var(--primary-white),
     900: var(--primary-white),
+    950: var(--primary-white),
     A100: var(--primary-white),
     A200: var(--primary-white),
     A400: var(--primary-white),
@@ -66,7 +68,7 @@ $accent-palette: (
   )
 );
 
-$my-primary: mat.define-palette($main-palette, 400);
+$my-primary: mat.define-palette($main-palette, 950);
 $my-accent: mat.define-palette($accent-palette, 400);
 
 $my-warn: mat.define-palette(mat.$red-palette);
@@ -416,10 +418,10 @@ body {
 }
 
 .success-snackbar {
-  background-color: var(--success-light-green);
+  background-color: var(--ubs-grey-light-green);
   color: var(--quaternary-dark-grey);
   border-radius: 4px;
-  box-shadow: 0 -2px var(--primary-green);
+  box-shadow: 0 -2px var(--ubs-secondary-light-green);
 }
 
 .success-snackbar-ubs {

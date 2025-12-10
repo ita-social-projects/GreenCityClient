@@ -96,7 +96,7 @@ mat-spinner {
   padding-top: 40px;
 
   ::ng-deep circle {
-    stroke: var(--primary-green);
+    stroke: var(--ubs-secondary-light-green);
   }
 }
 
@@ -135,7 +135,7 @@ mat-spinner {
 }
 
 .primary-color {
-  color: var(--primary-green);
+  color: var(--ubs-dark-purple);
 }
 
 .mat-column-select {

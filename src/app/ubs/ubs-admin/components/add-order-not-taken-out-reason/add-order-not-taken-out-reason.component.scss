@@ -126,7 +126,7 @@ textarea::placeholder {
 .custom-file-upload {
   display: inline-block;
   font-size: 18px;
-  color: var(--ubs-primary-green);
+  color: var(--ubs-secondary-light-green);
   padding: 6px 12px;
   cursor: pointer;
   font-weight: 700;
@@ -193,6 +193,16 @@ textarea::placeholder {
     .btn {
       border-radius: 5px;
       font-size: 20px;
+    }
+
+    .disagree {
+      border-color: var(--ubs-secondary-light-green);
+      color: var(--ubs-secondary-light-green);
+    }
+
+    .agree {
+      background-color: var(--ubs-secondary-light-green);
+      border-color: var(--ubs-secondary-light-green)
     }
   }
 
