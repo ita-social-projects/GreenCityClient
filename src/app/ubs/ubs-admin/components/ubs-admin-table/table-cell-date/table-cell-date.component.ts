@@ -46,7 +46,7 @@ export class TableCellDateComponent {
   adminTableService = inject(AdminTableService);
   store = inject(Store);
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   edit(event?: KeyboardEvent): void {
     this.store.dispatch(SetCursorWaite({ isWaiting: true }));

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { TableCellReadonlyComponent } from './table-cell-readonly.component';
 import { Language } from 'src/app/shared/i18n/Language';
@@ -122,5 +122,35 @@ describe('TableCellReadonlyComponent', () => {
     component.ngOnChanges();
     expect(component.title).toBe('20л - 0шт');
     expect(component.data).toBe('20л - 0шт');
+  });
+
+  describe('onHover', () => {
+    let tooltip: MatTooltip;
+
+    beforeEach(() => {
+      tooltip = { disabled: false } as MatTooltip;
+    });
+
+    function createFakeEvent(scrollWidth: number, clientWidth: number): MouseEvent {
+      const target = document.createElement('div');
+      Object.defineProperties(target, {
+        scrollWidth: { value: scrollWidth },
+        clientWidth: { value: clientWidth }
+      });
+
+      return { target } as unknown as MouseEvent;
+    }
+
+    it('should disable tooltip when no overflow', () => {
+      const event = createFakeEvent(100, 100);
+      component.onHover(event, tooltip);
+      expect(tooltip.disabled).toBeTrue();
+    });
+
+    it('should enable tooltip when overflow exists', () => {
+      const event = createFakeEvent(150, 100);
+      component.onHover(event, tooltip);
+      expect(tooltip.disabled).toBeFalse();
+    });
   });
 });
