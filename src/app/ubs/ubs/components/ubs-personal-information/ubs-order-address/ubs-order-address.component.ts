@@ -9,12 +9,14 @@ import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-addr
 import { DeleteAddress, GetAddresses, SetAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import {
   addressesSelector,
+  courierLocationsSelector,
   existingOrderInfoSelector,
   isAddressLoadingSelector,
-  locationIdSelector
+  locationIdSelector,
+  tariffSelector
 } from 'src/app/store/selectors/order.selectors';
 import { IAddressExportDetails, IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
-import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, CourierLocations, LocationsDtosList } from 'src/app/ubs/ubs/models/ubs.interface';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
 import { combineLatest, filter, from, map, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 
@@ -27,7 +29,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   selectedAddress: Address;
   addressComment: FormControl = new FormControl('', Validators.maxLength(255));
   addresses: Address[] = [];
-  currentLocationId: number;
+  locations: LocationsDtosList[] = [];
   existingOrderInfo: IUserOrderInfo;
   maxAddressLength = 4;
   $isAddressLoading = this.store.pipe(select(isAddressLoadingSelector));
@@ -52,17 +54,20 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   initListenersForNewOrder(): void {
-    combineLatest([
-      this.store.pipe(
-        select(locationIdSelector),
-        filter((value) => value !== null)
-      ),
-      this.store.pipe(select(addressesSelector), filter(Boolean))
-    ])
-      .pipe(takeUntil(this.$destroy))
-      .subscribe(([locationId, addresses]: [number, Address[]]) => {
+    this.store
+      .select(tariffSelector)
+      .pipe(
+        filter(Boolean),
+        switchMap(() =>
+          combineLatest([this.store.select(courierLocationsSelector), this.store.select(addressesSelector)]).pipe(
+            filter(([courierLocations, addresses]) => Boolean(courierLocations) && Boolean(addresses))
+          )
+        ),
+        takeUntil(this.$destroy)
+      )
+      .subscribe(([locations, addresses]: [CourierLocations, Address[]]) => {
+        this.locations = locations.locationsDtosList;
         this.addresses = addresses;
-        this.currentLocationId = locationId;
         this.initLocation();
       });
   }
@@ -78,8 +83,8 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
     ])
       .pipe(takeUntil(this.$destroy))
       .subscribe(([locationId, addresses, orderInfo]: [number, Address[], IUserOrderInfo]) => {
-        this.addresses = addresses;
-        this.currentLocationId = locationId;
+        // this.addresses = addresses;
+        // this.currentLocationId = locationId;
         this.existingOrderInfo = orderInfo;
         this.initLocationForExistingOrder();
       });
@@ -169,11 +174,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   isAddressAvailable(address: Address): boolean {
-    return this.addressValidator.isAvailable(this.currentLocationId, address);
-  }
-
-  isAddressDisabled(address: Address): boolean {
-    return !this.isAddressAvailable(address);
+    return this.addressValidator.isAvailable(this.locations, address);
   }
 
   changeAddressComment(): void {

@@ -90,10 +90,10 @@ export const GetLocationId = createAction(OrderActions.GetLocationId, props<{ co
 export const GetLocationIdSuccess = createAction(OrderActions.GetLocationIdSuccess, props<{ locationId: number }>());
 
 export const SetTariff = createAction(OrderActions.SetTariff, props<{ tariff: ActiveTariffInfo }>());
-export const GetOrderDetails = createAction(OrderActions.GetOrderDetails, props<{ locationId: number; tariffId: number }>());
+export const GetOrderDetails = createAction(OrderActions.GetOrderDetails, props<{ tariffId: number }>());
 export const GetOrderDetailsSuccess = createAction(OrderActions.GetOrderDetailsSuccess, props<{ orderDetails: OrderDetails }>());
 
-export const GetCourierLocations = createAction(OrderActions.GetCourierLocations, props<{ courierId?: number; locationId?: number }>());
+export const GetCourierLocations = createAction(OrderActions.GetCourierLocations, props<{ tariffId: number }>());
 export const GetCourierLocationsSuccess = createAction(OrderActions.GetCourierLocationsSuccess, props<{ locations: CourierLocations }>());
 
 export const ChangeCourierLocation = createAction(OrderActions.ChangeCourierLocation, props<{ courierId: number }>());

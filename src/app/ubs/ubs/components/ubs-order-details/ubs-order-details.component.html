@@ -1,4 +1,4 @@
-<div class="container" *ngIf="(isOrderDetailsLoading | async) === false && isFormInitialized(); else spinner">
+<div class="container" *ngIf="(isOrderDetailsLoading | async) === false && isFormInitialized; else spinner">
   <div>
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
@@ -129,7 +129,7 @@
             *ngIf="isCanAddEcoShopOrderNumber()"
             [disabled]="additionalOrders.controls.length >= limitOfEcoShopOrdersQuantity"
             class="ubs-link-global-button s-link add-order-btn"
-            (click)="addOrder()"
+            (click)="pushAdditionalOrder()"
           >
             {{ 'order-details.additional-orders' | translate }}
           </button>

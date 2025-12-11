@@ -3,18 +3,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { distinctUntilChanged, filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
-import { Subject, combineLatest } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { PersonalData } from '../../models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
-import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { Store, select } from '@ngrx/store';
-import { GetPersonalData, SetPersonalData, GetExistingOrderInfo, SetSecondFormStatus } from 'src/app/store/actions/order.actions';
+import { select, Store } from '@ngrx/store';
+import { GetExistingOrderInfo, GetPersonalData, SetPersonalData, SetSecondFormStatus } from 'src/app/store/actions/order.actions';
 import { addressIdSelector, existingOrderInfoSelector, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
+
 @Component({
   selector: 'app-ubs-personal-information',
   templateUrl: './ubs-personal-information.component.html',
@@ -83,15 +83,14 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   constructor(
-    public router: Router,
-    private route: ActivatedRoute,
-    public orderService: OrderService,
-    private fb: FormBuilder,
-    public dialog: MatDialog,
-    private localService: LocalStorageService,
-    private store: Store
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    private readonly store: Store,
+    protected readonly router: Router,
+    protected readonly dialog: MatDialog,
+    protected readonly orderService: OrderService
   ) {
-    super(router, dialog, orderService, localService);
+    super(router, dialog, orderService);
   }
 
   ngOnInit(): void {
@@ -195,10 +194,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     };
 
     this.store.dispatch(SetPersonalData({ personalData }));
-  }
-
-  getFormValues(): boolean {
-    return true;
   }
 
   onCancel(): void {

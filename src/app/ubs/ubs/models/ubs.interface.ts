@@ -165,6 +165,8 @@ export interface CourierLocations {
   courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG' | 'LIMIT_BY_SUM_OF_ORDER';
   courierStatus: string;
   tariffInfoId: number;
+  tariffNameEn: string;
+  tariffNameUk: string;
   locationsDtosList: LocationsDtosList[];
   courierTranslationDtos: CourierTranslation[];
   regionDto: {
@@ -275,6 +277,6 @@ export interface ActiveTariffInfo {
   id: number;
   tariffNameUk: string;
   tariffNameEn: string;
-  descriptionMessageUk: string | null;
-  descriptionMessageEn: string | null;
+  descriptionMessageUk?: string | null;
+  descriptionMessageEn?: string | null;
 }

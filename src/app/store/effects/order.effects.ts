@@ -26,13 +26,14 @@ import {
   GetPersonalDataSuccess,
   GetUbsCourierId,
   GetUbsCourierIdSuccess,
+  SetTariff,
   UpdateAddress,
   UpdateAddressFail,
   UpdateAddressSuccess
 } from 'src/app/store/actions/order.actions';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Address, AddressData } from 'src/app/ubs/ubs/models/ubs.interface';
+import { ActiveTariffInfo, Address, AddressData } from 'src/app/ubs/ubs/models/ubs.interface';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Injectable()
@@ -47,8 +48,8 @@ export class OrderEffects {
   getOrderDetails = createEffect(() =>
     this.actions.pipe(
       ofType(GetOrderDetails),
-      mergeMap((action: { locationId: number; tariffId: number }) =>
-        this.orderService.getOrderDetails(action.locationId, action.tariffId).pipe(
+      mergeMap((action: { tariffId: number }) =>
+        this.orderService.getOrderDetails(action.tariffId).pipe(
           tap((orderDetails) => this.localStorageService.setUBSOrderData(orderDetails)),
           map((orderDetails) => GetOrderDetailsSuccess({ orderDetails })),
           catchError(() => EMPTY)
@@ -75,7 +76,16 @@ export class OrderEffects {
       mergeMap((action: { orderId: number }) =>
         this.orderService.getExistingOrderTariff(action.orderId).pipe(
           tap((locations) => this.localStorageService.setLocations(locations)),
-          map((locations) => GetExistingOrderTariffSuccess({ locations })),
+          mergeMap((locations) => [
+            GetExistingOrderTariffSuccess({ locations }),
+            SetTariff({
+              tariff: {
+                id: locations.tariffInfoId,
+                tariffNameEn: locations.tariffNameEn,
+                tariffNameUk: locations.tariffNameUk
+              }
+            })
+          ]),
           catchError(() => EMPTY)
         )
       )
@@ -97,8 +107,8 @@ export class OrderEffects {
   getCourierLocations = createEffect(() =>
     this.actions.pipe(
       ofType(GetCourierLocations),
-      mergeMap((action: { courierId?: number; locationId?: number; forceFetch?: boolean }) =>
-        this.orderService.getInfoAboutTariff(action.courierId, action.locationId).pipe(
+      mergeMap((action: { tariffId: number; forceFetch?: boolean }) =>
+        this.orderService.getInfoAboutTariff(action.tariffId).pipe(
           map((allLocations) => allLocations.tariffsForLocationDto),
           tap((locations) => this.localStorageService.setLocations(locations)),
           map((locations) => GetCourierLocationsSuccess({ locations })),

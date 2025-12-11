@@ -127,7 +127,7 @@ export const orderReducer = createReducer(
   on(GetCourierLocations, (state, action) => {
     return {
       ...state,
-      pendingLocationId: action.locationId
+      pendingLocationId: action.tariffId
     };
   }),
   on(GetCourierLocationsSuccess, (state, action) => {

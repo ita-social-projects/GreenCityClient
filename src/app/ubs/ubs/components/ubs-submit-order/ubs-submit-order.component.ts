@@ -55,17 +55,17 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   };
 
   constructor(
-    public orderService: OrderService,
-    public ubsOrderFormService: UBSOrderFormService,
+    private readonly ubsOrderFormService: UBSOrderFormService,
     private readonly route: ActivatedRoute,
     private readonly localStorageService: LocalStorageService,
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef,
     private readonly phoneNumberTreat: PhoneNumberTreatPipe,
-    router: Router,
-    dialog: MatDialog
+    protected readonly orderService: OrderService,
+    protected readonly router: Router,
+    protected readonly dialog: MatDialog
   ) {
-    super(router, dialog, orderService, localStorageService);
+    super(router, dialog, orderService);
   }
 
   ngOnInit(): void {
@@ -196,10 +196,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   private redirectToExternalUrl(url: string): void {
     document.location.href = url;
-  }
-
-  getFormValues(): boolean {
-    return true;
   }
 
   ngOnDestroy(): void {

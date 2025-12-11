@@ -1,12 +1,12 @@
 import { Directive, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, LocationsDtosList } from 'src/app/ubs/ubs/models/ubs.interface';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
 
 @Directive({
   selector: '[appValidateAddress]'
 })
 export class ValidateAddressDirective implements OnInit, OnChanges {
-  @Input() currentLocationId: number;
+  @Input() locations: LocationsDtosList[];
   @Input() address: Address;
 
   constructor(
@@ -19,20 +19,20 @@ export class ValidateAddressDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.currentLocationId.firstChange) {
+    if (changes.locations.firstChange) {
       return;
     }
 
-    if (changes.currentLocationId.previousValue !== changes.currentLocationId.currentValue) {
+    if (changes.locations.previousValue !== changes.locations.currentValue) {
       this.validateAddress();
     }
   }
   private validateAddress(): void {
-    if (!this.currentLocationId || !this.address) {
+    if (!this.locations || !this.address) {
       return;
     }
 
-    const isAvailable = this.addressValidator.isAvailable(this.currentLocationId, this.address);
+    const isAvailable = this.addressValidator.isAvailable(this.locations, this.address);
     this.elementRef.nativeElement.disabled = !isAvailable;
   }
 }

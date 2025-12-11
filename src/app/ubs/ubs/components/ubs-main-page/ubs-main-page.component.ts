@@ -98,17 +98,17 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  getBags(locationId = 1): void {
+  getBags(tariffId = 1): void {
     this.isTarriffLoading = true;
-    this.locationToShow = this.locationsToShowBags.find((el) => el.locationId === locationId);
+    // this.locationToShow = this.locationsToShowBags.find((el) => el.locationId === locationId);
     const courierId = this.findCourierByName(this.ubsCourierName)?.courierId;
 
     this.orderService
-      .getInfoAboutTariff(courierId, this.locationToShow.locationId)
+      .getInfoAboutTariff(tariffId)
       .pipe(
         switchMap((data) => {
           const tariffId = data.tariffsForLocationDto.tariffInfoId;
-          return this.orderService.getOrderDetails(locationId, tariffId);
+          return this.orderService.getOrderDetails(tariffId);
         }),
         takeUntil(this.destroy$)
       )

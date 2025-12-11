@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { howWorksPickUp, courierPickUp, pricePickUp, extraoffer, minimumVolume, conditions } from './pick-up-text';
+import { conditions, courierPickUp, extraoffer, howWorksPickUp, minimumVolume, pricePickUp } from './pick-up-text';
 import { Store } from '@ngrx/store';
-import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/order.actions';
+import { GetOrderDetails } from 'src/app/store/actions/order.actions';
 import { orderDetailsSelector, tariffSelector } from 'src/app/store/selectors/order.selectors';
 import { filter, map, pairwise, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { AllActiveLocationsDtosResponse, Bag, CourierDto, LocationsName } from '@ubs/ubs/models/ubs.interface';
 import { OrderService } from '@ubs/ubs/services/order.service';
 import { FormControl } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+
 @Component({
   selector: 'app-ubs-pick-up-service-pop-up',
   templateUrl: './ubs-pick-up-service-pop-up.component.html',
@@ -87,7 +88,7 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
   updateDataBasedOnLocation(locationId: number): void {
     const courierId = this.courierUBS.courierId;
     this.isFetching = true;
-    this.store.dispatch(GetCourierLocations({ courierId, locationId }));
+    // this.store.dispatch(GetCourierLocations({ courierId, locationId }));
     this.store
       .select(tariffSelector)
       .pipe(
@@ -97,7 +98,7 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
         take(1),
         takeUntil(this.destroy$),
         switchMap((tariff) => {
-          this.store.dispatch(GetOrderDetails({ locationId, tariffId: tariff.id }));
+          this.store.dispatch(GetOrderDetails({ tariffId: tariff.id }));
           return this.store.select(orderDetailsSelector).pipe(
             pairwise(),
             filter(([prev, curr]) => prev?.bags !== curr?.bags),

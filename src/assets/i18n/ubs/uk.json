@@ -62,7 +62,7 @@
       }
     },
     "order-title": "Послуги",
-    "choose-location": "Змінити локацію",
+    "choose-location": "Змінити тариф",
     "current-location": "Ваша локація: {{currentLocation}}",
     "current-tariff": "Тариф: {{currentTariff}}",
     "title-without-location": "Оберіть, будь ласка, локацію",
