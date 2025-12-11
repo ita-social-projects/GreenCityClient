@@ -145,15 +145,15 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   private isLastPage = false;
 
   constructor(
-    private store: Store<IAppState>,
-    private router: Router,
-    private adminTableService: AdminTableService,
-    private localStorageService: LocalStorageService,
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private dateAdapter: DateAdapter<Date>,
-    private destroyRef: DestroyRef,
-    private cdr: ChangeDetectorRef
+    private readonly store: Store<IAppState>,
+    private readonly router: Router,
+    private readonly adminTableService: AdminTableService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly dialog: MatDialog,
+    private readonly fb: FormBuilder,
+    private readonly dateAdapter: DateAdapter<Date>,
+    private readonly destroyRef: DestroyRef,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.dateAdapter.setLocale('en-GB');
     this.filterValue = history.state?.clientFilter ?? '';

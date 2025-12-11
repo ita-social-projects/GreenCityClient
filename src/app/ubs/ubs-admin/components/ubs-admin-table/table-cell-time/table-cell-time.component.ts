@@ -37,7 +37,7 @@ export class TableCellTimeComponent implements OnInit {
   adminTableService = inject(AdminTableService);
   store = inject(Store);
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.fromSelect = fromSelect;
