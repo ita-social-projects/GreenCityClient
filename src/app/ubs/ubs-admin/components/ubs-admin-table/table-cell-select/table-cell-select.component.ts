@@ -54,7 +54,7 @@ export class TableCellSelectComponent implements OnInit {
   constructor(
     private readonly adminTableService: AdminTableService,
     private readonly orderService: OrderService,
-    public readonly dialog: MatDialog,
+    public dialog: MatDialog,
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef
   ) {}
