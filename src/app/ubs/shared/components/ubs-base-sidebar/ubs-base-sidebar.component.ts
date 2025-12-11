@@ -28,7 +28,7 @@ export class UbsBaseSidebarComponent implements OnInit, OnDestroy {
   constructor(
     public serviceUserMessages: UserMessagesService,
     public jwtService: JwtService,
-    private router: Router
+    protected router: Router
   ) {}
 
   ngOnInit(): void {
