@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { fromSelect, toSelect } from './table-cell-time-range';
@@ -34,10 +33,11 @@ export class TableCellTimeComponent implements OnInit {
   private typeOfChange: number[];
   from: string;
   to: string;
-  parseTime = [];
 
   adminTableService = inject(AdminTableService);
   store = inject(Store);
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.fromSelect = fromSelect;
@@ -59,6 +59,7 @@ export class TableCellTimeComponent implements OnInit {
     this.from = res[0];
     this.to = res[1];
   }
+
   edit(event?: KeyboardEvent): void {
     this.store.dispatch(SetCursorWaite({ isWaiting: true }));
     if (event && (event.key === 'Enter' || event.key === ' ')) {
@@ -69,18 +70,16 @@ export class TableCellTimeComponent implements OnInit {
 
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
 
-    this.adminTableService
-      .blockOrders(this.typeOfChange)
-      .pipe(take(1))
-      .subscribe((res: IAlertInfo[]) => {
-        if (res[0] === undefined) {
-          this.isEditable = true;
-        } else {
-          this.isEditable = false;
-          this.showBlockedInfo.emit(res);
-        }
-        this.store.dispatch(SetCursorWaite({ isWaiting: false }));
-      });
+    this.adminTableService.blockOrders(this.typeOfChange).subscribe((res: IAlertInfo[]) => {
+      if (res[0] === undefined) {
+        this.isEditable = true;
+      } else {
+        this.isEditable = false;
+        this.showBlockedInfo.emit(res);
+      }
+      this.store.dispatch(SetCursorWaite({ isWaiting: false }));
+      this.cdr.markForCheck();
+    });
   }
 
   setExportTime(data: any): void {
@@ -101,5 +100,6 @@ export class TableCellTimeComponent implements OnInit {
     this.cancelEdit.emit(this.typeOfChange);
     this.isEditable = false;
     this.isTimePickerOpened.emit(false);
+    this.cdr.markForCheck();
   }
 }

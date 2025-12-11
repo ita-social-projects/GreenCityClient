@@ -87,7 +87,7 @@ describe('UbsBaseSidebarComponent', () => {
     expect(getCountOfUnreadNotificationSpy).toHaveBeenCalled();
   });
 
-  it('ngAfterViewInit should called getCountOfUnreadNotification method one time', () => {
+  it('ngOnInit should called getCountOfUnreadNotification method one time', () => {
     const getCountOfUnreadNotificationSpy = spyOn(component, 'getCountOfUnreadNotification');
     component.ngOnInit();
     expect(getCountOfUnreadNotificationSpy).toHaveBeenCalledTimes(1);

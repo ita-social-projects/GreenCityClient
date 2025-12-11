@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -46,6 +46,8 @@ export class TableCellDateComponent {
   adminTableService = inject(AdminTableService);
   store = inject(Store);
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   edit(event?: KeyboardEvent): void {
     this.store.dispatch(SetCursorWaite({ isWaiting: true }));
     if (event && (event.key === 'Enter' || event.key === ' ')) {
@@ -75,6 +77,7 @@ export class TableCellDateComponent {
           this.showBlockedInfo.emit(res);
         }
         this.store.dispatch(SetCursorWaite({ isWaiting: false }));
+        this.cdr.markForCheck();
       });
   }
 

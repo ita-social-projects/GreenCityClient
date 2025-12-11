@@ -190,6 +190,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     });
     this.isFiltersApplied$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((isFiltersApplied) => {
       this.areFiltersApplied = isFiltersApplied;
+      this.cdr.markForCheck();
     });
   }
 
@@ -994,7 +995,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.showAllColumns(false);
     this.columnsWidthPreference = new Map(this.defaultColumnsWidth);
     for (let i = 1; i < this.columns.length - 1; i++) {
-      console.log('quryall');
       const cols = document.querySelectorAll('.column_cell.ng-star-inserted');
       const col = cols[i - 1] as HTMLElement;
       const width = this.defaultColumnsWidth.get(this.columns[i].title.key);

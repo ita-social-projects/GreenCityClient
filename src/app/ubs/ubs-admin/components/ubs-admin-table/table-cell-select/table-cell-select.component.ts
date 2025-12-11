@@ -55,7 +55,8 @@ export class TableCellSelectComponent implements OnInit {
     private readonly adminTableService: AdminTableService,
     private readonly orderService: OrderService,
     public dialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -85,7 +86,6 @@ export class TableCellSelectComponent implements OnInit {
     this.adminTableService
       .blockOrders([this.id])
       .pipe(
-        take(1),
         finalize(() => {
           this.editButtonClick.emit(this.id);
         })
@@ -150,6 +150,7 @@ export class TableCellSelectComponent implements OnInit {
     this.cancelEdit.emit(this.typeOfChange);
     this.newOption = '';
     this.currentValue = this.oldOption;
+    this.cdr.markForCheck();
   }
 
   chosenOption(e: MatSelectChange): void {
@@ -206,6 +207,7 @@ export class TableCellSelectComponent implements OnInit {
       this.isDisabled = false;
       setTimeout(() => this.select.open());
     }
+    this.cdr.markForCheck();
   }
 
   private releaseLock(): void {
