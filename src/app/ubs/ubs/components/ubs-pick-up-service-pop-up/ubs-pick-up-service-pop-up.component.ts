@@ -3,8 +3,15 @@ import { conditions, courierPickUp, extraoffer, howWorksPickUp, minimumVolume, p
 import { Store } from '@ngrx/store';
 import { GetOrderDetails } from 'src/app/store/actions/order.actions';
 import { orderDetailsSelector, tariffSelector } from 'src/app/store/selectors/order.selectors';
-import { filter, map, pairwise, Subject, switchMap, take, takeUntil } from 'rxjs';
-import { AllActiveLocationsDtosResponse, Bag, CourierDto, LocationsName } from '@ubs/ubs/models/ubs.interface';
+import { filter, map, pairwise, Subject, switchMap, take, takeUntil, tap, finalize, distinctUntilChanged } from 'rxjs';
+import {
+  ActiveTariffInfo,
+  AllActiveLocationsDtosResponse,
+  Bag,
+  CourierDto,
+  LocationsName,
+  OrderDetails
+} from '@ubs/ubs/models/ubs.interface';
 import { OrderService } from '@ubs/ubs/services/order.service';
 import { FormControl } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -18,8 +25,8 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
   courierUBS: CourierDto;
   courierUBSName = 'UBS';
   bags: Bag[];
-  myControl = new FormControl();
-  cities: LocationsName[] = [];
+  myControl = new FormControl<ActiveTariffInfo>(null);
+  tariffs: ActiveTariffInfo[] = [];
   currentLanguage: string;
   isFetching: boolean;
   private readonly destroy$ = new Subject<void>();
@@ -32,85 +39,51 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
   conditions = conditions;
 
   constructor(
+    protected readonly orderService: OrderService,
     private readonly store: Store,
-    private readonly orderService: OrderService,
     private readonly localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
-    this.getActiveCouriers();
+    this.getActiveTariffs();
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
   }
 
-  getActiveCouriers(): void {
+  getActiveTariffs(): void {
     this.orderService
       .getAllActiveCouriers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((couriers) => {
-        this.courierUBS = couriers.find((c) => c.nameEn === this.courierUBSName);
-        if (this.courierUBS) {
-          this.loadLocations();
-        }
-      });
-  }
-
-  loadLocations(): void {
-    const courierId = this.courierUBS.courierId;
-    this.orderService
-      .getLocations(courierId, true)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: AllActiveLocationsDtosResponse) => {
-        this.cities = response.allActiveLocationsDtos.reduce(
-          (acc, region) => [
-            ...acc,
-            ...region.locations.map((city) => ({
-              locationId: city.locationId,
-              locationName: this.orderService.getLocationName(city, region)
-            }))
-          ],
-          []
-        );
-        if (this.cities.length) {
-          const defaultCity = this.cities[1];
-          this.myControl.setValue(defaultCity);
-          this.updateDataBasedOnLocation(defaultCity.locationId);
-        }
+      .pipe(
+        map((couriers) => {
+          this.courierUBS = couriers.find((c) => c.nameEn === this.courierUBSName);
+          return this.courierUBS;
+        }),
+        switchMap(() => this.orderService.getActiveTariffsInfo())
+      )
+      .subscribe((tariffs: ActiveTariffInfo[]) => {
+        this.tariffs = tariffs;
         this.listenToLocationChanges();
+        const userTariff = this.localStorageService.getTariffId();
+        this.myControl.setValue(tariffs.find((t) => (t.id = userTariff)) || tariffs[0]);
       });
   }
 
   listenToLocationChanges(): void {
-    this.myControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((city: any) => {
-      this.updateDataBasedOnLocation(city.locationId);
-    });
-  }
-
-  updateDataBasedOnLocation(locationId: number): void {
-    const courierId = this.courierUBS.courierId;
-    this.isFetching = true;
-    // this.store.dispatch(GetCourierLocations({ courierId, locationId }));
-    this.store
-      .select(tariffSelector)
+    this.myControl.valueChanges
       .pipe(
-        pairwise(),
-        filter(([prev, curr]) => curr !== prev),
-        map(([, curr]) => curr),
-        take(1),
-        takeUntil(this.destroy$),
-        switchMap((tariff) => {
+        distinctUntilChanged(),
+        tap((tariff: ActiveTariffInfo) => {
+          this.isFetching = true;
           this.store.dispatch(GetOrderDetails({ tariffId: tariff.id }));
-          return this.store.select(orderDetailsSelector).pipe(
-            pairwise(),
-            filter(([prev, curr]) => prev?.bags !== curr?.bags),
-            map(([, curr]) => curr),
-            take(1),
-            takeUntil(this.destroy$)
-          );
-        })
+        }),
+        switchMap(() => this.store.select(orderDetailsSelector)),
+        tap(() => (this.isFetching = false)),
+        filter(Boolean),
+        takeUntil(this.destroy$)
       )
-      .subscribe((orderDetails) => {
+      .subscribe((orderDetails: OrderDetails) => {
+        console.log(this.isFetching);
+        console.log(orderDetails);
         this.bags = orderDetails.bags;
-        this.isFetching = false;
       });
   }
 
