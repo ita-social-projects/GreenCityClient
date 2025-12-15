@@ -514,11 +514,19 @@ section .main-container {
       display: flex;
       justify-content: space-between;
       padding: 36px;
+      gap: 5px;
       border: 1px solid var(--ubs-main-page-tertiary-light-grey);
       border-radius: 4px;
       color: var(--ubs-primary-black);
 
+      > p {
+        text-align: left;
+        max-height: 120px;
+        overflow-y: auto;
+      }
+
       h1.step-order-header {
+        text-align: left;
         width: 100%;
         font-weight: 800;
         font-size: 25px;
@@ -699,8 +707,8 @@ section .main-container {
 
           .step-order {
             .content-box {
+              padding: 32px;
               width: 240px;
-              padding: 32px 16px;
 
               h1 {
                 font-size: 20px;
