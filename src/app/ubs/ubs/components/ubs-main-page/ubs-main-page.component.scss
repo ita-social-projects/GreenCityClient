@@ -1,7 +1,7 @@
 @import 'src/typography/_resp.scss';
 
 @mixin height-and-width($height, $width) {
-  min-height: $height;
+  height: $height;
   width: $width;
 }
 
@@ -291,6 +291,7 @@
   flex-direction: column;
 
   .step-order {
+    height: 150px;
     display: flex;
     align-items: center;
     width: 100%;
@@ -333,6 +334,8 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    max-height: 150px;
+    overflow-x: auto;
     padding: 24px 16px;
     border: 1px solid var(--ubs-primary-dark-grey);
     border-radius: 4px;
@@ -358,6 +361,7 @@
 }
 
 .box {
+  height: 500px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -375,7 +379,6 @@
   .base-line {
     display: flex;
     flex-direction: row;
-    margin: 15px 0;
 
     hr {
       height: 5px;
@@ -407,9 +410,12 @@
   }
 
   .content-box {
-    width: calc(100% - 100px);
     background-color: #fff;
-    height: 194px;
+    min-height: 160px;
+    width: fit-content;
+    max-width: 317px;
+    flex-shrink: 1;
+    flex-grow: 1;
     display: flex;
     justify-content: flex-start;
     padding: 36px;
@@ -417,20 +423,23 @@
     border-radius: 4px;
     color: var(--ubs-primary-black);
 
+    &.odd {
+      transform: translateX(-50%);
+      top: calc(100% + 15px);
+    }
+
+    &.even {
+      top: -15px;
+      transform: translate(-50%, -100%);
+    }
+
     h1.step-order-header {
       width: 100%;
       font-weight: 800;
       font-size: 25px;
-      line-height: 21.85px;
+      line-height: 87%;
       letter-spacing: -0.025em;
-
-      .odd {
-        margin-bottom: 20px;
-      }
-
-      .even {
-        margin-top: 20px;
-      }
+      margin: 0;
     }
 
     p.step-order-content {
@@ -497,10 +506,13 @@ section .main-container {
     }
 
     .content-box {
-      width: calc(100% - 100px);
-      height: 194px;
+      position: absolute;
+      left: 50%;
+      min-height: 160px;
+      width: 317px;
+      max-width: 317px;
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       padding: 36px;
       border: 1px solid var(--ubs-main-page-tertiary-light-grey);
       border-radius: 4px;
@@ -512,14 +524,6 @@ section .main-container {
         font-size: 25px;
         line-height: 21.85px;
         letter-spacing: -0.025em;
-
-        .odd {
-          margin-bottom: 20px;
-        }
-
-        .even {
-          margin-top: 20px;
-        }
       }
 
       p.step-order-content {
@@ -1001,9 +1005,6 @@ section .main-container {
 
             .step-order {
               .content-box {
-                width: 210px;
-                padding: 16px 4px;
-
                 h1 {
                   font-size: 20px;
                 }
@@ -1303,9 +1304,6 @@ section .main-container {
 
             .step-order {
               .content-box {
-                width: 160px;
-                padding: 16px 4px;
-
                 h1 {
                   font-size: 18px;
                 }
@@ -1797,8 +1795,8 @@ section .main-container {
       .step-order {
         .content-box {
           margin: 0;
-          padding: 5px;
-          width: 80%;
+          padding: 10px;
+          width: 150px;
           text-align: center;
           font-size: 11px;
           line-height: 13px;
@@ -1808,17 +1806,6 @@ section .main-container {
             font-size: 15px;
             line-height: 13px;
           }
-        }
-      }
-
-      .step-order:nth-child(3) {
-        .content-box {
-          padding: 0;
-          width: 140px;
-        }
-
-        hr {
-          width: 44px !important;
         }
       }
     }
