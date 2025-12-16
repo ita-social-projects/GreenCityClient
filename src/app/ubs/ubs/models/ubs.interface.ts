@@ -20,7 +20,7 @@ export interface Order {
   addressId: number;
   bags: OrderBag[];
   certificates: Array<string>;
-  locationId: number;
+  tariffId: number;
   orderComment: string;
   personalData: PersonalData;
   pointsToUse: number;

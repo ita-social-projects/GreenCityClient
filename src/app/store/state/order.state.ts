@@ -8,7 +8,6 @@ export interface IOrderState {
   orderDetails: OrderDetails | null;
   courierLocations: CourierLocations | null;
   UBSCourierId: number | null;
-  locationId: number | null;
   pendingLocationId: number | null;
   orderSum: number;
   certificates: CCertificate[];
@@ -31,7 +30,6 @@ export const initialOrderState: IOrderState = {
   orderDetails: null,
   courierLocations: null,
   UBSCourierId: null,
-  locationId: null,
   pendingLocationId: null,
   orderSum: 0,
   certificates: [],

@@ -3,17 +3,10 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { concatMap, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { finalize, map, takeUntil, tap } from 'rxjs/operators';
 import { ubsMainPageImages } from '@ubs/shared/image-paths/ubs-main-page-images';
-import {
-  ActiveCourierDto,
-  ActiveRegionDto,
-  AllActiveLocationsDtosResponse,
-  Bag,
-  LocationsDtosList,
-  OrderDetails
-} from '../../models/ubs.interface';
+import { ActiveRegionDto, ActiveTariffInfo, AllActiveLocationsDtosResponse, Bag } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
@@ -34,8 +27,11 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 export class UbsMainPageComponent implements OnInit, OnDestroy {
   ubsMainPageImages = ubsMainPageImages;
   locations: ActiveRegionDto;
-  selectedLocationId: number;
+  selectedTariff: ActiveTariffInfo;
+  tariffs: ActiveTariffInfo[];
+  bags: Bag[];
   isFetching: boolean;
+  isTarriffLoading = true;
   currentLocation: string;
   isAdmin = false;
   smallScreen: boolean;
@@ -43,10 +39,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   activeCouriers;
   ubsCourierName = 'UBS';
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-  bags: Bag[];
-  locationsToShowBags: LocationsDtosList[];
-  locationToShow: LocationsDtosList;
-  isTarriffLoading = true;
   content: THomepageContent;
   currentLanguage: string;
   private readonly subs = new Subscription();
@@ -72,11 +64,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     });
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
-    this.getActiveCouriers()
-      .pipe(concatMap(() => this.getActiveLocationsToShow()))
-      .subscribe(() => {
-        this.getBags();
-      });
+    this.getActiveTariffsAndPricing();
     this.onCheckToken();
     this.languageService
       .getCurrentLangObs()
@@ -98,26 +86,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  getBags(tariffId = 1): void {
-    this.isTarriffLoading = true;
-    // this.locationToShow = this.locationsToShowBags.find((el) => el.locationId === locationId);
-    const courierId = this.findCourierByName(this.ubsCourierName)?.courierId;
-
-    this.orderService
-      .getInfoAboutTariff(tariffId)
-      .pipe(
-        switchMap((data) => {
-          const tariffId = data.tariffsForLocationDto.tariffInfoId;
-          return this.orderService.getOrderDetails(tariffId);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((orderData: OrderDetails) => {
-        this.bags = orderData.bags;
-        this.isTarriffLoading = false;
-      });
-  }
-
   onCheckToken(): void {
     this.subs.add(this.checkTokenService.onCheckToken());
   }
@@ -125,7 +93,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   redirectToOrder(): void {
     if (this.userId) {
       this.localStorageService.setUbsRegistration(true);
-      this.getLocations(this.ubsCourierName);
+      this.router.navigate(['ubs', 'order']);
     } else {
       this.openAuthModalWindow();
     }
@@ -158,63 +126,25 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     return this.activeCouriers?.find((courier) => courier.nameEn.includes(name));
   }
 
-  getActiveCouriers(): Observable<ActiveCourierDto[]> {
-    return this.orderService.getAllActiveCouriers().pipe(tap((res) => (this.activeCouriers = res)));
-  }
-
-  getLocations(courierName: string): void {
-    const courier = this.findCourierByName(courierName);
-    this.isFetching = true;
+  getActiveTariffsAndPricing(): void {
+    this.isTarriffLoading = true;
     this.orderService
-      .getLocations(courier.courierId)
+      .getActiveTariffsInfo()
       .pipe(
-        takeUntil(this.destroy$),
-        finalize(() => {
-          this.isFetching = false;
-        })
+        tap((tariffs: ActiveTariffInfo[]) => this.tariffs = tariffs),
+        map((tariffs: ActiveTariffInfo[]) => this.localStorageService.getTariffId() || tariffs[0].id),
+        finalize(() => (this.isTarriffLoading = false))
       )
-      .subscribe({
-        next: (res: AllActiveLocationsDtosResponse) => {
-          if (res.orderIsPresent) {
-            this.saveLocation(res);
-            this.router.navigate(['ubs', 'order']);
-          } else {
-            this.openLocationDialog(res);
-          }
-        },
-        error: (e) => {
-          console.error(e);
-        }
+      .subscribe((tariffId) => {
+        this.getBags(tariffId);
       });
   }
 
-  private getActiveLocationsToShow(): Observable<AllActiveLocationsDtosResponse> {
-    const courier = this.findCourierByName(this.ubsCourierName);
-    return this.orderService.getLocations(courier.courierId, true).pipe(
-      tap((res) => {
-        this.locationsToShowBags = res.allActiveLocationsDtos.reduce(
-          (acc, region) => [
-            ...acc,
-            ...region.locations.map((city) => ({
-              locationId: city.locationId,
-              nameUk: this.orderService.getLocationName(city.nameUk, region.nameUk),
-              nameEn: this.orderService.getLocationName(city.nameEn, region.nameEn)
-            }))
-          ],
-          []
-        );
-      })
-    );
-  }
-
-  saveLocation(locationsData: AllActiveLocationsDtosResponse): void {
-    this.locations = locationsData.allActiveLocationsDtos[0];
-    this.selectedLocationId = locationsData.allActiveLocationsDtos[0].locations[0].locationId;
-    this.selectedTariffId = locationsData.allActiveLocationsDtos[0].locations[0].tariffInfoDto.tariffInfoId;
-    this.currentLocation = locationsData.allActiveLocationsDtos[0].nameEn;
-    this.orderService.completedLocation(true);
-    this.localStorageService.setLocationId(this.selectedLocationId);
-    this.localStorageService.setTariffId(this.selectedTariffId);
+  getBags(tariffId: number): void {
+    this.selectedTariff = this.tariffs.find((tariff) => tariff.id === tariffId);
+    console.log(this.tariffs);
+    console.log(this.selectedTariff);
+    this.orderService.getOrderDetails(tariffId).subscribe((details) => (this.bags = details.bags));
   }
 
   openLocationDialog(locationsData: AllActiveLocationsDtosResponse): void {
@@ -225,19 +155,16 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
       data: locationsData
     });
 
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          if (res?.data) {
-            this.router.navigate(['ubs', 'order']);
-          }
-        },
-        error: (e) => {
-          console.error(e);
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res?.data) {
+          this.router.navigate(['ubs', 'order']);
         }
-      });
+      },
+      error: (e) => {
+        console.error(e);
+      }
+    });
   }
 
   sliceContent(content: any) {

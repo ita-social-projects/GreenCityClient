@@ -2,16 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { conditions, courierPickUp, extraoffer, howWorksPickUp, minimumVolume, pricePickUp } from './pick-up-text';
 import { Store } from '@ngrx/store';
 import { GetOrderDetails } from 'src/app/store/actions/order.actions';
-import { orderDetailsSelector, tariffSelector } from 'src/app/store/selectors/order.selectors';
-import { filter, map, pairwise, Subject, switchMap, take, takeUntil, tap, finalize, distinctUntilChanged } from 'rxjs';
-import {
-  ActiveTariffInfo,
-  AllActiveLocationsDtosResponse,
-  Bag,
-  CourierDto,
-  LocationsName,
-  OrderDetails
-} from '@ubs/ubs/models/ubs.interface';
+import { orderDetailsSelector } from 'src/app/store/selectors/order.selectors';
+import { distinctUntilChanged, filter, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { ActiveTariffInfo, Bag, CourierDto, OrderDetails } from '@ubs/ubs/models/ubs.interface';
 import { OrderService } from '@ubs/ubs/services/order.service';
 import { FormControl } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -62,8 +55,8 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
       .subscribe((tariffs: ActiveTariffInfo[]) => {
         this.tariffs = tariffs;
         this.listenToLocationChanges();
-        const userTariff = this.localStorageService.getTariffId();
-        this.myControl.setValue(tariffs.find((t) => (t.id = userTariff)) || tariffs[0]);
+        const userTariff = this.localStorageService.getTariffId() || tariffs[0].id;
+        this.myControl.setValue(tariffs.find((t) => (t.id = userTariff)));
       });
   }
 
@@ -80,11 +73,7 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
         filter(Boolean),
         takeUntil(this.destroy$)
       )
-      .subscribe((orderDetails: OrderDetails) => {
-        console.log(this.isFetching);
-        console.log(orderDetails);
-        this.bags = orderDetails.bags;
-      });
+      .subscribe((orderDetails: OrderDetails) => (this.bags = orderDetails.bags));
   }
 
   ngOnDestroy() {

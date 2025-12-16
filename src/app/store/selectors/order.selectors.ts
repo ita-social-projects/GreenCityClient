@@ -13,8 +13,6 @@ export const UBSCourierIdSelector = createSelector(orderSelectors, (order) => or
 
 export const tariffSelector = createSelector(orderSelectors, (order) => order.tariff);
 
-export const locationIdSelector = createSelector(orderSelectors, (order) => order.locationId);
-
 export const courierLocationsSelector = createSelector(orderSelectors, (order) => order.courierLocations);
 
 export const addressesSelector = createSelector(orderSelectors, (order) => order.addresses);
