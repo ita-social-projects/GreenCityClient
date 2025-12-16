@@ -93,7 +93,11 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   redirectToOrder(): void {
     if (this.userId) {
       this.localStorageService.setUbsRegistration(true);
-      this.router.navigate(['ubs', 'order']);
+      if (!this.localStorageService.getTariffId()) {
+        this.openTariffDialog();
+      } else {
+        this.router.navigate(['ubs', 'order']);
+      }
     } else {
       this.openAuthModalWindow();
     }
@@ -142,22 +146,19 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
 
   getBags(tariffId: number): void {
     this.selectedTariff = this.tariffs.find((tariff) => tariff.id === tariffId);
-    console.log(this.tariffs);
-    console.log(this.selectedTariff);
     this.orderService.getOrderDetails(tariffId).subscribe((details) => (this.bags = details.bags));
   }
 
-  openLocationDialog(locationsData: AllActiveLocationsDtosResponse): void {
+  openTariffDialog(): void {
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
       disableClose: false,
-      closeOnNavigation: true,
-      data: locationsData
+      closeOnNavigation: true
     });
 
     dialogRef.afterClosed().subscribe({
       next: (res) => {
-        if (res?.data) {
+        if (res) {
           this.router.navigate(['ubs', 'order']);
         }
       },

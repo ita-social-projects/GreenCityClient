@@ -20,7 +20,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   selectedTariff: ActiveTariffInfo;
   isFetching = false;
   myControl = new FormControl(null, Validators.required);
-  private readonly ubsCourierId = 1;
   private locationsForTariff: CourierLocations;
   private readonly currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -29,22 +28,17 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     private readonly orderService: OrderService,
     private readonly dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private readonly localStorageService: LocalStorageService,
-    private readonly store: Store,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private readonly store: Store
   ) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
   }
 
   ngOnInit(): void {
-    this.getActiveTariffs();
-  }
-
-  getActiveTariffs() {
     this.orderService.getActiveTariffsInfo().subscribe((res) => {
       this.activeTariffs = res;
-      const tariffId = this.localStorageService.getTariffId() || 0;
-      const tariffName = res.find((tariff) => tariff.id === tariffId);
-      this.myControl.setValue(tariffName, { emitEvent: false });
+      const tariffId = this.localStorageService.getTariffId();
+      this.selectedTariff = res.find((tariff) => tariff.id === tariffId) || res[0];
+      this.myControl.setValue(this.selectedTariff);
     });
   }
 
