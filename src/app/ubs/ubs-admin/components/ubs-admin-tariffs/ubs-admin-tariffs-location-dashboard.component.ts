@@ -1,14 +1,13 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Couriers, CreateCard, Locations, Stations, Card, DeactivateCard, TariffCard } from '../../models/tariffs.interface';
-import { Subject, Observable, forkJoin, of } from 'rxjs';
+import { Card, Couriers, CreateCard, DeactivateCard, Locations, Stations } from '../../models/tariffs.interface';
+import { filter, forkJoin, Observable, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { Store } from '@ngrx/store';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -22,7 +21,7 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { statusOfTariff, actionsWithTariffs, switchTariffStatus } from './tariff-status.enum';
+import { actionsWithTariffs, statusOfTariff, switchTariffStatus } from './tariff-status.enum';
 import { Language } from 'src/app/shared/i18n/Language';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { abilityAddAuthorities, abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
@@ -118,15 +117,19 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   get region() {
     return this.searchForm.get('region');
   }
+
   get city() {
     return this.searchForm.get('city');
   }
+
   get courier() {
     return this.searchForm.get('courier');
   }
+
   get station() {
     return this.searchForm.get('station');
   }
+
   get state() {
     return this.searchForm.get('state');
   }
@@ -214,7 +217,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   private initForm(): void {
     this.searchForm = this.fb.group({
       region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-      city: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+      city: [
+        {
+          value: '',
+          disabled: true
+        },
+        [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]
+      ],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
       state: ['ACTIVE']
@@ -330,9 +339,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       }
     });
   }
+
   isAllOptionSelected(value: string) {
     return value && (value.toLowerCase() === TariffRegionAll.uk || value.toLowerCase() === TariffRegionAll.en);
   }
+
   onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
     this.scrollPosition = panel ? panel.scrollTop : 0;
@@ -588,14 +599,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   getReceivingStation(): void {
-    this.tariffsService
-      .getAllStations()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res: Stations[]) => {
-        this.stations = res;
-        this.stationName = this.stations.map((el) => el.name);
-        this.filteredStations = this.filterOptions(this.station, this.stationName);
-      });
+    this.tariffsService.getAllStations().subscribe((res: Stations[]) => {
+      this.stations = res;
+      this.stationName = this.stations.map((el) => el.name);
+      this.filteredStations = this.filterOptions(this.station, this.stationName);
+    });
   }
 
   getExistingCard(filterData) {
@@ -604,7 +612,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.cardsEn.length = 0;
     this.tariffsService.getFilteredCard(filterData).subscribe((card) => {
       card.forEach((el) => {
-        console.log(el);
         const cardObjUk = {
           courier: el.courierDto.nameUk,
           station: el.receivingStationDtos.map((it) => it.name),
@@ -798,11 +805,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       }
     });
 
-    matDialogRef.afterClosed().subscribe((res) => {
-      if (this.selectedCard && res) {
-        this.updateSelectedCard(res);
-      }
-    });
+    matDialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe((res) => {
+        if (this.selectedCard) {
+          this.updateSelectedCard(res);
+        } else {
+          this.getExistingCard(this.filterData);
+        }
+      });
   }
 
   updateSelectedCard(res): void {

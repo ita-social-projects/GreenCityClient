@@ -596,11 +596,9 @@ body {
 }
 
 .mat-mdc-select-placeholder {
-  margin-top: 2px !important;
   font-family: Lato, sans-serif !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  padding-left: 15px !important;
   color: rgb(202 207 211) !important;
   display: inline-block !important;
   box-sizing: border-box !important;
@@ -610,6 +608,7 @@ body {
   opacity: 1 !important;
   transform: none !important;
   letter-spacing: -0.1px !important;
+  vertical-align: middle !important;
 }
 
 router-outlet + * {

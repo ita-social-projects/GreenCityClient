@@ -448,32 +448,29 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   getSelectedTariffCard(): void {
     const tariffId = this.selectedCardId;
-    this.tariffsService
-      .getTariffCardInfo(tariffId)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((card: TariffCard) => {
-        this.selectedCard = {
-          tariffNameUk: card.tariffNameUk,
-          tariffNameEn: card.tariffNameEn,
-          courierUk: card.courierDto.nameUk,
-          courierEn: card.courierDto.nameEn,
-          courierId: card.courierDto.courierId,
-          station: card.receivingStationDtos.map((it) => it.name),
-          regionEn: card.regionDto.nameEn,
-          regionUk: card.regionDto.nameUk,
-          citiesUk: card.locationInfoDtos.map((it) => it.nameUk),
-          citiesEn: card.locationInfoDtos.map((it) => it.nameEn),
-          tariff: card.tariffStatus,
-          courierLimit: card.courierLimit,
-          regionId: card.regionDto.regionId,
-          cardId: card.cardId,
-          max: card.max,
-          min: card.min,
-          limitDescription: card.limitDescription
-        };
-        this.isLoading = false;
-        this.setLimits();
-      });
+    this.tariffsService.getTariffCardInfo(tariffId).subscribe((card: TariffCard) => {
+      this.selectedCard = {
+        tariffNameUk: card.tariffNameUk,
+        tariffNameEn: card.tariffNameEn,
+        courierUk: card.courierDto.nameUk,
+        courierEn: card.courierDto.nameEn,
+        courierId: card.courierDto.courierId,
+        station: card.receivingStationDtos.map((it) => it.name),
+        regionEn: card.regionDto.nameEn,
+        regionUk: card.regionDto.nameUk,
+        citiesUk: card.locationInfoDtos.map((it) => it.nameUk),
+        citiesEn: card.locationInfoDtos.map((it) => it.nameEn),
+        tariff: card.tariffStatus,
+        courierLimit: card.courierLimit,
+        regionId: card.regionDto.regionId,
+        cardId: card.cardId,
+        max: card.max,
+        min: card.min,
+        limitDescription: card.limitDescription
+      };
+      this.isLoading = false;
+      this.setLimits();
+    });
   }
 
   setLimits(): void {
@@ -504,19 +501,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     return !isNaN(Number(event.key)) && control.value !== 0;
   }
 
-  checkAtLeastOneChecked(): boolean {
-    return this.bags.some((bag) => bag.limitIncluded);
-  }
-
   disableSaveButton(): boolean {
     const byPrice = this.limitStatus === limitStatus.limitByPriceOfOrder && (this.minPriceOfOrder?.errors || this.maxPriceOfOrder?.errors);
     const byBags = this.limitStatus === limitStatus.limitByAmountOfBag && (this.minBigBags?.errors || this.maxBigBags?.errors);
     const isBagsChosen = this.bags.some((el) => el.limitIncluded);
-    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || !isBagsChosen) {
-      return true;
-    }
-
-    return false;
+    return !!(this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || !isBagsChosen);
   }
 
   unClickSaveBTN(value): void {
