@@ -20,7 +20,7 @@ import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
   personalData: PersonalData;
   personalDataForm: FormGroup;
   existingOrderId: number;
@@ -89,9 +89,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     protected readonly router: Router,
     protected readonly dialog: MatDialog,
     protected readonly orderService: OrderService
-  ) {
-    super(router, dialog, orderService);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(GetPersonalData());

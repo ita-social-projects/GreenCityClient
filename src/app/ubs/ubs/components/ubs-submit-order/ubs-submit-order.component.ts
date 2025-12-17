@@ -18,7 +18,7 @@ import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone
   templateUrl: './ubs-submit-order.component.html',
   styleUrls: ['./ubs-submit-order.component.scss']
 })
-export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
 
@@ -31,7 +31,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   pointsUsed: number;
   orderSum: number;
   finalSum: number;
-  locationId: number;
+  tariffId: number;
   addressId: number;
   isLoadingAnim: boolean;
   existingOrderId: number;
@@ -64,9 +64,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     protected readonly orderService: OrderService,
     protected readonly router: Router,
     protected readonly dialog: MatDialog
-  ) {
-    super(router, dialog, orderService);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => (this.existingOrderId = params.existingOrderId));
@@ -80,7 +78,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.pointsUsed = order.pointsUsed;
       this.orderSum = order.orderSum;
       this.addressId = order.addressId;
-      this.locationId = order.locationId;
+      this.tariffId = order.tariff?.id;
       this.isFirstFormValid = order.firstFormValid;
 
       this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;
@@ -115,16 +113,11 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   processOrder(shouldBePaid: boolean = true): void {
     this.isLoadingAnim = true;
     iif(
-      () => this.existingOrderId >= 0,
+      () => Boolean(this.existingOrderId),
       this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId),
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
-      .pipe(
-        takeUntil(this.$destroy),
-        finalize(() => {
-          this.redirectToConfirmPage();
-        })
-      )
+      .pipe(finalize(() => this.redirectToConfirmPage()))
       .subscribe({
         next: (response: IProcessOrderResponse) => {
           this.processPayment(response);
@@ -139,15 +132,16 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   onCancel(): void {
     const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
-    matDialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((isSave) => {
-        if (isSave === null) {
-          return;
-        }
-        return isSave ? this.processOrder(false) : this.redirectToMainPage();
-      });
+    matDialogRef.afterClosed().subscribe((isSave) => {
+      if (isSave === null) {
+        return;
+      }
+      return isSave ? this.processOrder(false) : this.redirectToMainPage();
+    });
+  }
+
+  getFormValues(): boolean {
+    return true;
   }
 
   private processPayment(response: IProcessOrderResponse): void {
@@ -178,7 +172,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       certificates: this.orderDetails.certificates,
       orderComment: this.orderDetails.orderComment,
       pointsToUse: this.pointsUsed,
-      locationId: this.locationId,
+      tariffId: this.tariffId,
       addressId: this.addressId,
       shouldBePaid,
       paymentSystem: PaymentSystem.WAY_FOR_PAY,

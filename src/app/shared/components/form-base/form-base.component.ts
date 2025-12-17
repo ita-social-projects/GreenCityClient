@@ -59,20 +59,17 @@ export abstract class FormBaseComponent implements ComponentCanDeactivate {
     if (condition) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
-      matDialogRef
-        .afterClosed()
-        .pipe(take(1))
-        .subscribe((confirm) => {
-          const currentUrl = this.router.url;
-          const isUBS = currentUrl.includes('ubs/order');
+      matDialogRef.afterClosed().subscribe((confirm) => {
+        const currentUrl = this.router.url;
+        const isUBS = currentUrl.includes('ubs/order');
 
-          if (confirm) {
-            this.areChangesSaved = true;
-          }
-          if (confirm && !isUbsOrderSubmit && !isUBS) {
-            this.router.navigate([this.previousPath]);
-          }
-        });
+        if (confirm) {
+          this.areChangesSaved = true;
+        }
+        if (confirm && !isUbsOrderSubmit && !isUBS) {
+          this.router.navigate([this.previousPath]);
+        }
+      });
       return;
     }
     this.areChangesSaved = true;

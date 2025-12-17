@@ -12,7 +12,6 @@ import {
   courierLocationsSelector,
   existingOrderInfoSelector,
   isAddressLoadingSelector,
-  locationIdSelector,
   tariffSelector
 } from 'src/app/store/selectors/order.selectors';
 import { IAddressExportDetails, IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
@@ -73,21 +72,21 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   initListenersForExistingOrder(): void {
-    combineLatest([
-      this.store.pipe(
-        select(locationIdSelector),
-        filter((value) => value !== null)
-      ),
-      this.store.pipe(select(addressesSelector), filter(Boolean)),
-      this.store.pipe(select(existingOrderInfoSelector), filter(Boolean))
-    ])
-      .pipe(takeUntil(this.$destroy))
-      .subscribe(([locationId, addresses, orderInfo]: [number, Address[], IUserOrderInfo]) => {
-        // this.addresses = addresses;
-        // this.currentLocationId = locationId;
-        this.existingOrderInfo = orderInfo;
-        this.initLocationForExistingOrder();
-      });
+    // combineLatest([
+    //   this.store.pipe(
+    //     select(locationIdSelector),
+    //     filter((value) => value !== null)
+    //   ),
+    //   this.store.pipe(select(addressesSelector), filter(Boolean)),
+    //   this.store.pipe(select(existingOrderInfoSelector), filter(Boolean))
+    // ])
+    //   .pipe(takeUntil(this.$destroy))
+    //   .subscribe(([locationId, addresses, orderInfo]: [number, Address[], IUserOrderInfo]) => {
+    //     this.addresses = addresses;
+    //     this.currentLocationId = locationId;
+    //     this.existingOrderInfo = orderInfo;
+    //     this.initLocationForExistingOrder();
+    //   });
   }
 
   initLocation(): void {

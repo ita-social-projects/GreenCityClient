@@ -49,7 +49,7 @@ import { Actions, ofType } from '@ngrx/effects';
   templateUrl: './ubs-order-details.component.html',
   styleUrls: ['./ubs-order-details.component.scss']
 })
-export class UBSOrderDetailsComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   isOrderDetailsLoading: Observable<boolean>;
   bags: Bag[];
   locations: CourierLocations;
@@ -117,9 +117,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     protected readonly orderService: OrderService,
     protected readonly router: Router,
     protected readonly dialog: MatDialog
-  ) {
-    super(router, dialog, orderService);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams
@@ -213,8 +211,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
     this.additionalOrders.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$)).subscribe(() => this.dispatchAdditionalOrders());
     this.orderComment.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$)).subscribe(() => this.dispatchOrderComment());
-
-    this.areChangesSaved = true;
   }
 
   dispatchAdditionalOrders(): void {
