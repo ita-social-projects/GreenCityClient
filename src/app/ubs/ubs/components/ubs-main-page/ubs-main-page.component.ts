@@ -50,7 +50,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   content: THomepageContent;
   currentLanguage: string;
   private readonly subs = new Subscription();
-  private readonly destroy: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private userId: number;
 
   constructor(
@@ -80,18 +80,21 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     this.onCheckToken();
     this.languageService
       .getCurrentLangObs()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((lang) => {
         this.currentLanguage = lang.toLowerCase();
       });
-    this.breakpointObserver.observe('(max-width: 576px)').subscribe((res) => {
-      this.smallScreen = res.matches;
-    });
+    this.breakpointObserver
+      .observe('(max-width: 576px)')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        this.smallScreen = res.matches;
+      });
   }
 
   ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
     this.subs.unsubscribe();
   }
 
@@ -107,7 +110,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
           const tariffId = data.tariffsForLocationDto.tariffInfoId;
           return this.orderService.getOrderDetails(locationId, tariffId);
         }),
-        takeUntil(this.destroy)
+        takeUntil(this.destroy$)
       )
       .subscribe((orderData: OrderDetails) => {
         this.bags = orderData.bags;
@@ -165,7 +168,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     this.orderService
       .getLocations(courier.courierId)
       .pipe(
-        takeUntil(this.destroy),
+        takeUntil(this.destroy$),
         finalize(() => {
           this.isFetching = false;
         })
@@ -224,7 +227,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
           if (res?.data) {
