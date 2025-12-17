@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { GetCurrentUserAction } from 'src/app/store/actions/auth.actions';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     if (this.updates.isEnabled) {
-      this.updates.versionUpdates.subscribe(() => {
+      this.updates.versionUpdates.pipe(filter((e): e is VersionReadyEvent => e.type === 'VERSION_READY')).subscribe(() => {
         this.updates.activateUpdate().then(() => location.reload());
       });
     }
