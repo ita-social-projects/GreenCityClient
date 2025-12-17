@@ -108,9 +108,14 @@ button {
   flex-flow: row wrap;
   align-items: center;
   margin-left: 25px;
-  padding: 10px;
   gap: 16px;
   justify-content: flex-end;
+
+  &:nth-child(2) {
+    button {
+      margin: 0;
+    }
+  }
 }
 
 .s-btn {

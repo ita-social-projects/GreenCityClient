@@ -79,9 +79,8 @@ export class TimePickerComponent implements OnInit {
   }
 
   initDate(): void {
-    this.currentDate = new Date();
-    this.currentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
-    this.currentDate = new Date(this.currentDate);
+    const formatted = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
+    this.currentDate = new Date(formatted);
     this.exportDate = new Date(this.exportDate);
   }
 
