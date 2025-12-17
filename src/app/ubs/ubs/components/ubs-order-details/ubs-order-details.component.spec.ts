@@ -10,18 +10,17 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { Component } from '@angular/core';
-import { fakeInputOrderData, mockCourierLocations, ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
+import { ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
 import {
   certificateUsedSelector,
   courierLocationsSelector,
   isOrderDetailsLoadingSelector,
-  locationIdSelector,
   orderDetailsSelector,
   pointsUsedSelector
 } from 'src/app/store/selectors/order.selectors';
 import { CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
-import { GetExistingOrderDetails, GetExistingOrderTariff, SetAdditionalOrders, SetOrderComment } from 'src/app/store/actions/order.actions';
+import { SetAdditionalOrders, SetOrderComment } from 'src/app/store/actions/order.actions';
 import { ExtraPackagesPopUpComponent } from '@ubs/ubs/components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 import { UbsOrderLocationPopupComponent } from '@ubs/ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 
@@ -79,8 +78,6 @@ describe('UBSOrderDetailsComponent', () => {
             return new BehaviorSubject<CourierLocations>({} as CourierLocations);
           case orderDetailsSelector:
             return new BehaviorSubject<OrderDetails>({ bags: [{ id: 1 }] } as OrderDetails);
-          case locationIdSelector:
-            return new BehaviorSubject<number>(1);
           case pointsUsedSelector:
             return new BehaviorSubject<number>(50);
           case certificateUsedSelector:
@@ -144,25 +141,17 @@ describe('UBSOrderDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('initListeners', () => {
-    it('should initialize listeners on init', () => {
-      spyOn(component, 'initListeners');
-      component.ngOnInit();
-      expect(component.initListeners).toHaveBeenCalled();
-    });
-  });
-
-  describe('addOrder', () => {
+  describe('pushAdditionalOrder', () => {
     it('should add a new order', () => {
       const initialLength = component.additionalOrders.length;
-      component.addOrder();
+      component.pushAdditionalOrder();
       expect(component.additionalOrders.length).toBe(initialLength + 1);
     });
   });
 
   describe('deleteOrder', () => {
     it('should delete an order', () => {
-      component.addOrder('testOrder');
+      component.pushAdditionalOrder('testOrder');
       const initialLength = component.additionalOrders.length;
       component.deleteOrder(0);
       expect(component.additionalOrders.length).toBe(initialLength - 1);
@@ -171,8 +160,8 @@ describe('UBSOrderDetailsComponent', () => {
 
   describe('removeOrder', () => {
     it('should remove order on Enter key press', () => {
-      component.addOrder('Order 1');
-      component.addOrder('Order 2');
+      component.pushAdditionalOrder('Order 1');
+      component.pushAdditionalOrder('Order 2');
       component.removeOrder({ code: 'Enter' } as KeyboardEvent, 0);
       expect(component.additionalOrders.controls.length).toBe(2);
     });
@@ -180,8 +169,8 @@ describe('UBSOrderDetailsComponent', () => {
 
   describe('isAlreadyEntered', () => {
     it('should check if order is already entered', () => {
-      component.addOrder('Order 1');
-      component.addOrder('Order 1');
+      component.pushAdditionalOrder('Order 1');
+      component.pushAdditionalOrder('Order 1');
       const result = component.isAlreadyEntered(0);
       expect(result).toBe(false);
     });
@@ -189,8 +178,8 @@ describe('UBSOrderDetailsComponent', () => {
 
   describe('isCanAddEcoShopOrderNumber', () => {
     it('should check if can add eco shop order number', () => {
-      component.addOrder('Order 1');
-      component.addOrder('Order 2');
+      component.pushAdditionalOrder('Order 1');
+      component.pushAdditionalOrder('Order 2');
       const result = component.isCanAddEcoShopOrderNumber();
 
       expect(result).toBe(false);
@@ -219,40 +208,13 @@ describe('UBSOrderDetailsComponent', () => {
       });
 
       spyOn(component.additionalOrders, 'clear').and.callThrough();
-      spyOn(component, 'addOrder').and.callThrough();
+      spyOn(component, 'pushAdditionalOrder').and.callThrough();
 
       component.initExistingOrderValues();
 
       expect(component.orderComment.value).toBe('Test Comment');
       expect(component.additionalOrders.clear).toHaveBeenCalled();
-      expect(component.addOrder).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('fetchDataForExistingOrder', () => {
-    beforeEach(() => {
-      initListenersSpy = spyOn(component, 'initListeners');
-      initExistingOrderValuesSpy = spyOn(component, 'initExistingOrderValues');
-    });
-
-    it('should dispatch actions and pick up both selectors', () => {
-      component.existingOrderId = 1;
-
-      (mockStore.pipe as jasmine.Spy).and.returnValue(of(null));
-      component.fetchDataForExistingOrder();
-      expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderDetails({ orderId: 1 }));
-      expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderTariff({ orderId: 1 }));
-
-      (mockStore.pipe as jasmine.Spy).and.returnValue(of(1));
-      component.fetchDataForExistingOrder();
-      expect(component.locationId).toBe(1);
-      expect(initListenersSpy).toHaveBeenCalled();
-
-      const fakeInfo = JSON.parse(JSON.stringify(fakeInputOrderData)) as IUserOrderInfo;
-      (mockStore.pipe as jasmine.Spy).and.returnValue(of(fakeInfo));
-      component.fetchDataForExistingOrder();
-      expect(component.existingOrderInfo).toEqual(fakeInfo);
-      expect(initExistingOrderValuesSpy).toHaveBeenCalled();
+      expect(component.pushAdditionalOrder).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -305,16 +267,6 @@ describe('UBSOrderDetailsComponent', () => {
       component.openLocationDialog();
       expect(component.orderDetailsForm.markAllAsTouched).toHaveBeenCalled();
       expect(component.isDialogOpen).toBeFalse();
-    });
-  });
-
-  describe('initLocation', () => {
-    it('should initialize location', () => {
-      component.locations = mockCourierLocations;
-      component.locationId = 1;
-      component.initLocation();
-
-      expect(component.currentLocation).toBe('Kyiv');
     });
   });
 

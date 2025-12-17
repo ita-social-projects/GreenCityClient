@@ -126,10 +126,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     return userRole === 'ROLE_UBS_EMPLOYEE' && isEmployeeHasAuthorities;
   }
 
-  findCourierByName(name) {
-    return this.activeCouriers?.find((courier) => courier.nameEn.includes(name));
-  }
-
   getActiveTariffsAndPricing(): void {
     this.isTarriffLoading = true;
     this.orderService

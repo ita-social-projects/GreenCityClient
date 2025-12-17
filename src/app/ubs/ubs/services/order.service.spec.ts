@@ -133,7 +133,7 @@ describe('OrderService', () => {
   });
 
   it('method getOrders should return order details', fakeAsync(() => {
-    service.getOrderDetails(1, 25).subscribe((data) => {
+    service.getOrderDetails(1).subscribe((data) => {
       service.stateOrderDetails = null;
       expect(ubsOrderServiseMock.orderDetails).not.toBeNull();
       expect(ubsOrderServiseMock.orderDetails).toEqual(data);
@@ -181,7 +181,7 @@ describe('OrderService', () => {
   it('method getInfoAboutTariff should return user location tariff', () => {
     const tariffMock = { tariff: 'fake tariff' };
 
-    service.getInfoAboutTariff(1, 1).subscribe((data) => {
+    service.getInfoAboutTariff(1).subscribe((data) => {
       expect(data).toEqual(tariffMock as any);
     });
     httpTest('tariffinfo/1?courierId=1', 'GET', tariffMock);

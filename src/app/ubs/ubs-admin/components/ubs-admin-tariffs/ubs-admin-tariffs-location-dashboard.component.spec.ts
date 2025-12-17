@@ -110,7 +110,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     courierId: 1,
     locationIdList: [1, 2, 3],
     receivingStationsIdList: [1, 2, 3],
-    regionId: 5
+    regionId: 5,
+    tariffNameEn: 'tfNameEn',
+    tariffNameUk: 'tfNameUk'
   };
 
   const fakeCouriers = {
@@ -808,7 +810,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       courierId: component.courierId,
       receivingStationsIdList: component.selectedStation.map((it) => it.id).sort(),
       regionId: component.regionId,
-      locationIdList: component.selectedCities.map((it) => it.id).sort()
+      locationIdList: component.selectedCities.map((it) => it.id).sort(),
+      tariffNameEn: 'tariffNameEn',
+      tariffNameUk: 'tariffNameUk'
     };
     expect(component.createCardObj).toEqual(fakeNewCard);
   });

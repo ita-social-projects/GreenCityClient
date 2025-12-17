@@ -116,7 +116,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     private readonly actions$: Actions,
     protected readonly orderService: OrderService,
     protected readonly router: Router,
-    protected readonly dialog: MatDialog
+    readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {

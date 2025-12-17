@@ -200,68 +200,11 @@ describe('UbsMainPageComponent', () => {
 
   it('should make expected calls inside openLocationDialog', () => {
     matDialogMock.open.and.returnValue(dialogRefStub as any);
-    component.openLocationDialog('fake locations' as any);
+    component.openTariffDialog();
     expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
-  });
-
-  describe('findCourierByName', () => {
-    it('should return the courier with matching name', () => {
-      const courierName = 'Test502';
-      const result = component.findCourierByName(courierName);
-      expect(result).toEqual(activecouriersMock[1]);
-    });
-
-    it('should return undefined when no courier with matching name is found', () => {
-      const courierName = 'NonExistingCourier';
-      const result = component.findCourierByName(courierName);
-      expect(result).toBeUndefined();
-    });
-  });
-
-  describe('getActiveCouriers', () => {
-    it('should fetch active couriers from the order service', () => {
-      component.getActiveCouriers();
-      expect(orderServiceMock.getAllActiveCouriers).toHaveBeenCalled();
-    });
-
-    it('should set activeCouriers when getAllActiveCouriers returns data', fakeAsync(() => {
-      const mockCouriers = activecouriersMock;
-      orderServiceMock.getAllActiveCouriers.and.returnValue(of(mockCouriers));
-      component.getActiveCouriers();
-      tick();
-      expect(component.activeCouriers).toEqual(mockCouriers);
-    }));
   });
 
   it('should have expected activeCouriers after ngOnInit', () => {
     expect(component.activeCouriers).toEqual(activecouriersMock);
-  });
-
-  describe('getLocations', () => {
-    it('should handle error from getLocations', () => {
-      const courierName = 'Test502';
-      orderServiceMock.getLocations.and.returnValue(throwError('error'));
-      spyOn(console, 'error');
-      component.getLocations(courierName);
-      expect(console.error).toHaveBeenCalledWith('error');
-    });
-
-    it('should response from getLocations if user had orders', () => {
-      const courierName = 'Test502';
-      const res = { allActiveLocationsDtos: null, tariffsForLocationDto: null, orderIsPresent: true };
-      orderServiceMock.getLocations.and.returnValue(of(res));
-      const spy = spyOn(component, 'saveLocation');
-      component.getLocations(courierName);
-      expect(spy).toHaveBeenCalledWith(res);
-    });
-
-    it('should response from getLocations if user doesnt have any odreds', () => {
-      const courierName = 'Test502';
-      const res = { allActiveLocationsDtos: null, tariffsForLocationDto: null, orderIsPresent: false };
-      orderServiceMock.getLocations.and.returnValue(of(res));
-      const spy = spyOn(component, 'openLocationDialog');
-      component.getLocations(courierName);
-      expect(spy).toHaveBeenCalledWith(res);
-    });
   });
 });
