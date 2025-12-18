@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, filter, firstValueFrom, take } from 'rxjs';
+import { environment } from '@environment/environment';
 
 declare global {
   interface Window {
@@ -12,7 +13,7 @@ declare global {
   providedIn: 'root'
 })
 export class GoogleScript {
-  private readonly apiKey = 'AIzaSyDaqjlemyxH1pLvF1EWfBDW2IPlgwJYXnU';
+  private readonly apiKey = environment.apiMapKey;
   private scriptLoaded = false;
   private currentLanguage: string | null = null;
   private readonly mapReadySubject = new BehaviorSubject<boolean>(false);
