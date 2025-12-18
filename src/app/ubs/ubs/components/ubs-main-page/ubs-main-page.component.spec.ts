@@ -1,9 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
@@ -24,13 +24,7 @@ describe('UbsMainPageComponent', () => {
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', [
-    'setUbsRegistration',
-    'getUserId',
-    'removeUbsFondyOrderId',
-    'getLocationId',
-    'getTariffId'
-  ]);
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration', 'getUserId', 'getTariffId']);
   localeStorageServiceMock.getCurrentLanguage = () => of('uk');
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
@@ -41,64 +35,10 @@ describe('UbsMainPageComponent', () => {
       return of({ data: true });
     }
   };
-  const orderServiceMock = jasmine.createSpyObj('orderService', [
-    'getLocations',
-    'getAllActiveCouriers',
-    'cleanPrevOrderState',
-    'getOrders'
-  ]);
 
-  const orderData = [
-    {
-      id: 2,
-      name: 'Текстильні відходи',
-      capacity: 20,
-      price: 110,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: null
-    },
-    {
-      id: 3,
-      name: 'Текстильні відходи',
-      capacity: 60,
-      price: 220,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: null
-    },
-    {
-      id: 1,
-      name: 'Мікс відходів',
-      capacity: 120,
-      price: 285,
-      nameEng: 'Mix waste',
-      limitedIncluded: true,
-      quantity: null
-    },
-    {
-      id: 7,
-      name: 'Текстильні відходи',
-      capacity: 30,
-      price: 260,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: null
-    },
-    {
-      id: 8,
-      name: 'Мікс відходів',
-      capacity: 3,
-      price: 473,
-      nameEng: 'Mix Waste',
-      limitedIncluded: false,
-      quantity: null
-    }
-  ];
-  orderServiceMock.getOrders.and.returnValue(of(orderData));
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderDetails', 'getActiveTariffsInfo', 'cleanPrevOrderState']);
 
-  const activecouriersMock = activeCouriersMock;
-  orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
+  orderServiceMock.getActiveTariffsInfo.and.returnValue(of(activeCouriersMock));
 
   const mockHomepageContent: THomepageContent = {
     uk: {
@@ -188,7 +128,6 @@ describe('UbsMainPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsMainPageComponent);
     component = fixture.componentInstance;
-    component.activeCouriers = activecouriersMock;
     component.content = mockHomepageContent;
     fixture.detectChanges();
   });
@@ -202,9 +141,5 @@ describe('UbsMainPageComponent', () => {
     matDialogMock.open.and.returnValue(dialogRefStub as any);
     component.openTariffDialog();
     expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
-  });
-
-  it('should have expected activeCouriers after ngOnInit', () => {
-    expect(component.activeCouriers).toEqual(activecouriersMock);
   });
 });

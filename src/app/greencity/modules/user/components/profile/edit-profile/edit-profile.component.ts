@@ -86,7 +86,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     return this.editProfileForm.get('credo');
   }
 
-  Values(): any {
+  getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
       latitude: this.coordinates.latitude,

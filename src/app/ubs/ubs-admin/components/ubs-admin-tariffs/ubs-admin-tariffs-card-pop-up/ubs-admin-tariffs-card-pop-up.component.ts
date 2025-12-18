@@ -1,10 +1,10 @@
 import { Language } from 'src/app/shared/i18n/Language';
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { filter, merge, Subject } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
@@ -47,7 +47,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     tariffNameUk: new FormControl<string>('', Validators.required),
     tariffNameEn: new FormControl<string>('', Validators.required),
     courierName: new FormControl<string>('', Validators.required),
-    station: new FormControl<string>('', [Validators.required]),
+    station: new FormControl<string>('', Validators.required),
     regionName: new FormControl<string>('', Validators.required),
     city: new FormControl<string>({ value: '', disabled: true }, [Validators.maxLength(40), Validators.required])
   });
@@ -81,7 +81,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   reset = true;
   courierId: number;
   regionId: number;
-  createCardObj: CreateCard;
   blurOnOption = false;
   isCardExist = false;
   isCreationAllowed = false;
@@ -188,15 +187,26 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.checkIfAlreadyExists();
   }
 
-  lengthValidator(): ValidatorFn {
-    // return (control: FormControl) => {
-    //   const value = control.value;
-    //   if (!value?.lenght) {
-    //     return { emptyList: true };
-    //   }
-    //   return null;
-    // };
-    return null;
+  cityValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (!this.selectedCities.length) {
+        return { emptySelectedCity: true };
+      }
+
+      this.checkIfAlreadyExists();
+
+      return null;
+    };
+  }
+
+  stationValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (!this.selectedStation.length) {
+        return { emptySelectedStation: true };
+      }
+
+      return null;
+    };
   }
 
   getCouriers(): void {
@@ -239,7 +249,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
           )
           .subscribe((data) => {
             this.filteredStations = data;
-            this.station.setValidators(this.lengthValidator);
+            this.station.setValidators(this.stationValidator);
           });
       });
   }
@@ -275,7 +285,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         id: selectedStationValue.id
       };
     });
-    this.station.setValidators(this.lengthValidator);
+    this.station.setValidators(this.stationValidator);
     this.station.setValue('');
     this.blurOnOption = false;
 
@@ -302,7 +312,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
     this.setCountOfSelectedCity();
     this.city.reset();
-    this.city.setValidators(this.lengthValidator);
+    this.city.setValidators(this.cityValidator);
     this.city.enable();
     this.city.markAsPristine();
   }
@@ -343,7 +353,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.selectedStation.push(tempItem);
     }
 
-    this.station.setValidators(this.lengthValidator);
+    this.station.setValidators(this.stationValidator);
     this.station.setValue('');
     this.setStationPlaceholder();
     if (trigger) {
@@ -356,7 +366,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   deleteStation(index): void {
     this.selectedStation.splice(index, 1);
     this.setStationPlaceholder();
-    this.station.setValidators(this.lengthValidator);
+    this.station.setValidators(this.stationValidator);
   }
 
   checkStation(item): boolean {
@@ -385,11 +395,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.setCountOfSelectedCity();
     this.filteredCities = currentRegion[0].locationsDto;
 
-    this.city.valueChanges.subscribe((data) => {
+    this.city.valueChanges.pipe(filter(Boolean), take(1)).subscribe((data) => {
       if (!data) {
         this.filteredCities = currentRegion[0].locationsDto;
       }
-      this.city.setValidators(this.lengthValidator);
+      this.city.setValidators(this.cityValidator);
     });
 
     event.value ? this.city.enable() : this.city.disable();
@@ -406,7 +416,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectCity(event);
     this.setCountOfSelectedCity();
     this.city.setValue('');
-    this.city.setValidators(this.lengthValidator);
+    this.city.setValidators(this.cityValidator);
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -462,7 +472,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   deleteCity(index): void {
     this.selectedCities.splice(index, 1);
     this.setCountOfSelectedCity();
-    this.city.setValidators(this.lengthValidator);
+    this.city.setValidators(this.cityValidator);
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
@@ -515,13 +525,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       regionId: this.regionId,
       station: this.selectedStation.map((it) => it.name)
     };
-    this.tariffsService
-      .editTariffInfo(body, this.tariffId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.dialogRef.close(newValueOfCard);
-        this.snackBar.openSnackBar('successUpdateUbsData');
-      });
+    this.tariffsService.editTariffInfo(body, this.tariffId).subscribe(() => {
+      this.dialogRef.close(newValueOfCard);
+      this.snackBar.openSnackBar('successUpdateUbsData');
+    });
   }
 
   fillFields(modalData) {
@@ -555,34 +562,15 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  listenToNameFieldAndCheckAvailability(): void {
-    const enControl = this.CardForm.get('tariffNameEn');
-    const uaControl = this.CardForm.get('tariffNameUk');
-    const initEnName = enControl.value;
-    const initUaName = uaControl.value;
-    merge(enControl.valueChanges, uaControl.valueChanges)
-      .pipe(
-        filter(() => this.CardForm.valid),
-        map(() => enControl.value !== initEnName || uaControl.value !== initUaName),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((nameChanged) => {
-        console.log(this.isCardExist);
-        console.log(!this.isCreationAllowed);
-        this.nameChanged = nameChanged;
-        console.log(!this.nameChanged);
-      });
-  }
-
   checkIfAlreadyExists() {
-    // this.isCreationAllowed = false;
+    this.isCreationAllowed = false;
     if (this.CardForm.valid && this.CardForm.dirty) {
       this.tariffsService.checkIfCardExist(this.createCardDto()).subscribe({
         next: (response) => {
-          // this.isCardExist = response.toString() === 'true';
+          this.isCardExist = response.toString() === 'true';
         },
         complete: () => {
-          // this.isCreationAllowed = !this.isCardExist && !this.CardForm.invalid;
+          this.isCreationAllowed = !this.isCardExist && !this.CardForm.invalid;
         }
       });
     }
@@ -608,7 +596,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       });
       matDialogRef.afterClosed().subscribe((res) => {
         if (res) {
-          this.createCardRequest(this.createCardObj);
+          this.createCardRequest(this.createCardDto());
           this.snackBar.openSnackBar('successUpdateUbsData');
           this.dialogRef.close(true);
         }

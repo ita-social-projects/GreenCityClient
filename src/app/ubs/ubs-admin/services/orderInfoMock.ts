@@ -2,6 +2,7 @@ import { IOrderInfo, IEmployee, IPaymentInfoDto } from '../models/ubs-admin.inte
 import { limitStatus } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { OrderStatus, PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
+import { ActiveTariffInfo } from '@ubs/ubs/models/ubs.interface';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
@@ -207,3 +208,16 @@ export const IPaymentInfoDtoMock: IPaymentInfoDto = {
   amount: 200,
   receiptLink: 'Enrollment to the bonus account'
 };
+
+export const activeTariffsMock: ActiveTariffInfo[] = [
+  {
+    id: 0,
+    tariffNameEn: 'tfEn',
+    tariffNameUk: 'tfUk'
+  },
+  {
+    id: 1,
+    tariffNameEn: 'tfEn',
+    tariffNameUk: 'tfUk'
+  }
+];

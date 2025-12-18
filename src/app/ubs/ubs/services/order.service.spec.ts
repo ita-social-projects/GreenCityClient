@@ -184,7 +184,7 @@ describe('OrderService', () => {
     service.getInfoAboutTariff(1).subscribe((data) => {
       expect(data).toEqual(tariffMock as any);
     });
-    httpTest('tariffinfo/1?courierId=1', 'GET', tariffMock);
+    httpTest('tariffinfo/1', 'GET', tariffMock);
   });
 
   it('method addAdress should makes post request', () => {

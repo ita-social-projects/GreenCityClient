@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of, Subject } from 'rxjs';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BehaviorSubject, of } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up.component';
@@ -202,7 +202,12 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } },
+        {
+          provide: MatSnackBarService,
+          useValue: {
+            openSnackBar: () => {}
+          }
+        },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -344,6 +349,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     component.selectCity(eventMock as any);
     expect(component.selectedCities).toEqual([{ location: 'друге', englishLocation: 'second', locationId: 2 }]);
   });
+
   it('should add new selected city if it does not exist in list', () => {
     component.selectedCities = [{ location: 'друге', englishLocation: 'second', locationId: 2 }];
     component.selectCity(eventMockCity as any);
@@ -487,14 +493,17 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   }));
 
   it('should call create Card Object', () => {
-    component.createCardDto();
+    component.CardForm.get('tariffNameEn').setValue('tfEn', { emitEvent: false });
+    component.CardForm.get('tariffNameUk').setValue('tfUk', { emitEvent: false });
     const fakeNewCard = {
       courierId: component.courierId,
       receivingStationsIdList: component.selectedStation.map((it) => it.id).sort(),
       regionId: component.regionId,
-      locationIdList: component.selectedCities.map((it) => it.id).sort()
+      locationIdList: component.selectedCities.map((it) => it.id).sort(),
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     };
-    expect(component.createCardObj).toEqual(fakeNewCard);
+    expect(component.createCardDto()).toEqual(fakeNewCard);
   });
 
   it('should filter options', () => {
@@ -508,7 +517,9 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
       courierId: 0,
       receivingStationsIdList: [0],
       regionId: 0,
-      locationIdList: [0]
+      locationIdList: [0],
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     };
     component.createCardRequest(fakeNewCard);
     expect(tariffsServiceMock.createCard).toHaveBeenCalled();

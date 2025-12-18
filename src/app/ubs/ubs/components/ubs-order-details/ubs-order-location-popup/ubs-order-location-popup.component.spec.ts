@@ -1,212 +1,132 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { By } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
-import { of, Subject } from 'rxjs';
-import { OrderService } from '../../../services/order.service';
-import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
-import { Router } from '@angular/router';
-import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
-import { provideMockStore } from '@ngrx/store/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { of } from 'rxjs';
+import { provideMockStore } from '@ngrx/store/testing';
+import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
+import { OrderService } from '../../../services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { Store } from '@ngrx/store';
 import { ActiveTariffInfo } from '../../../models/ubs.interface';
+import { Language } from '../../../../../shared/i18n/Language';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
   let fixture: ComponentFixture<UbsOrderLocationPopupComponent>;
-  const dialogMock = jasmine.createSpyObj('dialogRef', ['close']);
-
-  const orderServiceMock = jasmine.createSpyObj('orderService', [
-    'getActiveTariffsInfo',
-    'getTariffName',
-    'getTariffDescription',
-    'getInfoAboutTariff'
-  ]);
-  const routerMock = jasmine.createSpyObj('router', ['navigate']);
-
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
-    'getCurrentLanguage',
-    'setLocationId',
-    'setTariffId',
-    'setLocations'
-  ]);
+  let dialogMock: jasmine.SpyObj<MatDialogRef<UbsOrderLocationPopupComponent>>;
+  let orderServiceMock: jasmine.SpyObj<OrderService>;
+  let localStorageMock: jasmine.SpyObj<LocalStorageService>;
+  let storeMock: jasmine.SpyObj<Store>;
 
   const fakeTariffs: ActiveTariffInfo[] = [
     {
       id: 1,
       tariffNameEn: 'Tariff 1',
       tariffNameUk: 'Тариф 1',
-      descriptionMessageEn: 'Description 1',
+      descriptionMessageEn: 'Desc 1',
       descriptionMessageUk: 'Опис 1'
     },
     {
       id: 2,
       tariffNameEn: 'Tariff 2',
       tariffNameUk: 'Тариф 2',
-      descriptionMessageEn: 'Description 2',
+      descriptionMessageEn: 'Desc 2',
       descriptionMessageUk: 'Опис 2'
     }
   ];
 
   beforeEach(async () => {
-    localStorageServiceMock.getCurrentLanguage.and.returnValue('en');
+    dialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
+    orderServiceMock = jasmine.createSpyObj('OrderService', ['getActiveTariffsInfo', 'getTariffName', 'getTariffDescription']);
+    localStorageMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getTariffId', 'setTariffId']);
+    storeMock = jasmine.createSpyObj('Store', ['dispatch']);
+
     orderServiceMock.getActiveTariffsInfo.and.returnValue(of(fakeTariffs));
-    orderServiceMock.getTariffName.and.returnValue('Tariff 1');
-    orderServiceMock.getTariffDescription.and.returnValue('Description 1');
-    orderServiceMock.getInfoAboutTariff.and.returnValue(
-      of({
-        orderIsPresent: true,
-        tariffsForLocationDto: {
-          locationsDtosList: [
-            {
-              locationId: 2,
-              nameEn: 'fake location en'
-            }
-          ],
-          tariffInfoId: 1
-        }
-      })
-    );
-    orderServiceMock.setLocationData.and.returnValue(undefined);
-    orderServiceMock.completedLocation.and.returnValue(undefined);
+    orderServiceMock.getTariffName.and.callFake((tariff: ActiveTariffInfo) => tariff.tariffNameEn);
+    orderServiceMock.getTariffDescription.and.callFake((tariff: ActiveTariffInfo) => tariff.descriptionMessageEn);
+    localStorageMock.getCurrentLanguage.and.returnValue('en' as Language);
+    localStorageMock.getTariffId.and.returnValue(1);
 
     await TestBed.configureTestingModule({
       declarations: [UbsOrderLocationPopupComponent],
-      imports: [HttpClientTestingModule, MatDialogModule, MatAutocompleteModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [ReactiveFormsModule, MatAutocompleteModule, TranslateModule.forRoot(), MatDialogModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
-        { provide: MAT_DIALOG_DATA, useValue: null },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: Router, useValue: routerMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LocalStorageService, useValue: localStorageMock },
+        { provide: Store, useValue: storeMock },
         provideMockStore({})
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      ]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UbsOrderLocationPopupComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    fixture.detectChanges();
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('method ngOnInit should invoke method getActiveTariffsInfo()', () => {
-    const spy = spyOn(orderServiceMock, 'getActiveTariffsInfo').and.callThrough();
-    fixture.detectChanges();
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+  it('ngOnInit should fetch activeTariffs and set selectedTariff', () => {
+    expect(component.activeTariffs).toEqual(fakeTariffs);
+    expect(component.selectedTariff).toEqual(fakeTariffs[0]);
+    expect(component.myControl.value).toEqual(fakeTariffs[0]);
   });
 
-  it('method saveLocation should call by click save button', fakeAsync(() => {
-    fixture.detectChanges();
-    const spy = spyOn(component, 'saveLocation');
-    const btn = fixture.debugElement.query(By.css('.footer-btns .ubs-primary-global-button'));
-    btn.triggerEventHandler('click', null);
-    tick();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalled();
-  }));
+  it('displayFn should return tariff name or empty string', () => {
+    expect(component.displayFn(fakeTariffs[1])).toBe('Tariff 2');
+    expect(component.displayFn(null)).toBe('');
+  });
 
-  it('method passDataToComponent should invoke this.dialogRef.close({})', () => {
-    fixture.detectChanges();
+  it('getTariffName should call orderService.getTariffName', () => {
+    const result = component.getTariffName(fakeTariffs[0]);
+    expect(result).toBe('Tariff 1');
+    expect(orderServiceMock.getTariffName).toHaveBeenCalledWith(fakeTariffs[0]);
+  });
+
+  it('getTariffDescription should return description if tariff exists', () => {
+    component.activeTariffs = fakeTariffs;
+    const result = component.getTariffDescription(2);
+    expect(result).toBe('Desc 2');
+    expect(orderServiceMock.getTariffDescription).toHaveBeenCalledWith(fakeTariffs[1]);
+  });
+
+  it('getTariffDescription should return null if tariff not found', () => {
+    component.activeTariffs = fakeTariffs;
+    const result = component.getTariffDescription(999);
+    expect(result).toBeNull();
+  });
+
+  it('changeTariff should update selectedTariff', () => {
+    component.changeTariff(fakeTariffs[1]);
+    expect(component.selectedTariff).toBe(fakeTariffs[1]);
+  });
+
+  it('passDataToComponent should call dialogRef.close with correct payload', () => {
+    component.selectedTariff = fakeTariffs[0];
+    component.activeTariffs = fakeTariffs;
     component.passDataToComponent();
+    expect(dialogMock.close).toHaveBeenCalledWith({
+      tariff: fakeTariffs[0].id,
+      currentLanguage: 'en',
+      data: undefined,
+      activeTariffs: fakeTariffs
+    });
+  });
+
+  it('closePopUp should call dialogRef.close', () => {
+    component.closePopUp();
     expect(dialogMock.close).toHaveBeenCalled();
   });
 
-  describe('displayFn', () => {
-    it('makes expected calls', () => {
-      fixture.detectChanges();
-      const tariff = {
-        tariffNameEn: 'fakeNameEn',
-        tariffNameUk: 'fakeNameUk'
-      } as ActiveTariffInfo;
-      const res = component.displayFn(tariff);
-      expect(res).toBe('fakeNameEn');
-    });
-
-    it('makes expected calls if city is null', () => {
-      fixture.detectChanges();
-      const city = null;
-      const res = component.displayFn(city);
-      expect(res).toBe('');
-    });
-  });
-
-  it('should initialize activeTariffs as empty array', () => {
-    const componentInstance = new UbsOrderLocationPopupComponent(
-      orderServiceMock as any,
-      dialogMock as any,
-      localStorageServiceMock as any,
-      null
-    );
-    expect(componentInstance.activeTariffs).toEqual([]);
-  });
-
-  describe('getTariffName', () => {
-    beforeEach(() => {
-      fixture.detectChanges();
-      orderServiceMock.getTariffName.calls.reset();
-    });
-
-    it('should return empty string when tariff is not found', () => {
-      const result = component.getTariffName(null);
-
-      expect(result).toBe('');
-      expect(orderServiceMock.getTariffName).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('getTariffDescription', () => {
-    beforeEach(() => {
-      fixture.detectChanges();
-      orderServiceMock.getTariffDescription.calls.reset();
-    });
-
-    it('should return tariff description when tariff is found', () => {
-      (component as any).activeTariffs = fakeTariffs;
-      orderServiceMock.getTariffDescription.and.returnValue('Description 1');
-
-      const result = component.getTariffDescription(1);
-
-      expect(result).toBe('Description 1');
-      expect(orderServiceMock.getTariffDescription).toHaveBeenCalledWith(fakeTariffs[0]);
-    });
-
-    it('should return null when tariff is not found', () => {
-      (component as any).activeTariffs = fakeTariffs;
-
-      const result = component.getTariffDescription(999);
-
-      expect(result).toBeNull();
-      expect(orderServiceMock.getTariffDescription).not.toHaveBeenCalled();
-    });
-
-    it('should return null when activeTariffs is empty', () => {
-      (component as any).activeTariffs = [];
-
-      const result = component.getTariffDescription(1);
-
-      expect(result).toBeNull();
-      expect(orderServiceMock.getTariffDescription).not.toHaveBeenCalled();
-    });
-
-    it('should return correct description for different tariff ids', () => {
-      (component as any).activeTariffs = fakeTariffs;
-      orderServiceMock.getTariffDescription.and.returnValue('Description 2');
-
-      const result = component.getTariffDescription(2);
-
-      expect(result).toBe('Description 2');
-      expect(orderServiceMock.getTariffDescription).toHaveBeenCalledWith(fakeTariffs[1]);
-    });
+  it('saveLocation should setTariffId, dispatch action and close dialog', () => {
+    component.selectedTariff = fakeTariffs[1];
+    component.saveLocation();
+    expect(localStorageMock.setTariffId).toHaveBeenCalledWith(fakeTariffs[1].id);
+    expect(storeMock.dispatch).toHaveBeenCalled(); // можна додатково перевірити payload якщо хочеш
+    expect(dialogMock.close).toHaveBeenCalled();
   });
 });

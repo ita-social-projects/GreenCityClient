@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { Component } from '@angular/core';
 import { ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
@@ -23,6 +23,7 @@ import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/mo
 import { SetAdditionalOrders, SetOrderComment } from 'src/app/store/actions/order.actions';
 import { ExtraPackagesPopUpComponent } from '@ubs/ubs/components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 import { UbsOrderLocationPopupComponent } from '@ubs/ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 @Component({
   selector: 'app-spinner',
@@ -39,8 +40,7 @@ describe('UBSOrderDetailsComponent', () => {
   let dialog: MatDialog;
   let route: ActivatedRoute;
   let mockStore: any;
-  let initListenersSpy: jasmine.Spy;
-  let initExistingOrderValuesSpy: jasmine.Spy;
+  let actions$: Observable<any>;
 
   const orderServiceMock = jasmine.createSpyObj('OrderService', [
     'getOrders',
@@ -69,6 +69,7 @@ describe('UBSOrderDetailsComponent', () => {
   localStorageService.languageSubject = fakeLanguageSubject;
 
   beforeEach(waitForAsync(() => {
+    actions$ = of();
     mockStore = {
       pipe: jasmine.createSpy('pipe').and.callFake((selector) => {
         switch (selector) {
@@ -111,7 +112,8 @@ describe('UBSOrderDetailsComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: { queryParams: of({ existingOrderId: 1 }) }
-        }
+        },
+        provideMockActions(() => actions$)
       ]
     }).compileComponents();
   }));

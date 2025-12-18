@@ -6,7 +6,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { Subject, Subscription } from 'rxjs';
 import { finalize, map, takeUntil, tap } from 'rxjs/operators';
 import { ubsMainPageImages } from '@ubs/shared/image-paths/ubs-main-page-images';
-import { ActiveRegionDto, ActiveTariffInfo, AllActiveLocationsDtosResponse, Bag } from '../../models/ubs.interface';
+import { ActiveRegionDto, ActiveTariffInfo, Bag } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
@@ -35,8 +35,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   currentLocation: string;
   isAdmin = false;
   smallScreen: boolean;
-  selectedTariffId: number;
-  activeCouriers;
   ubsCourierName = 'UBS';
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
   content: THomepageContent;

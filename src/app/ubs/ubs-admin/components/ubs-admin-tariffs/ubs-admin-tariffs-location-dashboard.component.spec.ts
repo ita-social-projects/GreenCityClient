@@ -30,6 +30,8 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatSelectHarness } from '@angular/material/select/testing';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -1007,14 +1009,17 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(result2).toBe(false);
   });
 
-  it('should change region value after input event', () => {
-    const inputRegion = fixture.nativeElement.querySelector('.region');
-    inputRegion.value = 'new value';
-    inputRegion.dispatchEvent(new Event('input'));
+  it('should change region value after input event', async () => {
+    await fixture.whenStable();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.region.value).toBe('new value');
-    });
+
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const select = await loader.getHarness(MatSelectHarness.with({ selector: '#region-select' }));
+    component.filteredRegions = of(['region']);
+    await select.open();
+    await select.clickOptions({ text: component.filteredRegions[0] });
+
+    expect(component.region.value).toBeTruthy();
   });
 
   it('should update cities placeholder after input event', () => {
