@@ -246,7 +246,7 @@
   }
 
   .send-message-button {
-    background-color: var(--ubs-secondary-light-green);
+    background-color: var(--ubs-tertiary-dark-green);
     border: none;
     border-radius: 50%;
     padding: 0.6rem;
@@ -362,12 +362,12 @@
 
   .file-label {
     cursor: pointer;
-    background-color: var(--ubs-secondary-light-green);
+    background-color: var(--ubs-tertiary-dark-green);
     color: var(--primary-white);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 14px;
-    border: 1px solid var(--ubs-secondary-light-green);
+    border: 1px solid var(--ubs-tertiary-dark-green);
     user-select: none;
     display: flex;
     align-items: center;

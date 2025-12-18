@@ -197,8 +197,7 @@ describe('TimePickerComponent', () => {
     selector.value = selector.options[14].value;
     selector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    const expectedFrom = component.compareFromTime();
-    expect(component.fromSelect).toEqual(expectedFrom);
+    expect(component.fromSelect).toEqual(fakeTimeFromChange);
   });
   it('should save time selected in the time picker', () => {
     const fakeDataToSave = { from: fakeTimeFrom, to: fakeTimeTo, dataWasChanged: true };
