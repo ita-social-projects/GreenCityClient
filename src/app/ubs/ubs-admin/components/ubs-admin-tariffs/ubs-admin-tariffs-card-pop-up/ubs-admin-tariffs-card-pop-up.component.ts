@@ -4,7 +4,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { filter, Subject } from 'rxjs';
+import { filter, Subject, take } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
@@ -168,7 +168,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.getReceivingStation();
     this.getLocations();
     this.setCountOfSelectedCity();
-    this.listenToNameFieldAndCheckAvailability();
 
     if (this.isEdit || this.provideValues) {
       this.fillFields(this.modalData);
@@ -249,7 +248,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
           )
           .subscribe((data) => {
             this.filteredStations = data;
-            this.station.setValidators(this.stationValidator);
+            this.station.setValidators(this.stationValidator());
           });
       });
   }
@@ -285,7 +284,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         id: selectedStationValue.id
       };
     });
-    this.station.setValidators(this.stationValidator);
+    this.station.setValidators(this.stationValidator());
     this.station.setValue('');
     this.blurOnOption = false;
 
@@ -312,7 +311,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
     this.setCountOfSelectedCity();
     this.city.reset();
-    this.city.setValidators(this.cityValidator);
+    this.city.setValidators(this.cityValidator());
     this.city.enable();
     this.city.markAsPristine();
   }
@@ -353,7 +352,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.selectedStation.push(tempItem);
     }
 
-    this.station.setValidators(this.stationValidator);
+    this.station.setValidators(this.stationValidator());
     this.station.setValue('');
     this.setStationPlaceholder();
     if (trigger) {
@@ -366,7 +365,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   deleteStation(index): void {
     this.selectedStation.splice(index, 1);
     this.setStationPlaceholder();
-    this.station.setValidators(this.stationValidator);
+    this.station.setValidators(this.stationValidator());
   }
 
   checkStation(item): boolean {
@@ -399,7 +398,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       if (!data) {
         this.filteredCities = currentRegion[0].locationsDto;
       }
-      this.city.setValidators(this.cityValidator);
+      this.city.setValidators(this.cityValidator());
     });
 
     event.value ? this.city.enable() : this.city.disable();
@@ -416,7 +415,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectCity(event);
     this.setCountOfSelectedCity();
     this.city.setValue('');
-    this.city.setValidators(this.cityValidator);
+    this.city.setValidators(this.cityValidator());
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -472,7 +471,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   deleteCity(index): void {
     this.selectedCities.splice(index, 1);
     this.setCountOfSelectedCity();
-    this.city.setValidators(this.cityValidator);
+    this.city.setValidators(this.cityValidator());
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
