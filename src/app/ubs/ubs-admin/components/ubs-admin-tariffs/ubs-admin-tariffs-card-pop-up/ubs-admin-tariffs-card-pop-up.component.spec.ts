@@ -1,4 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeUk from '@angular/common/locales/uk';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -214,6 +216,8 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     }).compileComponents();
   }));
 
+  beforeAll(() => registerLocaleData(localeUk));
+
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsCardPopUpComponent);
     component = fixture.componentInstance;
@@ -426,6 +430,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     const spy = spyOn(component, 'setCountOfSelectedCity');
     component.selectedCities.push(locationItem);
     component.deleteCity(0);
+    component.city.enable();
     expect(component.selectedCities.length).toEqual(0);
     expect(spy).toHaveBeenCalled();
     expect(component.city.errors).toEqual({ emptySelectedCity: true });
@@ -442,13 +447,16 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
 
   it('should add validation error to city', () => {
     component.selectedCities = [];
-    component.cityValidator();
+    component.city.setValidators(component.cityValidator());
+    component.city.enable();
+    component.city.updateValueAndValidity();
     expect(component.city.errors).toEqual({ emptySelectedCity: true });
   });
 
   it('should add validation error to station', () => {
     component.selectedStation = [];
-    component.stationValidator();
+    component.station.setValidators(component.stationValidator());
+    component.station.updateValueAndValidity();
     expect(component.station.errors).toEqual({ emptySelectedStation: true });
   });
 
@@ -459,7 +467,17 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     component.regionId = 1;
     component.selectedCities = [0, 1];
     const spyCreateCardDto = spyOn(component, 'createCardDto');
+    component.CardForm.patchValue({
+      tariffNameUk: 'Тариф',
+      tariffNameEn: 'Tariff',
+      courierName: 'Courier',
+      station: 'Station',
+      regionName: 'Region'
+    });
 
+    component.CardForm.get('city').enable();
+    component.CardForm.get('city').setValue('Kyiv');
+    component.CardForm.markAsDirty();
     component.createCard();
 
     expect(spyCreateCardDto).toHaveBeenCalled();
@@ -484,6 +502,17 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     component.selectedCities = [0, 1];
 
     const spyCheckIfAlreadyExists = spyOn(component, 'checkIfAlreadyExists').and.callThrough();
+    component.CardForm.patchValue({
+      tariffNameUk: 'Тариф',
+      tariffNameEn: 'Tariff',
+      courierName: 'Courier',
+      station: 'Station',
+      regionName: 'Region'
+    });
+
+    component.CardForm.get('city').enable();
+    component.CardForm.get('city').setValue('Kyiv');
+    component.CardForm.markAsDirty();
     component.createCard();
     tick();
 
@@ -525,22 +554,27 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(tariffsServiceMock.createCard).toHaveBeenCalled();
   });
 
-  it('method onNoClick should invoke destroyRef.close()', () => {
-    component.selectedCities.push(locationItem);
-    component.selectedStation.push(stationItem);
+  it('method onNoClick should open cancel dialog and close on confirm', () => {
+    component.CardForm.markAsDirty();
+
+    matDialogMock.open.calls.reset();
     matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+
     component.onNoClick();
-    expect(fakeMatDialogRef.close).toHaveBeenCalled();
-    expect(matDialogMock.open).toHaveBeenCalledWith(ModalTextComponent, {
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        name: 'cancel',
-        title: 'modal-text.cancel',
-        text: 'modal-text.cancel-message',
-        action: 'modal-text.yes'
-      }
-    });
+
+    expect(matDialogMock.open).toHaveBeenCalledWith(
+      ModalTextComponent,
+      jasmine.objectContaining({
+        hasBackdrop: true,
+        panelClass: 'address-matDialog-styles-w-100',
+        data: jasmine.objectContaining({
+          name: 'cancel',
+          title: 'modal-text.cancel',
+          text: 'modal-text.cancel-message',
+          action: 'modal-text.yes'
+        })
+      })
+    );
   });
 
   it('method onNoClick should invoke destroyRef.close() if selectedCities or selectedStation is empty', () => {

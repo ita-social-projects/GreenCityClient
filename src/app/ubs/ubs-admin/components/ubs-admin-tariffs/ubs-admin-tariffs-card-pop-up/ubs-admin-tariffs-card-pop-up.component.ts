@@ -366,6 +366,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectedStation.splice(index, 1);
     this.setStationPlaceholder();
     this.station.setValidators(this.stationValidator());
+    this.station.updateValueAndValidity();
   }
 
   checkStation(item): boolean {
@@ -472,6 +473,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectedCities.splice(index, 1);
     this.setCountOfSelectedCity();
     this.city.setValidators(this.cityValidator());
+    this.city.updateValueAndValidity();
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
