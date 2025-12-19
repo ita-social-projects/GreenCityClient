@@ -3,7 +3,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { of } from 'rxjs';
-import { provideMockStore } from '@ngrx/store/testing';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 import { OrderService } from '../../../services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -56,8 +55,7 @@ describe('UbsOrderLocationPopupComponent', () => {
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: LocalStorageService, useValue: localStorageMock },
-        { provide: Store, useValue: storeMock },
-        provideMockStore({})
+        { provide: Store, useValue: storeMock }
       ]
     }).compileComponents();
 
@@ -126,7 +124,7 @@ describe('UbsOrderLocationPopupComponent', () => {
     component.selectedTariff = fakeTariffs[1];
     component.saveLocation();
     expect(localStorageMock.setTariffId).toHaveBeenCalledWith(fakeTariffs[1].id);
-    expect(storeMock.dispatch).toHaveBeenCalled(); // можна додатково перевірити payload якщо хочеш
+    expect(storeMock.dispatch).toHaveBeenCalled();
     expect(dialogMock.close).toHaveBeenCalled();
   });
 });

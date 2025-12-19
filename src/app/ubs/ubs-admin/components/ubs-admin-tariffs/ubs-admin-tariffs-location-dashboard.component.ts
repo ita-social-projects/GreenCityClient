@@ -39,8 +39,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   @Input() selectedCard;
 
   locations: Locations[];
-  tariffNameEn: string;
-  tariffNameUk: string;
   regionEnglishName: string;
   regionNameUk: string;
   regionId: number;
@@ -733,8 +731,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   createCardDto(): void {
     this.createCardObj = {
-      tariffNameEn: this.tariffNameEn,
-      tariffNameUk: this.tariffNameUk,
+      tariffNameUk: '',
+      tariffNameEn: '',
       courierId: this.courierId,
       receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
       regionId: this.regionId,

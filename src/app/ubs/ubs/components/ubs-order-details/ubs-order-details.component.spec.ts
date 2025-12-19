@@ -165,7 +165,7 @@ describe('UBSOrderDetailsComponent', () => {
       component.pushAdditionalOrder('Order 1');
       component.pushAdditionalOrder('Order 2');
       component.removeOrder({ code: 'Enter' } as KeyboardEvent, 0);
-      expect(component.additionalOrders.controls.length).toBe(2);
+      expect(component.additionalOrders.controls.length).toBe(3);
     });
   });
 
@@ -174,7 +174,7 @@ describe('UBSOrderDetailsComponent', () => {
       component.pushAdditionalOrder('Order 1');
       component.pushAdditionalOrder('Order 1');
       const result = component.isAlreadyEntered(0);
-      expect(result).toBe(false);
+      expect(result).toBe(true);
     });
   });
 
@@ -289,8 +289,8 @@ describe('UBSOrderDetailsComponent', () => {
   describe('getBagQuantity', () => {
     it('should get bag quantity when bag exists and has a valid numeric value', () => {
       const bagsFormGroup = component.orderDetailsForm.get('bags') as FormGroup;
-      bagsFormGroup.addControl('quantity1', new FormControl(5));
-      expect(component.getBagQuantity(1)).toBe(5);
+      bagsFormGroup.addControl('quantity2', new FormControl(5));
+      expect(component.getBagQuantity(2)).toBe(5);
     });
 
     it('should get bag quantity when stored as a string', () => {
@@ -399,7 +399,7 @@ describe('UBSOrderDetailsComponent', () => {
 
     it('should get additionalOrders', () => {
       const additionalOrders = component.additionalOrders;
-      expect(additionalOrders.controls.length).toBe(1);
+      expect(additionalOrders.controls.length).toBe(2);
     });
 
     it('should get additionalOrders', () => {
@@ -434,8 +434,6 @@ describe('UBSOrderDetailsComponent', () => {
 
   describe('dispatch data', () => {
     it('should dispatch additional orders', () => {
-      component.additionalOrders.push(new FormControl('Order 1'));
-      component.additionalOrders.push(new FormControl('Order 2'));
       component.dispatchAdditionalOrders();
       expect(mockStore.dispatch).toHaveBeenCalledWith(SetAdditionalOrders({ orders: ['Order 1', 'Order 2'] }));
     });

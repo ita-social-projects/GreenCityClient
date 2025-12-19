@@ -2,8 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { UbsAdminTariffsLocationDashboardComponent } from './ubs-admin-tariffs-location-dashboard.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../services/tariffs.service';
@@ -813,8 +812,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       receivingStationsIdList: component.selectedStation.map((it) => it.id).sort(),
       regionId: component.regionId,
       locationIdList: component.selectedCities.map((it) => it.id).sort(),
-      tariffNameEn: 'tariffNameEn',
-      tariffNameUk: 'tariffNameUk'
+      tariffNameEn: '',
+      tariffNameUk: ''
     };
     expect(component.createCardObj).toEqual(fakeNewCard);
   });
@@ -1009,7 +1008,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(result2).toBe(false);
   });
 
-  it('should change region value after input event', async () => {
+  it('should change region value after change event', async () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -1017,31 +1016,23 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const select = await loader.getHarness(MatSelectHarness.with({ selector: '#region-select' }));
     component.filteredRegions = of(['region']);
     await select.open();
-    await select.clickOptions({ text: component.filteredRegions[0] });
+    await select.clickOptions({ text: 'region' });
 
-    expect(component.region.value).toBeTruthy();
+    await fixture.whenStable().then(() => expect(component.region.value).toBeTruthy());
   });
 
-  it('should update cities placeholder after input event', () => {
-    const inputRegion = fixture.nativeElement.querySelector('.region');
+  it('should update cities placeholder after input event', async () => {
     const spy = spyOn(component, 'setCountOfCheckedCity');
-    inputRegion.value = 'new value';
-    inputRegion.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalled();
-    });
-  });
 
-  it('should change region value after input event', () => {
-    const spy = spyOn(component, 'onChangeRegion');
-    const inputRegion = fixture.nativeElement.querySelector('.region');
-    inputRegion.value = 'new value';
-    inputRegion.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalled();
-    });
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const select = await loader.getHarness(MatSelectHarness.with({ selector: '#region-select' }));
+    component.filteredRegions = of(['region']);
+    await select.open();
+    await select.clickOptions({ text: 'region' });
+
+    await fixture.whenStable().then(() => expect(spy).toHaveBeenCalled());
   });
 
   it('should call isAllOptionSelected on stationSelected', () => {
@@ -1053,6 +1044,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(isAllOptionSelectedSpy).toHaveBeenCalled();
     expect(isAllOptionSelectedSpy).toHaveBeenCalledWith(mockEvent.option.value);
   });
+
   it('should call isAllOptionSelected on onSelectCity', () => {
     const mockEvent = { option: { value: 'All' } };
     const isAllOptionSelectedSpy = spyOn(component, 'isAllOptionSelected').and.callThrough();
