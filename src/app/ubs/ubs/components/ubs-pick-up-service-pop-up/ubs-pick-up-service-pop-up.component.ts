@@ -56,7 +56,7 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
         this.tariffs = tariffs;
         this.listenToLocationChanges();
         const userTariff = this.localStorageService.getTariffId() || tariffs[0].id;
-        this.myControl.setValue(tariffs.find((t) => (t.id = userTariff)));
+        this.myControl.setValue(tariffs.find((t) => t.id === userTariff));
       });
   }
 

@@ -21,7 +21,6 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 
 interface IModalData {
   edit: boolean;
-  create: boolean;
   tariffId: number;
   provideValues: boolean;
   regionId: number;

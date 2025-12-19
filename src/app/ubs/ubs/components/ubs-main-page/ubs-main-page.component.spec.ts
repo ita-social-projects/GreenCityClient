@@ -10,7 +10,7 @@ import { CheckTokenService } from 'src/app/shared/services/auth/check-token/chec
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
-import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
+import { activeTariffsMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -38,7 +38,7 @@ describe('UbsMainPageComponent', () => {
 
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderDetails', 'getActiveTariffsInfo', 'cleanPrevOrderState']);
 
-  orderServiceMock.getActiveTariffsInfo.and.returnValue(of(activeCouriersMock));
+  orderServiceMock.getActiveTariffsInfo.and.returnValue(of(activeTariffsMock));
 
   const mockHomepageContent: THomepageContent = {
     uk: {

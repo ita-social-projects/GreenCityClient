@@ -19,11 +19,14 @@ export class ValidateAddressDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.locations.firstChange) {
-      return;
+    if (changes.locations) {
+      if (changes.locations.firstChange) {
+        return;
+      }
+      this.validateAddress();
     }
 
-    if (changes.locations.previousValue !== changes.locations.currentValue) {
+    if (changes.address && !changes.address.firstChange) {
       this.validateAddress();
     }
   }

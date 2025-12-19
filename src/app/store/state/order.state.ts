@@ -4,7 +4,7 @@ import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 
 export interface IOrderState {
   currentStep: number;
-  tariff: ActiveTariffInfo;
+  tariff: ActiveTariffInfo | null;
   orderDetails: OrderDetails | null;
   courierLocations: CourierLocations | null;
   UBSCourierId: number | null;

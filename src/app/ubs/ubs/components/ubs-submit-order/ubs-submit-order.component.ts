@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { iif, Subject } from 'rxjs';
 import { filter, finalize, take, takeUntil } from 'rxjs/operators';
-import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
-import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData, PaymentSystem } from '../../models/ubs.interface';
+import { Bag, IProcessOrderResponse, Order, OrderDetails, PaymentSystem, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -113,7 +112,7 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   processOrder(shouldBePaid: boolean = true): void {
     this.isLoadingAnim = true;
     iif(
-      () => Boolean(this.existingOrderId),
+      () => this.existingOrderId >= 0,
       this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId),
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
@@ -138,10 +137,6 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
       }
       return isSave ? this.processOrder(false) : this.redirectToMainPage();
     });
-  }
-
-  getFormValues(): boolean {
-    return true;
   }
 
   private processPayment(response: IProcessOrderResponse): void {

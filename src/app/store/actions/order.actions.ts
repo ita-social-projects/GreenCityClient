@@ -67,7 +67,6 @@ export enum OrderActions {
   ClearOrderData = '[Order] Clear Order Data'
 }
 
-// export const SetTariff
 export const SetCurrentStep = createAction(OrderActions.SetCurrentStep, props<{ step: number }>());
 export const SetBags = createAction(OrderActions.SetBags, props<{ bagId: number; bagValue: number }>());
 export const SetOrderSum = createAction(OrderActions.SetOrderSum, props<{ orderSum: number }>());
