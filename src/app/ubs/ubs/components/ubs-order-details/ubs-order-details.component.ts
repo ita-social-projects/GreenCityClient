@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
@@ -154,8 +153,8 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
 
   listenToTariffAndInitForm(): void {
     this.store
+      .select(tariffSelector)
       .pipe(
-        select(tariffSelector),
         filter(Boolean),
         distinctUntilChanged(),
         tap((tariff: ActiveTariffInfo) => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -22,7 +22,17 @@ import {
 } from 'src/app/store/selectors/order.selectors';
 import { ActiveTariffInfo, Bag, CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
-import { SetAdditionalOrders, SetOrderComment, SetTariff } from 'src/app/store/actions/order.actions';
+import {
+  GetCourierLocations,
+  GetCourierLocationsSuccess,
+  GetExistingOrderDetails,
+  GetExistingOrderDetailsSuccess,
+  GetOrderDetails,
+  GetOrderDetailsSuccess,
+  SetAdditionalOrders,
+  SetOrderComment,
+  SetTariff
+} from 'src/app/store/actions/order.actions';
 import { ExtraPackagesPopUpComponent } from '@ubs/ubs/components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 import { UbsOrderLocationPopupComponent } from '@ubs/ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { activeTariffsMock } from '@ubs/ubs-admin/services/orderInfoMock';
@@ -65,6 +75,11 @@ describe('UBSOrderDetailsComponent', () => {
   } as IUserOrderInfo;
 
   beforeEach(waitForAsync(() => {
+    actions$ = of(
+      GetOrderDetailsSuccess({ orderDetails: mockOrderDetails }),
+      GetExistingOrderDetailsSuccess({ orderDetails: mockOrderDetails }),
+      GetCourierLocationsSuccess({ locations: mockLocations })
+    );
     fakeLanguageSubject = new Subject<string>();
     tariffSubject = new BehaviorSubject<ActiveTariffInfo | null>(mockTariff);
     orderDetailsSubject = new BehaviorSubject<OrderDetails>(mockOrderDetails);
@@ -85,10 +100,10 @@ describe('UBSOrderDetailsComponent', () => {
     ]);
     localStorageService.languageSubject = fakeLanguageSubject;
 
-    const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch', 'pipe']);
+    const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
     storeMock.select.and.callFake((selector) => {
       if (selector === tariffSelector) {
-        return tariffSubject.asObservable();
+        return of(activeTariffsMock[0]);
       }
       if (selector === orderDetailsSelector) {
         return orderDetailsSubject.asObservable();
@@ -108,10 +123,8 @@ describe('UBSOrderDetailsComponent', () => {
       if (selector === isOrderDetailsLoadingSelector) {
         return isLoadingSubject.asObservable();
       }
-      return of(null);
+      return of(activeTariffsMock[0]);
     });
-
-    storeMock.pipe.and.returnValue(tariffSubject.asObservable());
 
     TestBed.configureTestingModule({
       declarations: [UBSOrderDetailsComponent, MockSpinnerComponent],
@@ -311,6 +324,89 @@ describe('UBSOrderDetailsComponent', () => {
 
         expect(component.openLocationDialog).toHaveBeenCalled();
       });
+    });
+
+    describe('listenToTariffAndInitForm', () => {
+      beforeEach(() => {
+        spyOn(component, 'initForm');
+        spyOn(component, 'initFormBags');
+        spyOn(component, 'dispatchAdditionalOrders');
+        spyOn(component, 'dispatchOrderComment');
+        spyOn(component, 'initPointsAndCertificateListeners');
+        spyOn(component, 'initExistingOrderValues');
+      });
+
+      it('should dispatch GetOrderDetails and GetCourierLocations for new order', fakeAsync(() => {
+        component.existingOrderId = null;
+        (store.dispatch as jasmine.Spy).calls.reset();
+        component.listenToTariffAndInitForm();
+
+        tick(100);
+        expect(orderService.getTariffName).toHaveBeenCalledWith(mockTariff);
+        expect(component.currentTariff).toBe('Standard Tariff');
+        expect(store.dispatch).toHaveBeenCalledWith(GetOrderDetails({ tariffId: mockTariff.id }));
+        expect(store.dispatch).toHaveBeenCalledWith(GetCourierLocations({ tariffId: mockTariff.id }));
+        tick(100);
+
+        expect(component.bags).toEqual(mockOrderDetails.bags);
+        expect(component.locations).toEqual(mockLocations);
+        expect(component.existingOrderInfo).toBeNull();
+        expect(component.initForm).toHaveBeenCalled();
+        expect(component.initFormBags).toHaveBeenCalled();
+        expect(component.dispatchAdditionalOrders).toHaveBeenCalled();
+        expect(component.dispatchOrderComment).toHaveBeenCalled();
+        expect(component.initPointsAndCertificateListeners).toHaveBeenCalled();
+        expect(component.initExistingOrderValues).not.toHaveBeenCalled();
+      }));
+
+      it('should dispatch GetExistingOrderDetails for existing order', fakeAsync(() => {
+        component.existingOrderId = 123;
+        (store.dispatch as jasmine.Spy).calls.reset();
+        existingOrderInfoSubject.next(mockExistingOrder);
+        component.listenToTariffAndInitForm();
+        tick(100);
+
+        expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderDetails({ orderId: 123 }));
+        expect(store.dispatch).toHaveBeenCalledWith(GetCourierLocations({ tariffId: mockTariff.id }));
+
+        tick(100);
+
+        expect(component.existingOrderInfo).toEqual(mockExistingOrder);
+        expect(component.initExistingOrderValues).toHaveBeenCalled();
+      }));
+
+      it('should handle distinctUntilChanged for same tariff', fakeAsync(() => {
+        component.existingOrderId = null;
+        (store.dispatch as jasmine.Spy).calls.reset();
+
+        component.listenToTariffAndInitForm();
+        tick(100);
+
+        const initialCallCount = (store.dispatch as jasmine.Spy).calls.count();
+
+        tariffSubject.next(mockTariff);
+        tick(100);
+
+        expect((store.dispatch as jasmine.Spy).calls.count()).toBe(initialCallCount);
+      }));
+
+      it('should unsubscribe when destroy$ emits', fakeAsync(() => {
+        component.existingOrderId = null;
+        (store.dispatch as jasmine.Spy).calls.reset();
+
+        component.listenToTariffAndInitForm();
+        tick(100);
+
+        const callCountBeforeDestroy = (store.dispatch as jasmine.Spy).calls.count();
+
+        component.ngOnDestroy();
+        tick(100);
+
+        tariffSubject.next({ ...mockTariff, id: 999 } as ActiveTariffInfo);
+        tick(100);
+
+        expect((store.dispatch as jasmine.Spy).calls.count()).toBe(callCountBeforeDestroy);
+      }));
     });
   });
 
