@@ -81,21 +81,15 @@ describe('UbsBaseSidebarComponent', () => {
     expect(component.getIcon(listItem)).toBe(component.bellsNotification);
   });
 
-  it('should trigger onResize method when window is resized', () => {
-    const spyOnResize = spyOn(component, 'onResize');
-    window.dispatchEvent(new Event('resize'));
-    expect(spyOnResize).toHaveBeenCalled();
-  });
-
   it('should call getCountOfUnreadNotification', () => {
     const getCountOfUnreadNotificationSpy = spyOn(component, 'getCountOfUnreadNotification');
-    component.ngAfterViewInit();
+    component.ngOnInit();
     expect(getCountOfUnreadNotificationSpy).toHaveBeenCalled();
   });
 
-  it('ngAfterViewInit should called getCountOfUnreadNotification method one time', () => {
+  it('ngOnInit should called getCountOfUnreadNotification method one time', () => {
     const getCountOfUnreadNotificationSpy = spyOn(component, 'getCountOfUnreadNotification');
-    component.ngAfterViewInit();
+    component.ngOnInit();
     expect(getCountOfUnreadNotificationSpy).toHaveBeenCalledTimes(1);
   });
 });

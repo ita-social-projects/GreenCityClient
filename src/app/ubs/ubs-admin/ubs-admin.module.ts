@@ -6,7 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsAdminSidebarComponent } from './components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../../material.module';
@@ -109,6 +109,8 @@ import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { UbsAdminSettingsComponent } from '@ubs/ubs-admin/components/ubs-admin-settings/ubs-admin-settings.component';
 import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
 import { UbsAdminEditTelegramBotComponent } from '@ubs/ubs-admin/components/ubs-admin-edit/ubs-admin-edit-telegram-bot/ubs-admin-edit-telegram-bot.component';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkFixedSizeVirtualScroll, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -228,7 +230,10 @@ import { UbsAdminEditTelegramBotComponent } from '@ubs/ubs-admin/components/ubs-
     MatFormFieldModule,
     QuillModule.forRoot(),
     UbsSharedModule,
-    SharedGreenCityModule
+    SharedGreenCityModule,
+    CdkTableModule,
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualScrollViewport
   ],
   providers: [
     AdminCertificateService,

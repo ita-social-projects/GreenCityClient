@@ -1,10 +1,9 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { UbsBaseSidebarComponent } from '@ubs/shared/components/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UserMessagesService } from '../../services/user-messages.service';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { listElementsUser, listElementsUserMobile } from '../../../ubs/models/ubs-sidebar-links';
-import { UbsAdminEmployeeService } from '../../../ubs-admin/services/ubs-admin-employee.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-user-sidebar',
@@ -15,11 +14,10 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
   listElementsUserMobile = listElementsUserMobile;
 
   constructor(
-    public ubsAdminEmployeeService: UbsAdminEmployeeService,
     public service: UserMessagesService,
-    public breakpointObserver: BreakpointObserver,
-    public jwtService: JwtService
+    public jwtService: JwtService,
+    protected router: Router
   ) {
-    super(service, breakpointObserver, jwtService);
+    super(service, jwtService, router);
   }
 }
