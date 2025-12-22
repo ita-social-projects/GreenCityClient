@@ -1,13 +1,15 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { ActiveTariffInfo, CourierLocations } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
 import { SetTariff } from '../../../../../store/actions/order.actions';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { LanguageService } from '../../../../../shared/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -18,6 +20,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
   activeTariffs: ActiveTariffInfo[] = [];
   selectedTariff: ActiveTariffInfo;
+  filteredOptions$: Observable<ActiveTariffInfo[]>;
   isFetching = false;
   myControl = new FormControl(null, Validators.required);
   private locationsForTariff: CourierLocations;
@@ -28,7 +31,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     private readonly orderService: OrderService,
     private readonly dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private readonly localStorageService: LocalStorageService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly langService: LanguageService
   ) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
   }
@@ -39,6 +43,19 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       const tariffId = this.localStorageService.getTariffId();
       this.selectedTariff = res.find((tariff) => tariff.id === tariffId) || res[0];
       this.myControl.setValue(this.selectedTariff);
+      this.filteredOptions$ = this.myControl.valueChanges.pipe(
+        startWith(''),
+        map((value) => {
+          const search = typeof value === 'string' ? value : this.getTariffName(value);
+
+          return this.activeTariffs.filter(
+            (tariff) =>
+              tariff.tariffLocations.some((t) => t.nameEn.toLowerCase().includes(search.toLowerCase())) ||
+              tariff.tariffLocations.some((t) => t.nameUk.toLowerCase().includes(search.toLowerCase()))
+          );
+        }),
+        takeUntil(this.destroy$)
+      );
     });
   }
 
@@ -48,6 +65,14 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   getTariffName(tariff: ActiveTariffInfo): string {
     return this.orderService.getTariffName(tariff) || '';
+  }
+
+  getTariffLocations(tariff: ActiveTariffInfo): string {
+    return tariff.tariffLocations
+      .slice()
+      .sort((a, b) => this.langService.getLangValue(a.nameUk, a.nameEn).localeCompare(this.langService.getLangValue(b.nameUk, b.nameEn)))
+      .map((location) => this.langService.getLangValue(location.nameUk, location.nameEn))
+      .join(', ');
   }
 
   getTariffDescription(tariffId: number): string | null {

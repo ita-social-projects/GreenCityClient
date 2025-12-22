@@ -19,8 +19,11 @@
           #autocompleteTrigger="matAutocompleteTrigger"
         />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let tariff of activeTariffs" [value]="tariff" (click)="changeTariff(tariff)">
-            {{ getTariffName(tariff) }}
+          <mat-option *ngFor="let tariff of filteredOptions$ | async" [value]="tariff" (click)="changeTariff(tariff)">
+            <div class="d-flex flex-column">
+              <span>{{ getTariffName(tariff) }}</span>
+              <span class="subheading">{{ getTariffLocations(tariff) }}</span>
+            </div>
           </mat-option>
         </mat-autocomplete>
         <img

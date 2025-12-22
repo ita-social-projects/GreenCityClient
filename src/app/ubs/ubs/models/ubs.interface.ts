@@ -277,6 +277,18 @@ export interface ActiveTariffInfo {
   id: number;
   tariffNameUk: string;
   tariffNameEn: string;
+  tariffLocations?: TariffLocations[];
   descriptionMessageUk?: string | null;
   descriptionMessageEn?: string | null;
+}
+
+export interface TariffLocations {
+  id: number;
+  latitude: number;
+  longitude: number;
+  regionNameEn: string;
+  regionNameUk: string;
+  nameEn: string;
+  nameUk: string;
+  tariffsId?: number;
 }
