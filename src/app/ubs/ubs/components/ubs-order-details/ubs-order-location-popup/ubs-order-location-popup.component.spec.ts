@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { ActiveTariffInfo } from '../../../models/ubs.interface';
 import { Language } from '../../../../../shared/i18n/Language';
 import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
@@ -25,21 +26,65 @@ describe('UbsOrderLocationPopupComponent', () => {
       tariffNameEn: 'Tariff 1',
       tariffNameUk: 'Тариф 1',
       descriptionMessageEn: 'Desc 1',
-      descriptionMessageUk: 'Опис 1'
+      descriptionMessageUk: 'Опис 1',
+      tariffLocations: [
+        {
+          id: 1,
+          latitude: 50.4501,
+          longitude: 30.5234,
+          regionNameEn: 'Kyiv Region',
+          regionNameUk: 'Київська область',
+          nameEn: 'Kyiv City',
+          nameUk: 'Київ',
+          tariffsId: 101
+        },
+        {
+          id: 2,
+          latitude: 49.8397,
+          longitude: 24.0297,
+          regionNameEn: 'Lviv Region',
+          regionNameUk: 'Львівська область',
+          nameEn: 'Lviv City',
+          nameUk: 'Львів',
+          tariffsId: 102
+        }
+      ]
     },
     {
       id: 2,
       tariffNameEn: 'Tariff 2',
       tariffNameUk: 'Тариф 2',
       descriptionMessageEn: 'Desc 2',
-      descriptionMessageUk: 'Опис 2'
+      descriptionMessageUk: 'Опис 2',
+      tariffLocations: [
+        {
+          id: 1,
+          latitude: 50.4501,
+          longitude: 30.5234,
+          regionNameEn: 'Kyiv Region',
+          regionNameUk: 'Київська область',
+          nameEn: 'Kyiv City',
+          nameUk: 'Київ',
+          tariffsId: 101
+        },
+        {
+          id: 2,
+          latitude: 49.8397,
+          longitude: 24.0297,
+          regionNameEn: 'Lviv Region',
+          regionNameUk: 'Львівська область',
+          nameEn: 'Lviv City',
+          nameUk: 'Львів',
+          tariffsId: 102
+        }
+      ]
     }
   ];
 
   beforeEach(async () => {
     dialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
     orderServiceMock = jasmine.createSpyObj('OrderService', ['getActiveTariffsInfo', 'getTariffName', 'getTariffDescription']);
-    localStorageMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getTariffId', 'setTariffId']);
+    localStorageMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getTariffId', 'setTariffId', 'getUserId']);
     storeMock = jasmine.createSpyObj('Store', ['dispatch']);
 
     orderServiceMock.getActiveTariffsInfo.and.returnValue(of(fakeTariffs));
@@ -50,7 +95,7 @@ describe('UbsOrderLocationPopupComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [UbsOrderLocationPopupComponent],
-      imports: [ReactiveFormsModule, MatAutocompleteModule, TranslateModule.forRoot(), MatDialogModule],
+      imports: [ReactiveFormsModule, MatAutocompleteModule, TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: OrderService, useValue: orderServiceMock },

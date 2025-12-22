@@ -74,21 +74,18 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   }
 
   initListeners(): void {
-    this.store
-      .select(orderSelectors)
-      .pipe(takeUntil(this.$destroy))
-      .subscribe((order) => {
-        this.certificateUsed = order.certificateUsed;
-        this.pointsUsed = order.pointsUsed;
-        this.orderSum = order.orderSum;
-        this.addressId = order.addressId;
-        this.tariffId = order.tariff?.id;
-        this.isFirstFormValid = order.firstFormValid;
-        this.isPaid = order.existingOrderInfo?.paymentStatusEn === PaymentStatusEn.PAID;
+    this.store.pipe(select(orderSelectors), takeUntil(this.$destroy)).subscribe((order) => {
+      this.certificateUsed = order.certificateUsed;
+      this.pointsUsed = order.pointsUsed;
+      this.orderSum = order.orderSum;
+      this.addressId = order.addressId;
+      this.tariffId = order.tariff?.id;
+      this.isFirstFormValid = order.firstFormValid;
+      this.isPaid = order.existingOrderInfo?.paymentStatusEn === PaymentStatusEn.PAID;
 
-        this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;
-        this.isShouldBePaid = this.finalSum > 0;
-      });
+      this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;
+      this.isShouldBePaid = this.finalSum > 0;
+    });
 
     this.store.pipe(select(orderDetailsSelector), filter(Boolean), takeUntil(this.$destroy)).subscribe((orderDetails: OrderDetails) => {
       this.orderDetails = orderDetails;
