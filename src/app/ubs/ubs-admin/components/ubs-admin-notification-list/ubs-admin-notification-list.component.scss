@@ -5,6 +5,12 @@
   margin-bottom: 32px;
 }
 
+.primary-global-button {
+  font-family: var(--ubs-quaternary-font);
+  color: var(--ubs-quaternary-dark-grey);
+  background: var(--ubs-button-light-green);
+}
+
 .filters-block {
   background: var(--ubs-primary-white);
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
