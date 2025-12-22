@@ -181,7 +181,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   resetValue(): void {
-    this.userForm.get('alternateEmail').setValue(null);
+    const ctrl = this.userForm.get('alternateEmail');
+    ctrl.reset('');
+    ctrl.markAsDirty();
   }
 
   isSubmitBtnDisabled() {

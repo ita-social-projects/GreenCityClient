@@ -70,6 +70,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   ngOnInit(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => (this.existingOrderId = params.existingOrderId));
+
     this.initListeners();
   }
 

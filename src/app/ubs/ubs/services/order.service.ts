@@ -236,7 +236,7 @@ export class OrderService {
   }
 
   getActiveTariffsInfo(): Observable<ActiveTariffInfo[]> {
-    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo`);
+    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo/1`);
   }
 
   getTariffName(tariff: ActiveTariffInfo): string {
