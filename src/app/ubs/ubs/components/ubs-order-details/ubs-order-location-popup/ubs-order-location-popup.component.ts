@@ -3,12 +3,12 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, Observable, Subject } from 'rxjs';
-import { ActiveTariffInfo, CourierLocations } from '../../../models/ubs.interface';
+import { ActiveTariffInfo } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
 import { SetTariff } from '../../../../../store/actions/order.actions';
-import { startWith, takeUntil } from 'rxjs/operators';
+import { finalize, startWith, takeUntil } from 'rxjs/operators';
 import { LanguageService } from '../../../../../shared/i18n/language.service';
 
 @Component({
@@ -23,8 +23,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   filteredOptions$: Observable<ActiveTariffInfo[]>;
   isFetching = false;
   myControl = new FormControl(null, Validators.required);
-  private locationsForTariff: CourierLocations;
-  private readonly currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -33,30 +31,34 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     private readonly localStorageService: LocalStorageService,
     private readonly store: Store,
     private readonly langService: LanguageService
-  ) {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.orderService.getActiveTariffsInfo().subscribe((res) => {
-      this.activeTariffs = res;
-      const tariffId = this.localStorageService.getTariffId();
-      this.selectedTariff = res.find((tariff) => tariff.id === tariffId) || res[0];
-      this.myControl.setValue(this.selectedTariff);
-      this.filteredOptions$ = this.myControl.valueChanges.pipe(
-        startWith(''),
-        map((value) => {
-          const search = typeof value === 'string' ? value : this.getTariffName(value);
+    this.isFetching = true;
+    this.orderService
+      .getActiveTariffsInfo()
+      .pipe(finalize(() => (this.isFetching = false)))
+      .subscribe((res: ActiveTariffInfo[]) => {
+        this.activeTariffs = res;
+        const tariffId = this.localStorageService.getTariffId();
+        this.selectedTariff = res.find((tariff) => tariff.id === tariffId) || res[0];
+        this.myControl.setValue(this.selectedTariff);
+        this.filteredOptions$ = this.myControl.valueChanges.pipe(
+          startWith(''),
+          map((value) => {
+            const search = typeof value === 'string' ? value : this.getTariffName(value);
 
-          return this.activeTariffs.filter(
-            (tariff) =>
-              tariff.tariffLocations.some((t) => t.nameEn.toLowerCase().includes(search.toLowerCase())) ||
-              tariff.tariffLocations.some((t) => t.nameUk.toLowerCase().includes(search.toLowerCase()))
-          );
-        }),
-        takeUntil(this.destroy$)
-      );
-    });
+            return this.activeTariffs.filter(
+              (tariff) =>
+                tariff.tariffLocations.some((t) => t.nameEn.toLowerCase().includes(search.toLowerCase())) ||
+                tariff.tariffLocations.some((t) => t.nameUk.toLowerCase().includes(search.toLowerCase())) ||
+                tariff.tariffNameEn.toLowerCase().includes(search.toLowerCase()) ||
+                tariff.tariffNameUk.toLowerCase().includes(search.toLowerCase())
+            );
+          }),
+          takeUntil(this.destroy$)
+        );
+      });
   }
 
   displayFn = (tariff: ActiveTariffInfo): string => {
@@ -68,22 +70,19 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   getTariffLocations(tariff: ActiveTariffInfo): string {
-    return tariff.tariffLocations
-      .slice()
-      .sort((a, b) => this.langService.getLangValue(a.nameUk, a.nameEn).localeCompare(this.langService.getLangValue(b.nameUk, b.nameEn)))
-      .map((location) => this.langService.getLangValue(location.nameUk, location.nameEn))
-      .join(', ');
-  }
-
-  getTariffDescription(tariffId: number): string | null {
-    const tariff = this.activeTariffs.find((t) => t.id === tariffId);
-    return tariff ? this.orderService.getTariffDescription(tariff) : null;
+    return (
+      tariff.tariffLocations
+        .slice()
+        .sort((a, b) => this.langService.getLangValue(a.nameUk, a.nameEn).localeCompare(this.langService.getLangValue(b.nameUk, b.nameEn)))
+        .map((location) => this.langService.getLangValue(location.nameUk, location.nameEn))
+        .join(', ') ?? ''
+    );
   }
 
   saveLocation(): void {
     this.localStorageService.setTariffId(this.selectedTariff.id);
     this.store.dispatch(SetTariff({ tariff: this.selectedTariff }));
-    this.passDataToComponent();
+    this.dialogRef.close(true);
   }
 
   changeTariff(tariff: ActiveTariffInfo): void {
@@ -95,17 +94,12 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     trigger.openPanel();
   }
 
-  passDataToComponent(): void {
-    this.dialogRef.close({
-      tariff: this.selectedTariff.id,
-      currentLanguage: this.currentLanguage,
-      data: this.locationsForTariff,
-      activeTariffs: this.activeTariffs
-    });
-  }
-
   closePopUp(): void {
     this.dialogRef.close();
+  }
+
+  clearInput(): void {
+    this.myControl.reset('');
   }
 
   ngOnDestroy(): void {

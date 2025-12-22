@@ -59,7 +59,8 @@
       "btn": {
         "back": "Назад",
         "continue": "Продовжити"
-      }
+      },
+      "no-results": "Нічого не знайдено"
     },
     "order-title": "Послуги",
     "choose-location": "Змінити тариф",

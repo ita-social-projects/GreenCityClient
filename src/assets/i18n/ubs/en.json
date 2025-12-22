@@ -54,7 +54,8 @@
       "btn": {
         "back": "Back",
         "continue": "Continue"
-      }
+      },
+      "no-results": "Nothing found"
     },
     "order-title": "Services",
     "choose-location": "Change your tariff",

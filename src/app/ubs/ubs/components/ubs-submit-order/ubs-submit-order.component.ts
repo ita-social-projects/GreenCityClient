@@ -11,6 +11,7 @@ import { select, Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
+import { PaymentStatusEn } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -36,6 +37,7 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   existingOrderId: number;
   isShouldBePaid: boolean;
   isFirstFormValid: boolean;
+  isPaid: boolean;
   private $destroy: Subject<void> = new Subject<void>();
 
   popupConfig = {
@@ -72,17 +74,21 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   }
 
   initListeners(): void {
-    this.store.pipe(select(orderSelectors), takeUntil(this.$destroy)).subscribe((order) => {
-      this.certificateUsed = order.certificateUsed;
-      this.pointsUsed = order.pointsUsed;
-      this.orderSum = order.orderSum;
-      this.addressId = order.addressId;
-      this.tariffId = order.tariff?.id;
-      this.isFirstFormValid = order.firstFormValid;
+    this.store
+      .select(orderSelectors)
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((order) => {
+        this.certificateUsed = order.certificateUsed;
+        this.pointsUsed = order.pointsUsed;
+        this.orderSum = order.orderSum;
+        this.addressId = order.addressId;
+        this.tariffId = order.tariff?.id;
+        this.isFirstFormValid = order.firstFormValid;
+        this.isPaid = order.existingOrderInfo?.paymentStatusEn === PaymentStatusEn.PAID;
 
-      this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;
-      this.isShouldBePaid = this.finalSum > 0;
-    });
+        this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;
+        this.isShouldBePaid = this.finalSum > 0;
+      });
 
     this.store.pipe(select(orderDetailsSelector), filter(Boolean), takeUntil(this.$destroy)).subscribe((orderDetails: OrderDetails) => {
       this.orderDetails = orderDetails;

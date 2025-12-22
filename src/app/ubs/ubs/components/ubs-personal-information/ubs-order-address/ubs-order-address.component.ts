@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { CAddressData } from '@ubs/ubs/models/ubs.model';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
@@ -17,7 +16,7 @@ import {
 import { IAddressExportDetails, IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { Address, CourierLocations, LocationsDtosList } from 'src/app/ubs/ubs/models/ubs.interface';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
-import { combineLatest, filter, from, map, of, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { combineLatest, filter, from, map, of, Subject, switchMap, takeUntil, withLatestFrom } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-order-address',
@@ -36,7 +35,6 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   private addressData: CAddressData;
 
   constructor(
-    private route: ActivatedRoute,
     private dialog: MatDialog,
     private readonly addressValidator: AddressValidator,
     private readonly store: Store,
@@ -46,47 +44,33 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.addressData = new CAddressData(this.languageService);
     this.store.dispatch(GetAddresses());
-    this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      params.existingOrderId ? this.initListenersForExistingOrder() : this.initListenersForNewOrder();
-    });
+    this.initListeners();
     !this.selectedAddress && this.addressComment.disable();
   }
 
-  initListenersForNewOrder(): void {
+  initListeners(): void {
     this.store
       .select(tariffSelector)
       .pipe(
         filter(Boolean),
         switchMap(() =>
           combineLatest([this.store.select(courierLocationsSelector), this.store.select(addressesSelector)]).pipe(
-            filter(([courierLocations, addresses]) => Boolean(courierLocations) && Boolean(addresses))
+            filter(([courierLocations, addresses]) => Boolean(courierLocations) && Boolean(addresses)),
+            withLatestFrom(this.store.select(existingOrderInfoSelector))
           )
         ),
         takeUntil(this.$destroy)
       )
-      .subscribe(([locations, addresses]: [CourierLocations, Address[]]) => {
+      .subscribe(([[locations, addresses], existingOrder]: [[CourierLocations, Address[]], IUserOrderInfo]) => {
         this.locations = locations.locationsDtosList;
         this.addresses = addresses;
-        this.initLocation();
+        this.existingOrderInfo = existingOrder;
+        if (existingOrder) {
+          this.initLocationForExistingOrder();
+        } else {
+          this.initLocation();
+        }
       });
-  }
-
-  initListenersForExistingOrder(): void {
-    // combineLatest([
-    //   this.store.pipe(
-    //     select(locationIdSelector),
-    //     filter((value) => value !== null)
-    //   ),
-    //   this.store.pipe(select(addressesSelector), filter(Boolean)),
-    //   this.store.pipe(select(existingOrderInfoSelector), filter(Boolean))
-    // ])
-    //   .pipe(takeUntil(this.$destroy))
-    //   .subscribe(([locationId, addresses, orderInfo]: [number, Address[], IUserOrderInfo]) => {
-    //     this.addresses = addresses;
-    //     this.currentLocationId = locationId;
-    //     this.existingOrderInfo = orderInfo;
-    //     this.initLocationForExistingOrder();
-    //   });
   }
 
   initLocation(): void {

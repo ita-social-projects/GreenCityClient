@@ -41,10 +41,15 @@
       width: 60%;
       position: relative;
 
+      input {
+        padding-right: 50px;
+      }
+
       .arrowDownImg {
         position: absolute;
-        top: 20px;
+        top: 50%;
         right: 10px;
+        transform: translateY(-50%);
         cursor: pointer;
       }
     }
@@ -109,6 +114,16 @@
     border: none;
     background-color: transparent;
     outline: none;
+  }
+
+  .clear-btn {
+    all: unset;
+    display: flex;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
   }
 
   .footer-btns {

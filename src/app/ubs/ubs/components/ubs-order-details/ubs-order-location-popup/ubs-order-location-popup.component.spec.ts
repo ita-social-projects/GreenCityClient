@@ -85,34 +85,9 @@ describe('UbsOrderLocationPopupComponent', () => {
     expect(orderServiceMock.getTariffName).toHaveBeenCalledWith(fakeTariffs[0]);
   });
 
-  it('getTariffDescription should return description if tariff exists', () => {
-    component.activeTariffs = fakeTariffs;
-    const result = component.getTariffDescription(2);
-    expect(result).toBe('Desc 2');
-    expect(orderServiceMock.getTariffDescription).toHaveBeenCalledWith(fakeTariffs[1]);
-  });
-
-  it('getTariffDescription should return null if tariff not found', () => {
-    component.activeTariffs = fakeTariffs;
-    const result = component.getTariffDescription(999);
-    expect(result).toBeNull();
-  });
-
   it('changeTariff should update selectedTariff', () => {
     component.changeTariff(fakeTariffs[1]);
     expect(component.selectedTariff).toBe(fakeTariffs[1]);
-  });
-
-  it('passDataToComponent should call dialogRef.close with correct payload', () => {
-    component.selectedTariff = fakeTariffs[0];
-    component.activeTariffs = fakeTariffs;
-    component.passDataToComponent();
-    expect(dialogMock.close).toHaveBeenCalledWith({
-      tariff: fakeTariffs[0].id,
-      currentLanguage: 'en',
-      data: undefined,
-      activeTariffs: fakeTariffs
-    });
   });
 
   it('closePopUp should call dialogRef.close', () => {
