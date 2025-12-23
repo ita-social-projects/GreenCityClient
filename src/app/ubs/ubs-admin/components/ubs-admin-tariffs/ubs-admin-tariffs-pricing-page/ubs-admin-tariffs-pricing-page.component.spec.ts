@@ -183,7 +183,9 @@ describe('UbsAdminPricingPageComponent', () => {
     min: 1,
     max: 100,
     courierLimit: 'fake',
-    limitDescription: 'fake'
+    limitDescription: 'fake',
+    tariffNameEn: 'tfEn',
+    tariffNameUk: 'tfUk'
   };
 
   const fakeBagLimits = {
@@ -324,7 +326,10 @@ describe('UbsAdminPricingPageComponent', () => {
       min: 1,
       max: 100,
       courierLimit: 'fake',
-      limitDescription: 'fake'
+      limitDescription: 'fake',
+      tariffNameEn: 'tfEn',
+      tariffNameUk: 'tfUk',
+      courierId: 1
     };
     component.getSelectedTariffCard();
     expect(component.selectedCard).toEqual(result);

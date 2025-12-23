@@ -75,10 +75,10 @@
       </div>
       <div class="price box">
         <h6 class="caption">{{ pricePickUp[0] | translate }}</h6>
-        <div *ngIf="cities.length > 0">
-          <select [formControl]="myControl" id="citySelect" class="form-control payment">
-            <option *ngFor="let city of cities" [ngValue]="city">
-              {{ city.locationName }}
+        <div *ngIf="tariffs.length" class="price-select-wrapper">
+          <select [formControl]="myControl" id="tariffSelect" class="form-control payment">
+            <option *ngFor="let tariff of tariffs" [ngValue]="tariff">
+              {{ orderService.getTariffName(tariff) }}
             </option>
           </select>
         </div>

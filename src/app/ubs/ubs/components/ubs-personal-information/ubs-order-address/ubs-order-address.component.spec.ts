@@ -74,9 +74,9 @@ describe('UbsOrderAddressComponent', () => {
     });
 
     it('should initialize listeners for existing order', () => {
-      spyOn(component, 'initListenersForExistingOrder');
+      spyOn(component, 'initLocationForExistingOrder');
       component.ngOnInit();
-      expect(component.initListenersForExistingOrder).toHaveBeenCalled();
+      expect(component.initLocationForExistingOrder).toHaveBeenCalled();
     });
   });
 
@@ -86,9 +86,9 @@ describe('UbsOrderAddressComponent', () => {
     });
 
     it('should initialize listeners for new order', () => {
-      spyOn(component, 'initListenersForNewOrder');
+      spyOn(component, 'initLocation');
       component.ngOnInit();
-      expect(component.initListenersForNewOrder).toHaveBeenCalled();
+      expect(component.initLocation).toHaveBeenCalled();
     });
   });
 

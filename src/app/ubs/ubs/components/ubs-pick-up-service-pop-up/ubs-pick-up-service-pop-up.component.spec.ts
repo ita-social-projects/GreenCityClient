@@ -6,9 +6,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Store } from '@ngrx/store';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { CourierDto } from '@ubs/ubs/models/ubs.interface';
-import { orderDetailsSelector, tariffIdIdSelector } from 'src/app/store/selectors/order.selectors';
 import { Component } from '@angular/core';
+import { GetOrderDetails } from '../../../../store/actions/order.actions';
+import { OrderDetails } from '@ubs/ubs/models/ubs.interface';
+import { Language } from '../../../../shared/i18n/Language';
 
 @Component({
   selector: 'app-spinner',
@@ -19,30 +20,34 @@ export class MockSpinnerComponent {}
 describe('UbsPickUpServicePopUpComponent', () => {
   let component: UbsPickUpServicePopUpComponent;
   let fixture: ComponentFixture<UbsPickUpServicePopUpComponent>;
+  let storeSpy: jasmine.SpyObj<Store>;
+  let orderServiceSpy: jasmine.SpyObj<OrderService>;
+  let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
 
-  const mockOrderService = {
-    getAllActiveCouriers: jasmine.createSpy().and.returnValue(of([])),
-    getLocations: jasmine.createSpy().and.returnValue(of({ allActiveLocationsDtos: [] })),
-    getLocationName: jasmine.createSpy().and.callFake((city, region) => `${region.regionName} - ${city.name}`)
-  };
-
-  const mockLocalStorageService = {
-    getCurrentLanguage: jasmine.createSpy().and.returnValue('en')
-  };
-
-  const mockStore = {
-    dispatch: jasmine.createSpy(),
-    select: jasmine.createSpy()
-  };
+  const mockTariffs = [
+    { id: 10, tariffNameEn: 'Tariff1', tariffNameUk: 'Тариф1' },
+    { id: 11, tariffNameEn: 'Tariff2', tariffNameUk: 'Тариф2' }
+  ];
+  const mockOrderDetails: OrderDetails = { bags: [{ id: 1, nameEn: 'Bag 1', quantity: 1 }], points: 100 } as OrderDetails;
 
   beforeEach(waitForAsync(() => {
+    orderServiceSpy = jasmine.createSpyObj('OrderService', ['getActiveTariffsInfo', 'getLocationName', 'getTariffName']);
+    localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getTariffId']);
+    storeSpy = jasmine.createSpyObj('Store', ['dispatch', 'select']);
+
+    orderServiceSpy.getActiveTariffsInfo.and.returnValue(of(mockTariffs));
+    orderServiceSpy.getLocationName.and.callFake((city, region) => `${region} - ${city}`);
+    localStorageServiceSpy.getCurrentLanguage.and.returnValue(Language.EN);
+    localStorageServiceSpy.getTariffId.and.returnValue(mockTariffs[0].id);
+    storeSpy.select.and.returnValue(of(mockOrderDetails));
+
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), ReactiveFormsModule],
       declarations: [UbsPickUpServicePopUpComponent, MockSpinnerComponent],
       providers: [
-        { provide: OrderService, useValue: mockOrderService },
-        { provide: LocalStorageService, useValue: mockLocalStorageService },
-        { provide: Store, useValue: mockStore }
+        { provide: OrderService, useValue: orderServiceSpy },
+        { provide: LocalStorageService, useValue: localStorageServiceSpy },
+        { provide: Store, useValue: storeSpy }
       ]
     }).compileComponents();
   }));
@@ -54,89 +59,38 @@ describe('UbsPickUpServicePopUpComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call loadLocations if courierUBS is found', () => {
-    const couriers = [{ nameEn: 'UBS', courierId: 1 } as CourierDto];
-    component.courierUBSName = 'UBS';
-    spyOn(component, 'loadLocations');
-    mockOrderService.getAllActiveCouriers.and.returnValue(of(couriers));
-
-    component.getActiveCouriers();
-
-    expect(component.courierUBS).toEqual(couriers[0]);
-    expect(component.loadLocations).toHaveBeenCalled();
-  });
-  it('should not call loadLocations if courierUBS is not found', () => {
-    const couriers = [{ nameEn: 'OtherCourier' }];
-    component.courierUBSName = 'UBS';
-    spyOn(component, 'loadLocations');
-    mockOrderService.getAllActiveCouriers.and.returnValue(of(couriers));
-
-    component.getActiveCouriers();
-
-    expect(component.courierUBS).toBeUndefined();
-    expect(component.loadLocations).not.toHaveBeenCalled();
+  it('should set currentLanguage on init', () => {
+    component.ngOnInit();
+    expect(localStorageServiceSpy.getCurrentLanguage).toHaveBeenCalled();
+    expect(component.currentLanguage).toBe('en');
   });
 
-  it('should populate cities and set default city in loadLocations', () => {
-    component.courierUBS = { courierId: 1 } as CourierDto;
-    const mockResponse = {
-      allActiveLocationsDtos: [
-        {
-          regionName: 'Region1',
-          locations: [
-            { locationId: 1, name: 'City1' },
-            { locationId: 2, name: 'City2' }
-          ]
-        }
-      ]
-    };
-    mockOrderService.getLocations.and.returnValue(of(mockResponse));
-    spyOn(component, 'updateDataBasedOnLocation');
-    spyOn(component, 'listenToLocationChanges');
-
-    component.loadLocations();
-
-    expect(component.cities.length).toBe(2);
-    expect(component.myControl.value).toEqual({
-      locationId: 2,
-      locationName: 'Region1 - City2'
-    });
-    expect(component.updateDataBasedOnLocation).toHaveBeenCalledWith(2);
-    expect(component.listenToLocationChanges).toHaveBeenCalled();
-  });
-
-  it('should listen to location changes and update based on new location', () => {
-    spyOn(component, 'updateDataBasedOnLocation');
-    component.listenToLocationChanges();
-
-    const newCity = { locationId: 10 };
-    component.myControl.setValue(newCity);
-
-    expect(component.updateDataBasedOnLocation).toHaveBeenCalledWith(10);
-  });
-
-  it('should update bags and set isFetching to false', fakeAsync(() => {
-    component.courierUBS = { courierId: 1 } as any;
-
-    mockStore.select.and.callFake((selector) => {
-      if (selector === tariffIdIdSelector) {
-        return of(1, 2);
-      }
-      if (selector === orderDetailsSelector) {
-        return of({ bags: [{ id: 1 }] }, { bags: [{ id: 1 }, { id: 2 }, { id: 3 }] });
-      }
-      return of();
-    });
-
-    component.updateDataBasedOnLocation(123);
-
+  it('should call getActiveTariffs and set myControl value', fakeAsync(() => {
+    component.ngOnInit();
     tick();
+    expect(orderServiceSpy.getActiveTariffsInfo).toHaveBeenCalled();
+    expect(component.tariffs).toEqual(mockTariffs);
+    expect(component.myControl.value).toEqual(mockTariffs[0]);
+  }));
 
-    expect(component.bags).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
-    expect(component.isFetching).toBeFalse();
+  it('should dispatch GetOrderDetails on myControl value change', fakeAsync(() => {
+    component.ngOnInit();
+    tick();
+    const tariff = mockTariffs[1];
+    component.myControl.setValue(tariff);
+    tick();
+    expect(storeSpy.dispatch).toHaveBeenCalledWith(GetOrderDetails({ tariffId: tariff.id }));
+  }));
+
+  it('should set bags from orderDetailsSelector', fakeAsync(() => {
+    component.ngOnInit();
+    tick();
+    component.myControl.setValue(mockTariffs[0]);
+    tick();
+    expect(component.bags).toEqual(mockOrderDetails.bags);
   }));
 });

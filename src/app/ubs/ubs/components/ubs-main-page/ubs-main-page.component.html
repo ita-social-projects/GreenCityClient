@@ -66,11 +66,11 @@
   </section>
 
   <app-ubs-main-page-price-section
-    [locationToShow]="locationToShow"
-    [locationsToShowBags]="locationsToShowBags"
+    [tariffToShow]="selectedTariff"
+    [tariffs]="tariffs"
     [isTarriffLoading]="isTarriffLoading"
     [bags]="bags"
-    (locationSelected)="getBags($event)"
+    (tariffSelected)="getBags($event)"
   ></app-ubs-main-page-price-section>
 
   <section class="pick-up-service">

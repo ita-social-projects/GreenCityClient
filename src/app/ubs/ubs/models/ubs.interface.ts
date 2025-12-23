@@ -20,7 +20,7 @@ export interface Order {
   addressId: number;
   bags: OrderBag[];
   certificates: Array<string>;
-  locationId: number;
+  tariffId: number;
   orderComment: string;
   personalData: PersonalData;
   pointsToUse: number;
@@ -165,6 +165,8 @@ export interface CourierLocations {
   courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG' | 'LIMIT_BY_SUM_OF_ORDER';
   courierStatus: string;
   tariffInfoId: number;
+  tariffNameEn: string;
+  tariffNameUk: string;
   locationsDtosList: LocationsDtosList[];
   courierTranslationDtos: CourierTranslation[];
   regionDto: {
@@ -275,6 +277,18 @@ export interface ActiveTariffInfo {
   id: number;
   tariffNameUk: string;
   tariffNameEn: string;
-  descriptionMessageUk: string | null;
-  descriptionMessageEn: string | null;
+  tariffLocations?: TariffLocations[];
+  descriptionMessageUk?: string | null;
+  descriptionMessageEn?: string | null;
+}
+
+export interface TariffLocations {
+  id: number;
+  latitude: number;
+  longitude: number;
+  regionNameEn: string;
+  regionNameUk: string;
+  nameEn: string;
+  nameUk: string;
+  tariffsId?: number;
 }

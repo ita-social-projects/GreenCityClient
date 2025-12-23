@@ -54,11 +54,13 @@
       "btn": {
         "back": "Back",
         "continue": "Continue"
-      }
+      },
+      "no-results": "Nothing found"
     },
     "order-title": "Services",
-    "choose-location": "Change your location",
+    "choose-location": "Change your tariff",
     "current-location": "Your location: {{currentLocation}}",
+    "current-tariff": "Tariff: {{currentTariff}}",
     "title-without-location": "Choose a location, please",
     "order-content": "Please note that the minimum order amount is 500.00 UAH",
     "service": "Service",

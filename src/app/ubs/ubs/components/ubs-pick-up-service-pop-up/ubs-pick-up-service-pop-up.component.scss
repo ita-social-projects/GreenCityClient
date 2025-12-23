@@ -118,7 +118,15 @@
 }
 
 .price {
-  .price-conditions {
+  &-select-wrapper {
+    padding-right: 10px;
+
+    select {
+      width: 120px;
+    }
+  }
+
+  &-conditions {
     margin-top: 24px;
     display: flex;
     flex-direction: column;

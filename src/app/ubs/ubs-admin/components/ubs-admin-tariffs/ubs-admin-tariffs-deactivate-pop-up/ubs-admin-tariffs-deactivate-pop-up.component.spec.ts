@@ -1,9 +1,9 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
@@ -216,7 +216,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     },
     {
       cardId: 1,
@@ -254,7 +256,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     },
     {
       cardId: 1,
@@ -292,7 +296,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     },
     {
       cardId: 1,
@@ -330,7 +336,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     }
   ];
 
@@ -371,7 +379,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     },
     {
       cardId: 1,
@@ -409,7 +419,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     },
     {
       cardId: 1,
@@ -447,7 +459,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     },
     {
       cardId: 1,
@@ -485,7 +499,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       createdAt: 'fake',
       courierLimit: 'fake',
       min: 1,
-      max: 100
+      max: 100,
+      tariffNameUk: 'tfUk',
+      tariffNameEn: 'tfEn'
     }
   ];
 
@@ -666,7 +682,15 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('courier and region should be enabled when selectStations is empty', () => {
-    component.stations = [{ id: 1, name: 'Фейк', stationStatus: 'ACTIVE', createdBy: 'admin', createDate: '2023-06-02' }];
+    component.stations = [
+      {
+        id: 1,
+        name: 'Фейк',
+        stationStatus: 'ACTIVE',
+        createdBy: 'admin',
+        createDate: '2023-06-02'
+      }
+    ];
     component.selectedStations.push({ id: 1, name: 'Фейк' });
     const spy = spyOn(component, 'onDeletedField');
     component.selectStation(eventMockStation as any);
@@ -683,7 +707,15 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should add new selected station if it does not exist in list', () => {
-    component.stations = [{ id: 1, name: 'Фейк', stationStatus: 'ACTIVE', createdBy: 'admin', createDate: '2023-06-02' }];
+    component.stations = [
+      {
+        id: 1,
+        name: 'Фейк',
+        stationStatus: 'ACTIVE',
+        createdBy: 'admin',
+        createDate: '2023-06-02'
+      }
+    ];
     component.selectedStations = [{ id: 0, name: 'Cтанція' }];
     component.addSelectedStation(eventMockStation as any);
     expect(component.selectedStations).toEqual([

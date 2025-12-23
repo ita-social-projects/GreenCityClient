@@ -11,6 +11,7 @@
     <form *ngIf="!isFetching; else spinner" class="form">
       <div class="city-container">
         <input
+          #input
           type="text"
           matInput
           [formControl]="myControl"
@@ -18,11 +19,22 @@
           class="shadow-none form-control"
           #autocompleteTrigger="matAutocompleteTrigger"
         />
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let city of cities" [value]="city" (click)="changeLocation(city.locationId, city.locationName)">
-            {{ city.locationName }}
-          </mat-option>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="changeTariff($event.option.value)">
+          <ng-container *ngIf="filteredOptions$ | async as options">
+            <mat-option *ngFor="let tariff of options" [value]="tariff">
+              <div class="d-flex flex-column">
+                <span>{{ getTariffName(tariff) }}</span>
+                <span class="subheading">{{ getTariffLocations(tariff) }}</span>
+              </div>
+            </mat-option>
+            <mat-option *ngIf="!options.length" disabled>
+              {{ 'order-details.location.no-results' | translate }}
+            </mat-option>
+          </ng-container>
         </mat-autocomplete>
+        <button class="clear-btn" (click)="clearInput(); input.focus()">
+          <img src="{{ closeButton }}" alt="clear" />
+        </button>
         <img
           alt="arrowDown"
           class="arrowDownImg"
@@ -31,10 +43,8 @@
         />
       </div>
 
-      <div class="tariff-description-container" *ngIf="selectedTariffId && getTariffDescription(selectedTariffId)">
-        <p class="tariff-description">
-          {{ getTariffDescription(selectedTariffId) }}
-        </p>
+      <div class="tariff-description-container" *ngIf="selectedTariff && getTariffLocations(selectedTariff)">
+        <p class="tariff-description">{{ getTariffLocations(selectedTariff) }}</p>
       </div>
     </form>
     <ng-template #spinner>
@@ -48,7 +58,7 @@
     </button>
     <button
       class="ubs-primary-global-button"
-      [disabled]="isFetching || !currentLocation || myControl.invalid"
+      [disabled]="isFetching || !selectedTariff || myControl.invalid"
       cdkFocusInitial
       (click)="saveLocation()"
     >
