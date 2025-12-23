@@ -83,8 +83,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   blurOnOption = false;
   isCardExist = false;
   isCreationAllowed = false;
-  nameChanged = false;
-
   courierNameUk;
   courierNameEn;
   currentCourierNameTranslated;

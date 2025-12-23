@@ -137,7 +137,7 @@ describe('UbsMainPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should make expected calls inside openLocationDialog', () => {
+  it('should make expected calls inside openTariffDialog', () => {
     matDialogMock.open.and.returnValue(dialogRefStub as any);
     component.openTariffDialog();
     expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
