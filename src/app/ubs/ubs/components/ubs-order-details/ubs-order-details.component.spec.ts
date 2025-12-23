@@ -8,7 +8,7 @@ import { Action, Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import {
@@ -30,7 +30,10 @@ import {
   GetOrderDetails,
   GetOrderDetailsSuccess,
   SetAdditionalOrders,
+  SetBags,
+  SetFirstFormStatus,
   SetOrderComment,
+  SetOrderSum,
   SetTariff
 } from 'src/app/store/actions/order.actions';
 import { ExtraPackagesPopUpComponent } from '@ubs/ubs/components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
@@ -39,12 +42,26 @@ import { activeTariffsMock } from '@ubs/ubs-admin/services/orderInfoMock';
 import { OrderService } from '@ubs/ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Language } from '../../../../shared/i18n/Language';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
+import { VolumePipe } from '@ubs/shared/pipes/volume-pipe/volume.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { LangValueDirective } from '../../../../shared/directives/lang-value/lang-value.directive';
+import { IMaskModule } from 'angular-imask';
 
 @Component({
   selector: 'app-spinner',
   template: '<div></div>'
 })
 class MockSpinnerComponent {}
+
+@Component({
+  selector: 'app-ubs-order-certificate',
+  template: ''
+})
+class MockUbsOrderCertificateComponent {
+  @Input() orderDetails: any;
+}
 
 describe('UBSOrderDetailsComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -66,8 +83,24 @@ describe('UBSOrderDetailsComponent', () => {
   let isLoadingSubject: BehaviorSubject<boolean>;
 
   const mockTariff: ActiveTariffInfo = activeTariffsMock[0];
-  const mockOrderDetails: OrderDetails = { bags: [{ id: 1, name: 'Bag 1' } as Bag], points: 100 } as OrderDetails;
-  const mockLocations: CourierLocations = { courierStatus: 'active', min: 1, max: 2 } as CourierLocations;
+  const mockOrderDetails: OrderDetails = { bags: [{ id: 1, nameEn: 'Bag 1', quantity: 1 }], points: 100 } as OrderDetails;
+  const mockLocations: CourierLocations = {
+    courierStatus: 'active',
+    min: 1,
+    max: 2,
+    locationsDtosList: [
+      {
+        locationId: 1,
+        nameEn: 'Kyiv',
+        nameUk: 'Київ'
+      },
+      {
+        locationId: 2,
+        nameEn: 'Lviv',
+        nameUk: 'Львів'
+      }
+    ]
+  } as CourierLocations;
   const mockExistingOrder: IUserOrderInfo = {
     id: 123,
     orderComment: 'Test Comment',
@@ -106,10 +139,10 @@ describe('UBSOrderDetailsComponent', () => {
         return of(activeTariffsMock[0]);
       }
       if (selector === orderDetailsSelector) {
-        return orderDetailsSubject.asObservable();
+        return of(mockOrderDetails);
       }
       if (selector === courierLocationsSelector) {
-        return courierLocationsSubject.asObservable();
+        return of(mockLocations);
       }
       if (selector === existingOrderInfoSelector) {
         return existingOrderInfoSubject.asObservable();
@@ -127,7 +160,14 @@ describe('UBSOrderDetailsComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [UBSOrderDetailsComponent, MockSpinnerComponent],
+      declarations: [
+        UBSOrderDetailsComponent,
+        MockSpinnerComponent,
+        MockUbsOrderCertificateComponent,
+        LocalizedCurrencyPipe,
+        VolumePipe,
+        LangValueDirective
+      ],
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
@@ -135,7 +175,9 @@ describe('UBSOrderDetailsComponent', () => {
         MatProgressSpinnerModule,
         FormsModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatIconModule,
+        IMaskModule
       ],
       providers: [
         FormBuilder,
@@ -162,15 +204,6 @@ describe('UBSOrderDetailsComponent', () => {
     store = TestBed.inject(Store) as jasmine.SpyObj<Store>;
     dialog = TestBed.inject(MatDialog);
     route = TestBed.inject(ActivatedRoute);
-
-    component.orderDetailsForm = new FormGroup({
-      orderComment: new FormControl('Test Comment'),
-      additionalOrders: new FormArray([new FormControl('Order 1'), new FormControl('Order 2')]),
-      bags: new FormGroup({
-        quantity1: new FormControl('1')
-      })
-    });
-
     fixture.detectChanges();
   });
 
@@ -210,7 +243,7 @@ describe('UBSOrderDetailsComponent', () => {
         component.pushAdditionalOrder('Order 1');
         component.pushAdditionalOrder('Order 2');
         component.removeOrder({ code: 'Enter' } as KeyboardEvent, 0);
-        expect(component.additionalOrders.controls.length).toBe(3);
+        expect(component.additionalOrders.controls.length).toBe(2);
       });
     });
 
@@ -218,7 +251,7 @@ describe('UBSOrderDetailsComponent', () => {
       it('should check if order is already entered', () => {
         component.pushAdditionalOrder('Order 1');
         component.pushAdditionalOrder('Order 1');
-        const result = component.isAlreadyEntered(0);
+        const result = component.isAlreadyEntered(1);
         expect(result).toBe(true);
       });
     });
@@ -244,6 +277,9 @@ describe('UBSOrderDetailsComponent', () => {
 
     describe('getBagQuantity', () => {
       it('should get bag quantity when bag exists and has a valid numeric value', () => {
+        component.orderDetailsForm = new FormGroup({
+          bags: new FormGroup({})
+        });
         const bagsFormGroup = component.orderDetailsForm.get('bags') as FormGroup;
         bagsFormGroup.addControl('quantity2', new FormControl(5));
         expect(component.getBagQuantity(2)).toBe(5);
@@ -329,7 +365,6 @@ describe('UBSOrderDetailsComponent', () => {
     describe('listenToTariffAndInitForm', () => {
       beforeEach(() => {
         spyOn(component, 'initForm');
-        spyOn(component, 'initFormBags');
         spyOn(component, 'dispatchAdditionalOrders');
         spyOn(component, 'dispatchOrderComment');
         spyOn(component, 'initPointsAndCertificateListeners');
@@ -352,7 +387,6 @@ describe('UBSOrderDetailsComponent', () => {
         expect(component.locations).toEqual(mockLocations);
         expect(component.existingOrderInfo).toBeNull();
         expect(component.initForm).toHaveBeenCalled();
-        expect(component.initFormBags).toHaveBeenCalled();
         expect(component.dispatchAdditionalOrders).toHaveBeenCalled();
         expect(component.dispatchOrderComment).toHaveBeenCalled();
         expect(component.initPointsAndCertificateListeners).toHaveBeenCalled();
@@ -479,6 +513,7 @@ describe('UBSOrderDetailsComponent', () => {
         const dialogSpy = spyOn(component.dialog, 'open').and.callThrough();
         const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({ data: true }), close: null });
         dialogSpy.and.returnValue(dialogRefSpyObj);
+        component.orderDetailsForm = new FormGroup({});
         spyOn(component.orderDetailsForm, 'markAllAsTouched');
 
         component.openLocationDialog();
@@ -572,7 +607,11 @@ describe('UBSOrderDetailsComponent', () => {
 
   describe('Store Dispatchers', () => {
     it('should dispatch additional orders', () => {
+      component.pushAdditionalOrder('Order 1');
+      component.pushAdditionalOrder('Order 2');
+
       component.dispatchAdditionalOrders();
+
       expect(store.dispatch).toHaveBeenCalledWith(SetAdditionalOrders({ orders: ['Order 1', 'Order 2'] }));
     });
 
@@ -580,6 +619,359 @@ describe('UBSOrderDetailsComponent', () => {
       component.orderComment.setValue('Test Comment');
       component.dispatchOrderComment();
       expect(store.dispatch).toHaveBeenCalledWith(SetOrderComment({ comment: 'Test Comment' }));
+    });
+  });
+
+  describe('Form Initialization', () => {
+    describe('initForm', () => {
+      beforeEach(() => {
+        spyOn(component, 'pushAdditionalOrder');
+        spyOn(component as any, 'changeSecondStepDisabled');
+        spyOn(component, 'dispatchAdditionalOrders');
+        spyOn(component, 'dispatchOrderComment');
+      });
+
+      it('should initialize orderDetailsForm with correct structure', () => {
+        expect(component.orderDetailsForm).toBeDefined();
+        expect(component.orderDetailsForm.get('bags')).toBeInstanceOf(FormGroup);
+        expect(component.orderDetailsForm.get('additionalOrders')).toBeInstanceOf(FormArray);
+        expect(component.orderDetailsForm.get('orderComment')).toBeInstanceOf(FormControl);
+      });
+
+      it('should set maxLength validator on orderComment', () => {
+        const orderComment = component.orderDetailsForm.get('orderComment');
+        orderComment?.setValue('a'.repeat(256));
+
+        expect(orderComment?.hasError('maxlength')).toBe(true);
+      });
+
+      it('should call pushAdditionalOrder once during initialization', () => {
+        component.initForm();
+        expect(component.pushAdditionalOrder).toHaveBeenCalledTimes(1);
+      });
+
+      it('should dispatch SetFirstFormStatus with isValid=false when form is invalid', fakeAsync(() => {
+        component.orderDetailsForm.get('orderComment')?.setValue('a'.repeat(256));
+        tick(400);
+
+        expect(store.dispatch).toHaveBeenCalledWith(SetFirstFormStatus({ isValid: false }));
+      }));
+
+      it('should call changeSecondStepDisabled with true when form becomes invalid', fakeAsync(() => {
+        component.orderDetailsForm.get('orderComment')?.setValue('a'.repeat(256));
+        tick(400);
+
+        expect((component as any).changeSecondStepDisabled).toHaveBeenCalledWith(true);
+      }));
+
+      it('should call changeSecondStepDisabled with false when form becomes valid', fakeAsync(() => {
+        component.orderDetailsForm.get('orderComment')?.setValue('a'.repeat(256));
+        component.orderDetailsForm.get('orderComment')?.setValue('a'.repeat(10));
+        tick(400);
+        expect((component as any).changeSecondStepDisabled).toHaveBeenCalledWith(false);
+      }));
+
+      it('should dispatch additional orders after debounce when additionalOrders changes', fakeAsync(() => {
+        const additionalOrders = component.orderDetailsForm.get('additionalOrders') as FormArray;
+        additionalOrders.push(new FormControl('New Order'));
+
+        tick(400);
+
+        expect(component.dispatchAdditionalOrders).toHaveBeenCalled();
+      }));
+
+      it('should dispatch order comment after debounce when orderComment changes', fakeAsync(() => {
+        component.orderDetailsForm.get('orderComment')?.setValue('New comment');
+
+        tick(400);
+
+        expect(component.dispatchOrderComment).toHaveBeenCalled();
+      }));
+
+      it('should not dispatch before debounce time passes', fakeAsync(() => {
+        (component.dispatchAdditionalOrders as jasmine.Spy).calls.reset();
+
+        const additionalOrders = component.orderDetailsForm.get('additionalOrders') as FormArray;
+        additionalOrders.push(new FormControl('Order'));
+
+        tick(200);
+
+        expect(component.dispatchAdditionalOrders).not.toHaveBeenCalled();
+
+        tick(200);
+
+        expect(component.dispatchAdditionalOrders).toHaveBeenCalled();
+      }));
+
+      it('should unsubscribe from statusChanges on destroy', fakeAsync(() => {
+        tick();
+
+        const callCountBefore = (store.dispatch as jasmine.Spy).calls.count();
+        component.ngOnDestroy();
+
+        component.orderDetailsForm.get('orderComment')?.setValue('Changed');
+        tick();
+
+        expect((store.dispatch as jasmine.Spy).calls.count()).toBe(callCountBefore);
+      }));
+
+      it('should unsubscribe from valueChanges on destroy', fakeAsync(() => {
+        tick(400);
+
+        (component.dispatchAdditionalOrders as jasmine.Spy).calls.reset();
+        component.ngOnDestroy();
+
+        const additionalOrders = component.orderDetailsForm.get('additionalOrders') as FormArray;
+        additionalOrders.push(new FormControl('Order'));
+        tick(400);
+
+        expect(component.dispatchAdditionalOrders).not.toHaveBeenCalled();
+      }));
+    });
+
+    describe('initPointsAndCertificateListeners', () => {
+      beforeEach(() => {
+        spyOn(component, 'calculateFinalSum');
+      });
+
+      it('should subscribe to pointsUsedSelector and update pointsUsed', fakeAsync(() => {
+        component.initPointsAndCertificateListeners();
+        tick();
+
+        expect(component.pointsUsed).toBe(50);
+        expect(component.calculateFinalSum).toHaveBeenCalled();
+      }));
+
+      it('should subscribe to certificateUsedSelector and update certificateUsed', fakeAsync(() => {
+        component.initPointsAndCertificateListeners();
+        tick();
+
+        expect(component.certificateUsed).toBe(20);
+        expect(component.calculateFinalSum).toHaveBeenCalled();
+      }));
+
+      it('should call calculateFinalSum when pointsUsed changes', fakeAsync(() => {
+        component.initPointsAndCertificateListeners();
+        (component.calculateFinalSum as jasmine.Spy).calls.reset();
+
+        pointsUsedSubject.next(100);
+        tick();
+
+        expect(component.pointsUsed).toBe(100);
+        expect(component.calculateFinalSum).toHaveBeenCalled();
+      }));
+
+      it('should call calculateFinalSum when certificateUsed changes', fakeAsync(() => {
+        component.initPointsAndCertificateListeners();
+        (component.calculateFinalSum as jasmine.Spy).calls.reset();
+
+        certificateUsedSubject.next(50);
+        tick();
+
+        expect(component.certificateUsed).toBe(50);
+        expect(component.calculateFinalSum).toHaveBeenCalled();
+      }));
+
+      it('should unsubscribe on destroy', fakeAsync(() => {
+        component.initPointsAndCertificateListeners();
+        tick();
+
+        (component.calculateFinalSum as jasmine.Spy).calls.reset();
+        component.ngOnDestroy();
+
+        pointsUsedSubject.next(999);
+        certificateUsedSubject.next(999);
+        tick();
+
+        expect(component.calculateFinalSum).not.toHaveBeenCalled();
+      }));
+    });
+
+    describe('updateValidator', () => {
+      beforeEach(() => {
+        component.locations = {
+          ...mockLocations,
+          locationsDtosList: [{ nameEn: 'Kyiv', nameUk: 'Київ' }]
+        } as CourierLocations;
+        component.bags = [
+          { id: 1, name: 'Bag 1', quantity: 2, price: 100 } as Bag,
+          { id: 2, name: 'Bag 2', quantity: 0, price: 150 } as Bag
+        ];
+        localStorageService.getCurrentLanguage.and.returnValue(Language.EN);
+      });
+
+      it('should create new bags FormGroup with controls for each bag', () => {
+        component.initForm();
+
+        const bagsGroup = component.orderDetailsForm.get('bags') as FormGroup;
+        expect(bagsGroup.get('quantity1')).toBeDefined();
+        expect(bagsGroup.get('quantity2')).toBeDefined();
+      });
+
+      it('should set initial values from bag quantities', () => {
+        component.initForm();
+
+        const bagsGroup = component.orderDetailsForm.get('bags') as FormGroup;
+        expect(bagsGroup.get('quantity1')?.value).toBe(2);
+        expect(bagsGroup.get('quantity2')?.value).toBe(0);
+      });
+
+      it('should set min and max validators on bag controls', () => {
+        const bagsGroup = component.orderDetailsForm.get('bags') as FormGroup;
+        const control = bagsGroup.get('quantity1');
+
+        control?.setValue(-1);
+        expect(control?.hasError('min')).toBe(true);
+
+        control?.setValue(1000);
+        expect(control?.hasError('max')).toBe(true);
+
+        control?.setValue(500);
+        expect(control?.valid).toBe(true);
+      });
+    });
+  });
+
+  describe('Bag Quantity Management', () => {
+    describe('changeQuantity', () => {
+      beforeEach(() => {
+        spyOn(component, 'calculateOrderSum');
+        component.orderDetailsForm = new FormGroup({
+          bags: new FormGroup({
+            quantity1: new FormControl(5)
+          })
+        });
+      });
+
+      it('should increase bag quantity by specified value', () => {
+        component.changeQuantity(1, 2);
+
+        expect(component.getBagQuantity(1)).toBe(7);
+        expect(component.calculateOrderSum).toHaveBeenCalled();
+      });
+
+      it('should decrease bag quantity by specified value', () => {
+        component.changeQuantity(1, -2);
+
+        expect(component.getBagQuantity(1)).toBe(3);
+        expect(component.calculateOrderSum).toHaveBeenCalled();
+      });
+
+      it('should dispatch SetBags action with new value', () => {
+        component.changeQuantity(1, 3);
+
+        expect(store.dispatch).toHaveBeenCalledWith(SetBags({ bagId: 1, bagValue: 8 }));
+      });
+
+      it('should not change quantity above max value (999)', () => {
+        component.orderDetailsForm.get('bags')?.get('quantity1')?.setValue(998);
+
+        component.changeQuantity(1, 5);
+
+        expect(component.getBagQuantity(1)).toBe(998);
+        expect(component.calculateOrderSum).not.toHaveBeenCalled();
+      });
+
+      it('should not change quantity below min value (0)', () => {
+        component.orderDetailsForm.get('bags')?.get('quantity1')?.setValue(2);
+
+        component.changeQuantity(1, -5);
+
+        expect(component.getBagQuantity(1)).toBe(2);
+        expect(component.calculateOrderSum).not.toHaveBeenCalled();
+      });
+
+      it('should allow setting quantity to exactly 999', () => {
+        component.orderDetailsForm.get('bags')?.get('quantity1')?.setValue(997);
+
+        component.changeQuantity(1, 2);
+
+        expect(component.getBagQuantity(1)).toBe(999);
+        expect(component.calculateOrderSum).toHaveBeenCalled();
+      });
+
+      it('should allow setting quantity to exactly 0', () => {
+        component.orderDetailsForm.get('bags')?.get('quantity1')?.setValue(2);
+
+        component.changeQuantity(1, -2);
+
+        expect(component.getBagQuantity(1)).toBe(0);
+        expect(component.calculateOrderSum).toHaveBeenCalled();
+      });
+    });
+
+    describe('calculateOrderSum', () => {
+      beforeEach(() => {
+        spyOn(component, 'calculateFinalSum');
+        component.bags = [
+          { id: 1, name: 'Bag 1', price: 100 } as Bag,
+          { id: 2, name: 'Bag 2', price: 150 } as Bag,
+          { id: 3, name: 'Bag 3', price: 200 } as Bag
+        ];
+        component.orderDetailsForm = new FormGroup({
+          bags: new FormGroup({
+            quantity1: new FormControl(2),
+            quantity2: new FormControl(3),
+            quantity3: new FormControl(0)
+          })
+        });
+      });
+
+      it('should calculate total order sum correctly', () => {
+        component.calculateOrderSum();
+
+        expect(component.orderSum).toBe(650);
+      });
+
+      it('should dispatch SetOrderSum with calculated sum', () => {
+        component.calculateOrderSum();
+
+        expect(store.dispatch).toHaveBeenCalledWith(SetOrderSum({ orderSum: 650 }));
+      });
+
+      it('should dispatch SetBags for each bag with quantity', () => {
+        component.calculateOrderSum();
+
+        expect(store.dispatch).toHaveBeenCalledWith(SetBags({ bagId: 1, bagValue: 2 }));
+        expect(store.dispatch).toHaveBeenCalledWith(SetBags({ bagId: 2, bagValue: 3 }));
+      });
+
+      it('should not dispatch SetBags for bags with zero quantity', () => {
+        component.calculateOrderSum();
+
+        const setBagsCalls = (store.dispatch as jasmine.Spy).calls.all().filter((call) => call.args[0].type === '[Order] Set Bags');
+
+        expect(setBagsCalls.length).toBe(3);
+        expect(setBagsCalls.some((call) => call.args[0].bagId === 3)).toBe(false);
+      });
+
+      it('should call calculateFinalSum after calculation', () => {
+        component.calculateOrderSum();
+
+        expect(component.calculateFinalSum).toHaveBeenCalled();
+      });
+
+      it('should handle empty bags array', () => {
+        component.bags = [];
+
+        component.calculateOrderSum();
+
+        expect(component.orderSum).toBe(0);
+        expect(component.calculateFinalSum).toHaveBeenCalled();
+      });
+
+      it('should handle bags with null/undefined quantities', () => {
+        component.orderDetailsForm = new FormGroup({
+          bags: new FormGroup({
+            quantity1: new FormControl(null),
+            quantity2: new FormControl(undefined)
+          })
+        });
+
+        component.calculateOrderSum();
+
+        expect(component.orderSum).toBe(0);
+      });
     });
   });
 });

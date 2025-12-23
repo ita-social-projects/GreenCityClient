@@ -10,7 +10,7 @@ import { ActiveTariffInfo, Bag, CourierLocations, KyivNamesEnum } from '../../mo
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   GetCourierLocations,
   GetCourierLocationsSuccess,
@@ -36,7 +36,7 @@ import {
   tariffSelector
 } from 'src/app/store/selectors/order.selectors';
 import { courierLimitValidator, uniqueArrayValidator } from 'src/app/ubs/ubs/services/order-validators';
-import { ICourierInfo, IValidationConfig } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { IValidationConfig } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
@@ -52,7 +52,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   isOrderDetailsLoading: Observable<boolean>;
   bags: Bag[];
   locations: CourierLocations;
-  courierLimits: ICourierInfo;
   orderDetailsForm: FormGroup;
   locationId: number;
   currentTariff: string;
@@ -95,11 +94,11 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   get orderComment() {
-    return this.orderDetailsForm.get('orderComment');
+    return this.orderDetailsForm?.get('orderComment');
   }
 
   get additionalOrders() {
-    return this.orderDetailsForm.get('additionalOrders') as FormArray;
+    return this.orderDetailsForm?.get('additionalOrders') as FormArray;
   }
 
   get isFormInitialized(): boolean {
@@ -127,7 +126,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       .subscribe((orderId: number | null) => {
         this.existingOrderId = orderId;
         !this.existingOrderId ? this.getTariff() : this.store.dispatch(GetExistingOrderTariff({ orderId }));
-        this.isOrderDetailsLoading = this.store.pipe(select(isOrderDetailsLoadingSelector));
+        this.isOrderDetailsLoading = this.store.select(isOrderDetailsLoadingSelector);
         this.listenToTariffAndInitForm();
         this.subscribeToLangChange();
       });
@@ -185,7 +184,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.locations = locations;
         this.existingOrderInfo = existingOrder;
         this.initForm();
-        this.initFormBags();
         this.dispatchAdditionalOrders();
         this.dispatchOrderComment();
         this.initPointsAndCertificateListeners();
@@ -196,19 +194,27 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
-    this.orderDetailsForm = new FormGroup({
-      bags: new FormGroup({}),
-      additionalOrders: new FormArray([], uniqueArrayValidator()),
-      orderComment: new FormControl('', Validators.maxLength(255))
+    this.orderDetailsForm = this.fb.group({
+      bags: this.buildBagsGroup(),
+      additionalOrders: this.fb.array([], uniqueArrayValidator()),
+      orderComment: ['', Validators.maxLength(255)]
     });
     this.pushAdditionalOrder();
+    this.subscribeToFormChanges();
+    this.calculateOrderSum();
+    this.subscribeToQuantityChanges();
+  }
 
+  private subscribeToFormChanges(): void {
     this.orderDetailsForm.statusChanges.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((state) => {
-      this.changeSecondStepDisabled(state === 'INVALID');
-      this.store.dispatch(SetFirstFormStatus({ isValid: state === 'VALID' }));
+      queueMicrotask(() => {
+        this.changeSecondStepDisabled(state === 'INVALID');
+        this.store.dispatch(SetFirstFormStatus({ isValid: state === 'VALID' }));
+      });
     });
 
     this.additionalOrders.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$)).subscribe(() => this.dispatchAdditionalOrders());
+
     this.orderComment.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$)).subscribe(() => this.dispatchOrderComment());
   }
 
@@ -220,41 +226,42 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(SetOrderComment({ comment: this.orderComment.value }));
   }
 
-  initFormBags(): void {
-    this.courierLimits = {
+  private buildBagsGroup(): FormGroup {
+    const courierLimits = {
       courierLimit: this.locations.courierLimit,
       min: this.locations.min,
       max: this.locations.max
     };
-    this.updateValidator();
-    this.calculateOrderSum();
-    this.subscribeToQuantityChanges();
-  }
 
-  initPointsAndCertificateListeners(): void {
-    this.store.pipe(select(pointsUsedSelector), takeUntil(this.destroy$)).subscribe((pointsUsed) => {
-      this.pointsUsed = pointsUsed;
-      this.calculateFinalSum();
-    });
-    this.store.pipe(select(certificateUsedSelector), takeUntil(this.destroy$)).subscribe((certificateUsed) => {
-      this.certificateUsed = certificateUsed;
-      this.calculateFinalSum();
-    });
-  }
-
-  private updateValidator() {
     const validationConfig: IValidationConfig = {
-      courierInfo: this.courierLimits,
+      courierInfo: courierLimits,
       currentLang: this.langService.getCurrentLanguage(),
       isKyiv: this.locations.locationsDtosList.some((location) => location.nameEn === KyivNamesEnum.KyivEn)
     };
 
-    const newBagsGroup = this.fb.group({}, { validators: courierLimitValidator(this.bags, validationConfig) });
+    const group = this.fb.group({}, { validators: courierLimitValidator(this.bags, validationConfig) });
+    this.bags.forEach((bag: Bag) => {
+      group.addControl(`quantity${bag.id}`, new FormControl<number>(bag.quantity ?? 0, [Validators.min(0), Validators.max(999)]));
+    });
 
-    this.bags.forEach((bag: Bag) =>
-      newBagsGroup.addControl(`quantity${bag.id}`, new FormControl<number>(bag.quantity || 0, [Validators.min(0), Validators.max(999)]))
-    );
-    this.orderDetailsForm.setControl('bags', newBagsGroup);
+    return group;
+  }
+
+  initPointsAndCertificateListeners(): void {
+    this.store
+      .select(pointsUsedSelector)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((pointsUsed) => {
+        this.pointsUsed = pointsUsed;
+        this.calculateFinalSum();
+      });
+    this.store
+      .select(certificateUsedSelector)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((certificateUsed) => {
+        this.certificateUsed = certificateUsed;
+        this.calculateFinalSum();
+      });
   }
 
   initExistingOrderValues(): void {
