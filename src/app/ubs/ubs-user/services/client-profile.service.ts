@@ -18,6 +18,6 @@ export class ClientProfileService {
   }
 
   deactivateProfile(reason: string): Observable<void> {
-    return this.http.delete<void>(`${mainUserLink}ubs/userProfile/user/delete`, { body: reason });
+    return this.http.delete<void>(`${mainUbsLink}/ubs/userProfile/user/delete`, { body: { reason } });
   }
 }
