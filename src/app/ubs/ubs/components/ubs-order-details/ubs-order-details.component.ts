@@ -65,7 +65,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   existingOrderId: number;
   limitOfEcoShopOrdersQuantity = 5;
 
-  previousPath = 'ubs';
   courierUBSName = 'UBS';
   SHOP_NUMBER_MASK = Masks.ecoStoreMask;
   commentPattern = Patterns.ubsCommentPattern;
