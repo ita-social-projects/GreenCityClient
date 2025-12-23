@@ -3,7 +3,6 @@ import { ComponentCanDeactivate } from 'src/app/shared/guards/pending-changes-gu
 import { Router } from '@angular/router';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 

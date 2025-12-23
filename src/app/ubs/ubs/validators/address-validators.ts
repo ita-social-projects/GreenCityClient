@@ -13,7 +13,7 @@ abstract class CityValidationStrategy {
 }
 
 class CityValidator extends CityValidationStrategy {
-  constructor(private locations: LocationsDtosList[]) {
+  constructor(private readonly locations: LocationsDtosList[]) {
     super();
   }
 
@@ -31,8 +31,8 @@ class KyivRegionValidator extends CityValidationStrategy {
   };
 
   constructor(
-    private injector: Injector,
-    private locations: LocationsDtosList[]
+    private readonly injector: Injector,
+    private readonly locations: LocationsDtosList[]
   ) {
     super();
     this.vincenty = this.injector.get(VincentySerivce);
@@ -61,10 +61,6 @@ class KyivRegionValidator extends CityValidationStrategy {
 }
 
 class DefaultCityValidator extends CityValidationStrategy {
-  constructor() {
-    super();
-  }
-
   isValid(): boolean {
     return true;
   }
@@ -77,7 +73,7 @@ const validationStrategies: Record<number, (locations: LocationsDtosList[], inje
 
 @Injectable({ providedIn: 'any' })
 export class AddressValidator {
-  constructor(private injector: Injector) {}
+  constructor(private readonly injector: Injector) {}
 
   isAvailable(locations: LocationsDtosList[], address: Address): boolean {
     const strategy = validationStrategies[locations.some((location) => location.locationId === 2) ? 2 : 1];

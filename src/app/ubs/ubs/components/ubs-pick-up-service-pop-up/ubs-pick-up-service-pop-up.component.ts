@@ -3,8 +3,8 @@ import { conditions, courierPickUp, extraoffer, howWorksPickUp, minimumVolume, p
 import { Store } from '@ngrx/store';
 import { GetOrderDetails } from 'src/app/store/actions/order.actions';
 import { orderDetailsSelector } from 'src/app/store/selectors/order.selectors';
-import { distinctUntilChanged, filter, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { ActiveTariffInfo, Bag, CourierDto, OrderDetails } from '@ubs/ubs/models/ubs.interface';
+import { distinctUntilChanged, filter, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { ActiveTariffInfo, Bag, OrderDetails } from '@ubs/ubs/models/ubs.interface';
 import { OrderService } from '@ubs/ubs/services/order.service';
 import { FormControl } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -15,8 +15,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./ubs-pick-up-service-pop-up.component.scss']
 })
 export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
-  courierUBS: CourierDto;
-  courierUBSName = 'UBS';
   bags: Bag[];
   myControl = new FormControl<ActiveTariffInfo>(null);
   tariffs: ActiveTariffInfo[] = [];
@@ -43,21 +41,12 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
   }
 
   getActiveTariffs(): void {
-    this.orderService
-      .getAllActiveCouriers()
-      .pipe(
-        map((couriers) => {
-          this.courierUBS = couriers.find((c) => c.nameEn === this.courierUBSName);
-          return this.courierUBS;
-        }),
-        switchMap(() => this.orderService.getActiveTariffsInfo())
-      )
-      .subscribe((tariffs: ActiveTariffInfo[]) => {
-        this.tariffs = tariffs;
-        this.listenToLocationChanges();
-        const userTariff = this.localStorageService.getTariffId() || tariffs[0].id;
-        this.myControl.setValue(tariffs.find((t) => t.id === userTariff));
-      });
+    this.orderService.getActiveTariffsInfo().subscribe((tariffs: ActiveTariffInfo[]) => {
+      this.tariffs = tariffs;
+      this.listenToLocationChanges();
+      const userTariff = this.localStorageService.getTariffId() || tariffs[0].id;
+      this.myControl.setValue(tariffs.find((t) => t.id === userTariff));
+    });
   }
 
   listenToLocationChanges(): void {
