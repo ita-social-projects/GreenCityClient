@@ -60,10 +60,10 @@
               </li>
             </ng-template>
             <ng-template #userNotLoggerInSmall>
-              <li class="header_mobile-menu-item header_user-name tertiary-global-button" role="link">
+              <li class="header_mobile-menu-item header_user-name tertiary-global-button" [ngClass]="isUBS ? 'ubs-user-name' : 'user-name'" role="link">
                 {{ name }}
               </li>
-              <li *ngIf="isLoggedIn && !isAdmin" class="header_mobile-menu-item" role="link">
+              <li *ngIf="isLoggedIn && !isAdmin && !isUBS" class="header_mobile-menu-item" role="link">
                 <a (click)="openNotificationsDialog()">
                   {{ 'nav-bar.user-notifications' | translate }}
                 </a>
@@ -201,7 +201,7 @@
                 <li class="body-2" [ngClass]="isUBS ? 'ubs-user-name' : 'user-name'">{{ name }}</li>
                 <ul class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
                   <li
-                    *ngIf="!isAdmin"
+                    *ngIf="!isAdmin && !isUBS"
                     [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
                     role="listitem"
                     aria-label="notifications"

@@ -30,6 +30,16 @@ $ubs-header-height: 86px;
   }
 }
 
+.header_ubs {
+  .active-link {
+    color: var(--ubs-primary-grey) !important;
+
+    &:focus {
+      color: var(--ubs-primary-grey);
+    }
+  }
+}
+
 .noWarning {
   display: none;
 }
@@ -504,6 +514,18 @@ header {
 
     &.text-hidde {
       display: none;
+    }
+  }
+}
+
+.header_mobile-menu-item {
+  &.ubs-user-name {
+    color: var(--ubs-accent-purple);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: var(--ubs-electric-violet);
     }
   }
 }

@@ -66,8 +66,8 @@
 
     &:focus {
       outline: none;
-      border-color: var(--tertiary-light-green);
-      box-shadow: 0 0 0 1px var(--tertiary-light-green);
+      border-color: var(--ubs-button-light-green);
+      box-shadow: 0 0 0 1px var(--ubs-button-light-green);
     }
   }
 }
@@ -167,7 +167,7 @@
   transition: box-shadow 0.2s;
 
   &:hover {
-    box-shadow: 0 0 0 2px var(--tertiary-light-green);
+    box-shadow: 0 0 0 2px var(--ubs-button-light-green);
   }
 }
 
@@ -199,7 +199,7 @@
 
   &.sent {
     align-self: flex-end;
-    background-color: var(--primary-light-green);
+    background-color: var(--ubs-grey-light-green);
     color: var(--secondary-dark-grey);
   }
 
@@ -241,12 +241,12 @@
 
     &:focus {
       outline: none;
-      border-color: var(--tertiary-light-green);
+      border-color: var(--ubs-primary-light-green);
     }
   }
 
   .send-message-button {
-    background-color: var(--tertiary-light-green);
+    background-color: var(--ubs-tertiary-dark-green);
     border: none;
     border-radius: 50%;
     padding: 0.6rem;
@@ -258,7 +258,7 @@
     }
 
     &:hover {
-      background-color: var(--secondary-dark-green);
+      background-color: var(--ubs-quaternary-dark-green);
     }
   }
 }
@@ -318,7 +318,7 @@
     font-size: 14px;
 
     &:first-of-type {
-      color: var(--tertiary-light-green);
+      color: var(--ubs-quaternary-dark-green);
     }
   }
 
@@ -362,12 +362,12 @@
 
   .file-label {
     cursor: pointer;
-    background-color: var(--primary-green);
+    background-color: var(--ubs-tertiary-dark-green);
     color: var(--primary-white);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 14px;
-    border: 1px solid var(--primary-green);
+    border: 1px solid var(--ubs-tertiary-dark-green);
     user-select: none;
     display: flex;
     align-items: center;
@@ -375,7 +375,7 @@
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: var(--secondary-dark-green);
+      background-color: var(--ubs-quaternary-dark-green);
     }
 
     svg {
@@ -446,7 +446,7 @@
   }
 
   .unread-badge {
-    background-color: var(--tertiary-light-green);
+    background-color: var(--ubs-secondary-light-green);
     color: var(--primary-white);
     font-size: 12px;
     font-weight: 600;

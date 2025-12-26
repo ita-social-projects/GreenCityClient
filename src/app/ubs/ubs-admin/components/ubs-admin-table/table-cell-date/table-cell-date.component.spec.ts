@@ -53,6 +53,7 @@ describe('TableCellDateComponent', () => {
 
     it('should set current date to min attribute in input date', () => {
       component.isEditable = true;
+      fixture.componentRef.setInput('uneditableStatus', false);
       fixture.detectChanges();
       const inputElem = fixture.debugElement.nativeElement.querySelector('#date-input');
       const actualMinDate = inputElem.min.split('T')[0];

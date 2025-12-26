@@ -5,10 +5,10 @@
 <ng-template #selectOption>
   <mat-select
     #select
-    [(value)]="currentValue"
+    [value]="currentValue"
     (selectionChange)="chosenOption($event)"
     [placeholder]="currentValue | serverTranslate: lang"
-    (click)="onSelectClick()"
+    (click)="onSelectClick($event)"
     (closed)="onSelectClosed()"
     [disabled]="isDisabled"
     [panelWidth]="'fit-content'"

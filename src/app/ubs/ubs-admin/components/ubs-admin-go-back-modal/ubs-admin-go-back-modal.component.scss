@@ -10,3 +10,13 @@
   color: var(--ubs-primary-grey);
   padding: 1px 30px 20px 10px;
 }
+
+.disagree {
+  border-color: var(--ubs-secondary-light-green);
+  color: var(--ubs-secondary-light-green);
+}
+
+.agree {
+  background-color: var(--ubs-secondary-light-green);
+  border-color: var(--ubs-secondary-light-green);
+}

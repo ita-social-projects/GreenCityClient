@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { finalize, take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
@@ -17,7 +17,8 @@ import { AddOrderNotTakenOutReasonComponent } from '@ubs/ubs-admin/components/ad
 @Component({
   selector: 'app-table-cell-select',
   templateUrl: './table-cell-select.component.html',
-  styleUrls: ['./table-cell-select.component.scss']
+  styleUrls: ['./table-cell-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableCellSelectComponent implements OnInit {
   @Input() optional: any;
@@ -34,7 +35,6 @@ export class TableCellSelectComponent implements OnInit {
 
   isLocked = false; //Locked by user
   isBlocked = false; //Blocked by someone else
-  isSelectOpened = false;
   isDisabled = true;
   options = [];
   private newOption: string;
@@ -55,7 +55,8 @@ export class TableCellSelectComponent implements OnInit {
     private readonly adminTableService: AdminTableService,
     private readonly orderService: OrderService,
     public dialog: MatDialog,
-    private store: Store
+    private readonly store: Store,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +65,8 @@ export class TableCellSelectComponent implements OnInit {
     this.filterStatuses();
   }
 
-  onSelectClick(): void {
+  onSelectClick(event: Event): void {
+    event.stopPropagation();
     if (this.isLocked) {
       return;
     }
@@ -84,7 +86,6 @@ export class TableCellSelectComponent implements OnInit {
     this.adminTableService
       .blockOrders([this.id])
       .pipe(
-        take(1),
         finalize(() => {
           this.editButtonClick.emit(this.id);
         })
@@ -149,6 +150,7 @@ export class TableCellSelectComponent implements OnInit {
     this.cancelEdit.emit(this.typeOfChange);
     this.newOption = '';
     this.currentValue = this.oldOption;
+    this.cdr.markForCheck();
   }
 
   chosenOption(e: MatSelectChange): void {
@@ -203,14 +205,13 @@ export class TableCellSelectComponent implements OnInit {
       this.isLocked = true;
       this.isBlocked = false;
       this.isDisabled = false;
-      setTimeout(() => {
-        this.select.open();
-      });
+      setTimeout(() => this.select.open());
     }
+    this.cdr.markForCheck();
   }
 
   private releaseLock(): void {
-    this.adminTableService.unblockOrders([this.id]).pipe(take(1)).subscribe();
+    this.adminTableService.unblockOrders([this.id]).subscribe();
   }
 
   private openPopUp(): void {

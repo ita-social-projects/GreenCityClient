@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { iif, Subject } from 'rxjs';
 import { filter, finalize, take, takeUntil } from 'rxjs/operators';
-import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
-import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData, PaymentSystem } from '../../models/ubs.interface';
+import { Bag, IProcessOrderResponse, Order, OrderDetails, PaymentSystem, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -12,13 +11,14 @@ import { select, Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
+import { PaymentStatusEn } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-submit-order',
   templateUrl: './ubs-submit-order.component.html',
   styleUrls: ['./ubs-submit-order.component.scss']
 })
-export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
 
@@ -31,12 +31,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   pointsUsed: number;
   orderSum: number;
   finalSum: number;
-  locationId: number;
+  tariffId: number;
   addressId: number;
   isLoadingAnim: boolean;
   existingOrderId: number;
   isShouldBePaid: boolean;
   isFirstFormValid: boolean;
+  isPaid: boolean;
   private $destroy: Subject<void> = new Subject<void>();
 
   popupConfig = {
@@ -55,18 +56,16 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   };
 
   constructor(
-    public orderService: OrderService,
-    public ubsOrderFormService: UBSOrderFormService,
+    private readonly ubsOrderFormService: UBSOrderFormService,
     private readonly route: ActivatedRoute,
     private readonly localStorageService: LocalStorageService,
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef,
     private readonly phoneNumberTreat: PhoneNumberTreatPipe,
-    router: Router,
-    dialog: MatDialog
-  ) {
-    super(router, dialog, orderService, localStorageService);
-  }
+    protected readonly orderService: OrderService,
+    protected readonly router: Router,
+    protected readonly dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => (this.existingOrderId = params.existingOrderId));
@@ -80,8 +79,9 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.pointsUsed = order.pointsUsed;
       this.orderSum = order.orderSum;
       this.addressId = order.addressId;
-      this.locationId = order.locationId;
+      this.tariffId = order.tariff?.id;
       this.isFirstFormValid = order.firstFormValid;
+      this.isPaid = order.existingOrderInfo?.paymentStatusEn === PaymentStatusEn.PAID;
 
       this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;
       this.isShouldBePaid = this.finalSum > 0;
@@ -119,12 +119,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId),
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
-      .pipe(
-        takeUntil(this.$destroy),
-        finalize(() => {
-          this.redirectToConfirmPage();
-        })
-      )
+      .pipe(finalize(() => this.redirectToConfirmPage()))
       .subscribe({
         next: (response: IProcessOrderResponse) => {
           this.processPayment(response);
@@ -139,15 +134,12 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   onCancel(): void {
     const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
-    matDialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((isSave) => {
-        if (isSave === null) {
-          return;
-        }
-        return isSave ? this.processOrder(false) : this.redirectToMainPage();
-      });
+    matDialogRef.afterClosed().subscribe((isSave) => {
+      if (isSave === null) {
+        return;
+      }
+      return isSave ? this.processOrder(false) : this.redirectToMainPage();
+    });
   }
 
   private processPayment(response: IProcessOrderResponse): void {
@@ -178,7 +170,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       certificates: this.orderDetails.certificates,
       orderComment: this.orderDetails.orderComment,
       pointsToUse: this.pointsUsed,
-      locationId: this.locationId,
+      tariffId: this.tariffId,
       addressId: this.addressId,
       shouldBePaid,
       paymentSystem: PaymentSystem.WAY_FOR_PAY,
@@ -196,10 +188,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   private redirectToExternalUrl(url: string): void {
     document.location.href = url;
-  }
-
-  getFormValues(): boolean {
-    return true;
   }
 
   ngOnDestroy(): void {

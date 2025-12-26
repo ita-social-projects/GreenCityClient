@@ -31,8 +31,8 @@
 
   &:focus {
     outline: none;
-    border-color: var(--primary-green);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-green) 20%, transparent);
+    border-color: var(--ubs-button-dark-green);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--ubs-button-dark-green) 20%, transparent);
   }
 }
 
@@ -55,7 +55,7 @@
 .platform-legend {
   font-size: 1.1rem;
   font-weight: bold;
-  color: var(--primary-green);
+  color: var(--ubs-secondary-light-green);
   padding: 0 0.5rem;
 }
 
@@ -76,12 +76,8 @@
 }
 
 .submit-button {
-  background-color: var(--primary-green);
+  background-color: var(--ubs-secondary-light-green);
   color: var(--primary-white);
-
-  &:hover {
-    background-color: var(--secondary-dark-green);
-  }
 
   &:disabled {
     background-color: var(--quaternary-medium-grey);

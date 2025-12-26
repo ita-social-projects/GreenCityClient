@@ -88,7 +88,9 @@ const card = {
   courierId: 1,
   locationIdList: [1, 2],
   receivingStationsIdList: [1, 2],
-  regionId: 2
+  regionId: 2,
+  tariffNameEn: 'tariffNameEn',
+  tariffNameUk: 'tariffNameUk'
 };
 
 const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue']);

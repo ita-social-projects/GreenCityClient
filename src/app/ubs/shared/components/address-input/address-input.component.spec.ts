@@ -58,7 +58,6 @@ describe('AddressInputComponent', () => {
       UBSCourierId: null,
       courierLocations: null,
       pendingLocationId: null,
-      locationId: null,
       addressId: null,
       existingOrderInfo: null,
       orderSum: null,
@@ -68,7 +67,8 @@ describe('AddressInputComponent', () => {
       firstFormValid: false,
       secondFormValid: false,
       isAddressLoading: false,
-      isOrderDetailsLoading: false
+      isOrderDetailsLoading: false,
+      tariff: null
     }
   };
 

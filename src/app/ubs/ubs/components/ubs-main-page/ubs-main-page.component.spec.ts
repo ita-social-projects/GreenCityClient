@@ -1,16 +1,16 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
-import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
+import { activeTariffsMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -24,13 +24,7 @@ describe('UbsMainPageComponent', () => {
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', [
-    'setUbsRegistration',
-    'getUserId',
-    'removeUbsFondyOrderId',
-    'getLocationId',
-    'getTariffId'
-  ]);
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration', 'getUserId', 'getTariffId']);
   localeStorageServiceMock.getCurrentLanguage = () => of('uk');
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
@@ -41,64 +35,10 @@ describe('UbsMainPageComponent', () => {
       return of({ data: true });
     }
   };
-  const orderServiceMock = jasmine.createSpyObj('orderService', [
-    'getLocations',
-    'getAllActiveCouriers',
-    'cleanPrevOrderState',
-    'getOrders'
-  ]);
 
-  const orderData = [
-    {
-      id: 2,
-      name: 'Текстильні відходи',
-      capacity: 20,
-      price: 110,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: null
-    },
-    {
-      id: 3,
-      name: 'Текстильні відходи',
-      capacity: 60,
-      price: 220,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: null
-    },
-    {
-      id: 1,
-      name: 'Мікс відходів',
-      capacity: 120,
-      price: 285,
-      nameEng: 'Mix waste',
-      limitedIncluded: true,
-      quantity: null
-    },
-    {
-      id: 7,
-      name: 'Текстильні відходи',
-      capacity: 30,
-      price: 260,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: null
-    },
-    {
-      id: 8,
-      name: 'Мікс відходів',
-      capacity: 3,
-      price: 473,
-      nameEng: 'Mix Waste',
-      limitedIncluded: false,
-      quantity: null
-    }
-  ];
-  orderServiceMock.getOrders.and.returnValue(of(orderData));
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderDetails', 'getActiveTariffsInfo', 'cleanPrevOrderState']);
 
-  const activecouriersMock = activeCouriersMock;
-  orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
+  orderServiceMock.getActiveTariffsInfo.and.returnValue(of(activeTariffsMock));
 
   const mockHomepageContent: THomepageContent = {
     uk: {
@@ -188,7 +128,6 @@ describe('UbsMainPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsMainPageComponent);
     component = fixture.componentInstance;
-    component.activeCouriers = activecouriersMock;
     component.content = mockHomepageContent;
     fixture.detectChanges();
   });
@@ -198,70 +137,9 @@ describe('UbsMainPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should make expected calls inside openLocationDialog', () => {
+  it('should make expected calls inside openTariffDialog', () => {
     matDialogMock.open.and.returnValue(dialogRefStub as any);
-    component.openLocationDialog('fake locations' as any);
+    component.openTariffDialog();
     expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
-  });
-
-  describe('findCourierByName', () => {
-    it('should return the courier with matching name', () => {
-      const courierName = 'Test502';
-      const result = component.findCourierByName(courierName);
-      expect(result).toEqual(activecouriersMock[1]);
-    });
-
-    it('should return undefined when no courier with matching name is found', () => {
-      const courierName = 'NonExistingCourier';
-      const result = component.findCourierByName(courierName);
-      expect(result).toBeUndefined();
-    });
-  });
-
-  describe('getActiveCouriers', () => {
-    it('should fetch active couriers from the order service', () => {
-      component.getActiveCouriers();
-      expect(orderServiceMock.getAllActiveCouriers).toHaveBeenCalled();
-    });
-
-    it('should set activeCouriers when getAllActiveCouriers returns data', fakeAsync(() => {
-      const mockCouriers = activecouriersMock;
-      orderServiceMock.getAllActiveCouriers.and.returnValue(of(mockCouriers));
-      component.getActiveCouriers();
-      tick();
-      expect(component.activeCouriers).toEqual(mockCouriers);
-    }));
-  });
-
-  it('should have expected activeCouriers after ngOnInit', () => {
-    expect(component.activeCouriers).toEqual(activecouriersMock);
-  });
-
-  describe('getLocations', () => {
-    it('should handle error from getLocations', () => {
-      const courierName = 'Test502';
-      orderServiceMock.getLocations.and.returnValue(throwError('error'));
-      spyOn(console, 'error');
-      component.getLocations(courierName);
-      expect(console.error).toHaveBeenCalledWith('error');
-    });
-
-    it('should response from getLocations if user had orders', () => {
-      const courierName = 'Test502';
-      const res = { allActiveLocationsDtos: null, tariffsForLocationDto: null, orderIsPresent: true };
-      orderServiceMock.getLocations.and.returnValue(of(res));
-      const spy = spyOn(component, 'saveLocation');
-      component.getLocations(courierName);
-      expect(spy).toHaveBeenCalledWith(res);
-    });
-
-    it('should response from getLocations if user doesnt have any odreds', () => {
-      const courierName = 'Test502';
-      const res = { allActiveLocationsDtos: null, tariffsForLocationDto: null, orderIsPresent: false };
-      orderServiceMock.getLocations.and.returnValue(of(res));
-      const spy = spyOn(component, 'openLocationDialog');
-      component.getLocations(courierName);
-      expect(spy).toHaveBeenCalledWith(res);
-    });
   });
 });

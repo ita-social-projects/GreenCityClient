@@ -1,20 +1,15 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject, Observable, of, iif, forkJoin } from 'rxjs';
-import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
-import {
-  CourierLocations,
-  AllLocationsDtos,
-  LocationsName,
-  AllActiveLocationsDtosResponse,
-  ActiveTariffInfo
-} from '../../../models/ubs.interface';
+import { map, Observable, Subject } from 'rxjs';
+import { ActiveTariffInfo } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
-import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/order.actions';
+import { SetTariff } from '../../../../../store/actions/order.actions';
+import { finalize, startWith, takeUntil } from 'rxjs/operators';
+import { LanguageService } from '../../../../../shared/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -23,133 +18,75 @@ import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/orde
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  locations: CourierLocations;
-  cities: LocationsName[];
   activeTariffs: ActiveTariffInfo[] = [];
-  selectedLocationId: number;
-  selectedTariffId: number;
+  selectedTariff: ActiveTariffInfo;
+  filteredOptions$: Observable<ActiveTariffInfo[]>;
   isFetching = false;
-  private currentLanguage: string;
-  currentLocation: string;
+  myControl = new FormControl(null, Validators.required);
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  myControl = new FormControl();
-  filteredOptions: Observable<any>;
-  courierUBS;
-  courierUBSName = 'UBS';
 
   constructor(
     private readonly orderService: OrderService,
     private readonly dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private readonly localStorageService: LocalStorageService,
     private readonly store: Store,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
-  }
+    private readonly langService: LanguageService
+  ) {}
 
   ngOnInit(): void {
-    this.getActiveCouriers();
-    this.myControl.setValidators(Validators.required);
+    this.isFetching = true;
+    this.orderService
+      .getActiveTariffsInfo()
+      .pipe(finalize(() => (this.isFetching = false)))
+      .subscribe((res: ActiveTariffInfo[]) => {
+        this.activeTariffs = res;
+        const tariffId = this.localStorageService.getTariffId();
+        this.selectedTariff = res.find((tariff) => tariff.id === tariffId) || res[0];
+        this.myControl.setValue(this.selectedTariff);
+        this.filteredOptions$ = this.myControl.valueChanges.pipe(
+          startWith(''),
+          map((value) => {
+            const search = typeof value === 'string' ? value : this.getTariffName(value);
+
+            return this.activeTariffs.filter(
+              (tariff) =>
+                tariff.tariffLocations.some((t) => t.nameEn.toLowerCase().includes(search.toLowerCase())) ||
+                tariff.tariffLocations.some((t) => t.nameUk.toLowerCase().includes(search.toLowerCase())) ||
+                tariff.tariffNameEn.toLowerCase().includes(search.toLowerCase()) ||
+                tariff.tariffNameUk.toLowerCase().includes(search.toLowerCase())
+            );
+          }),
+          takeUntil(this.destroy$)
+        );
+      });
   }
 
-  filterOptions(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => (typeof value === 'string' ? value : value.locationName)),
-      map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
+  displayFn = (tariff: ActiveTariffInfo): string => {
+    return tariff ? this.getTariffName(tariff) : '';
+  };
+
+  getTariffName(tariff: ActiveTariffInfo): string {
+    return this.orderService.getTariffName(tariff) || '';
+  }
+
+  getTariffLocations(tariff: ActiveTariffInfo): string {
+    return (
+      tariff.tariffLocations
+        .slice()
+        .sort((a, b) => this.langService.getLangValue(a.nameUk, a.nameEn).localeCompare(this.langService.getLangValue(b.nameUk, b.nameEn)))
+        .map((location) => this.langService.getLangValue(location.nameUk, location.nameEn))
+        .join(', ') ?? ''
     );
   }
 
-  displayFn(city: LocationsName): string {
-    return city?.locationName ? city.locationName : '';
-  }
-
-  private _filter(value: string): LocationsName[] {
-    this.currentLocation = null;
-    const filterValue = value.toLowerCase();
-    return this.cities.filter((option) => option.locationName.toLowerCase().includes(filterValue));
-  }
-
-  getActiveCouriers() {
-    forkJoin({
-      couriers: this.orderService.getAllActiveCouriers(),
-      tariffs: this.orderService.getActiveTariffsInfo()
-    })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        this.activeTariffs = res.tariffs;
-
-        this.courierUBS = res.couriers.find((courier) => courier.nameEn.includes(this.courierUBSName));
-        if (this.courierUBS) {
-          this.getLocations();
-          this.filterOptions();
-        }
-      });
-  }
-
-  getLocations(): void {
-    this.isFetching = true;
-    of(true)
-      .pipe(
-        takeUntil(this.destroy$),
-        mergeMap(() => iif(() => this.data, of(this.data), this.orderService.getLocations(this.courierUBS.courierId, true)))
-      )
-      .subscribe((res: AllActiveLocationsDtosResponse) => {
-        this.isFetching = false;
-        this.cities = res.allActiveLocationsDtos.reduce(
-          (acc, region) => [
-            ...acc,
-            ...region.locations.map((city) => ({
-              locationId: city.locationId,
-              locationName: this.orderService.getLocationName(city, region)
-            }))
-          ],
-          []
-        );
-        this.cities.forEach((city) => {
-          if (city.locationId === 1) {
-            this.myControl.setValue({ locationId: city.locationId, locationName: city.locationName });
-            this.currentLocation = city.locationName;
-            this.changeLocation(city.locationId, city.locationName);
-            this.selectedTariffId = city.locationId;
-          }
-        });
-      });
-  }
-
-  getTariffName(tariffId: number): string {
-    const tariff = this.activeTariffs.find((t) => t.id === tariffId);
-    return tariff ? this.orderService.getTariffName(tariff) : '';
-  }
-
-  getTariffDescription(tariffId: number): string | null {
-    const tariff = this.activeTariffs.find((t) => t.id === tariffId);
-    return tariff ? this.orderService.getTariffDescription(tariff) : null;
-  }
-
   saveLocation(): void {
-    this.store.dispatch(GetCourierLocations({ courierId: this.courierUBS.courierId, locationId: this.selectedLocationId }));
-    this.orderService
-      .getInfoAboutTariff(this.courierUBS.courierId, this.selectedLocationId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: AllLocationsDtos) => {
-        if (res.orderIsPresent) {
-          this.locations = res.tariffsForLocationDto;
-          res.tariffsForLocationDto.locationsDtosList.forEach((location) => {
-            if (location.nameEn === this.currentLocation) {
-              this.selectedLocationId = location.locationId;
-            }
-          });
-          this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
-          this.store.dispatch(GetOrderDetails({ locationId: this.selectedLocationId, tariffId: this.selectedTariffId }));
-          this.localStorageService.setLocationId(this.selectedLocationId);
-          this.localStorageService.setTariffId(this.selectedTariffId);
-          this.localStorageService.setLocations(this.locations);
-          this.orderService.setLocationData(this.currentLocation);
-          this.orderService.completedLocation(true);
-          this.passDataToComponent();
-        }
-      });
+    this.localStorageService.setTariffId(this.selectedTariff.id);
+    this.store.dispatch(SetTariff({ tariff: this.selectedTariff }));
+    this.dialogRef.close(true);
+  }
+
+  changeTariff(tariff: ActiveTariffInfo): void {
+    this.selectedTariff = tariff;
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
@@ -157,24 +94,12 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     trigger.openPanel();
   }
 
-  passDataToComponent(): void {
-    this.dialogRef.close({
-      locationId: this.selectedLocationId,
-      currentLanguage: this.currentLanguage,
-      data: this.locations,
-      activeTariffs: this.activeTariffs
-    });
-  }
-
-  changeLocation(id: number, locationName: string): number {
-    this.selectedLocationId = id;
-    this.currentLocation = locationName.split(',')[0];
-    this.selectedTariffId = id;
-    return id;
-  }
-
   closePopUp(): void {
     this.dialogRef.close();
+  }
+
+  clearInput(): void {
+    this.myControl.reset('');
   }
 
   ngOnDestroy(): void {

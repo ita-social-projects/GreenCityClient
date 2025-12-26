@@ -129,7 +129,12 @@
     <button class="ubs-secondary-global-button" (click)="onCancel()">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button [disabled]="!isFirstFormValid || isLoadingAnim" (click)="processOrder()" type="submit" class="ubs-primary-global-button">
+    <button
+      [disabled]="!isFirstFormValid || isLoadingAnim || isPaid"
+      (click)="processOrder()"
+      type="submit"
+      class="ubs-primary-global-button"
+    >
       <span *ngIf="isLoadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       {{ (isShouldBePaid ? 'submit-order.to-pay' : 'submit-order.to-order') | translate }}
     </button>

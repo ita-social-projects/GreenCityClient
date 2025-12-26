@@ -377,12 +377,16 @@ describe('UbsAdminTableComponent', () => {
     expect(component.arrowDirection).toBe('columnName');
   });
 
-  it('onScroll', () => {
+  it('onScrollIndexChange should load next page', () => {
     spyOn(component, 'updateTableData');
+
+    component.dataSource = { data: Array(20).fill({}) } as any;
+    (component as any).isLastPage = false;
     component.isUpdate = false;
     component.currentPage = 0;
-    component.totalPages = 2;
-    component.onScroll();
+
+    component.onScrollIndexChange(5);
+
     expect(component.updateTableData).toHaveBeenCalledTimes(1);
     expect(component.currentPage).toBe(1);
   });
@@ -446,13 +450,32 @@ describe('UbsAdminTableComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['ubs/admin', 'order', '1']);
   }));
 
-  it('showTooltip', () => {
-    const event = jasmine.createSpyObj('event', ['stopImmediatePropagation']);
-    const tooltip = jasmine.createSpyObj('tooltip', ['toggle', 'show', 'hide']);
+  it('showTooltip should disable tooltip when text fits', () => {
+    const target = {
+      scrollWidth: 50,
+      clientWidth: 100
+    } as any;
 
-    component.currentLang = 'uk';
-    component.showTooltip(event, { uk: 'Заголовок українською', en: 'title in English' }, tooltip);
-    expect(tooltip.toggle).toHaveBeenCalledTimes(1);
+    const event = { target } as any;
+    const tooltip = { disabled: false } as any;
+
+    component.showTooltip(event, tooltip);
+
+    expect(tooltip.disabled).toBeTrue();
+  });
+
+  it('showTooltip should enable tooltip when text overflows', () => {
+    const target = {
+      scrollWidth: 150,
+      clientWidth: 100
+    } as any;
+
+    const event = { target } as any;
+    const tooltip = { disabled: false } as any;
+
+    component.showTooltip(event, tooltip);
+
+    expect(tooltip.disabled).toBeFalse();
   });
 
   it('should return true when isFilterChecked returns true', () => {

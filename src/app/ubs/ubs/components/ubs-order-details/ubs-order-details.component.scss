@@ -443,7 +443,7 @@ input[type='number'] {
   width: 50%;
 
   small {
-    color: var(--ubs-primary-green);
+    color: var(--ubs-secondary-light-green);
   }
 }
 
@@ -545,6 +545,10 @@ h5 {
 
   .textarea-error {
     border: 1px solid var(--ubs-primary-red);
+  }
+
+  .ubs-link-global-button {
+    margin-bottom: 10px;
   }
 }
 

@@ -8,7 +8,7 @@ import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { OrderStatus, PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
+import { OrderStatus, PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
@@ -114,40 +114,40 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(component.onChangedOrderStatus).toHaveBeenCalledTimes(1);
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID when order was not payed', () => {
+  it('setOrderPaymentStatus orderState should be "confirmed" and should return orderPayment status UNPAID when order was not payed', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 1;
     component.totalPaid = 0;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.UNPAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.UNPAID);
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID when unpaid amount is', () => {
+  it('setOrderPaymentStatus orderState should be "confirmed" and should return orderPayment status UNPAID when unpaid amount is', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 0;
     component.totalPaid = 0;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.UNPAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.UNPAID);
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status HALF_PAID', () => {
+  it('setOrderPaymentStatus orderState should be "confirmed" and should return orderPayment status HALF_PAID', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 2;
     component.totalPaid = 1;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.HALF_PAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.HALF_PAID);
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID when paid sum is', () => {
+  it('setOrderPaymentStatus orderState should be "confirmed" and should return orderPayment status PAID when paid sum is', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 0;
     component.totalPaid = 1;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.PAID);
   });
 
   it('setOrderPaymentStatus orderState "confirmed" and should return orderPayment status PAID when paid sum equal order price', () => {
@@ -156,7 +156,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 1;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.PAID);
   });
 
   it('setOrderPaymentStatus orderState should be "confirmed" and should return orderPayment status PAID when all sum are 0', () => {
@@ -165,24 +165,24 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 0;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.PAID);
   });
 
-  it('setOrderPaymentStatus orderState shold be "actual" and should return orderPayment status UNPAID', () => {
+  it('setOrderPaymentStatus orderState should be "actual" and should return orderPayment status UNPAID', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = true;
     component.currentOrderPrice = 0;
     component.totalPaid = 0;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.UNPAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.UNPAID);
   });
 
-  it('setOrderPaymentStatus orderState shold be "actual" and should return orderPayment status PAID', () => {
+  it('setOrderPaymentStatus orderState should be "actual" and should return orderPayment status PAID', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = true;
     component.currentOrderPrice = 0;
     component.totalPaid = 1;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymentStatus.PAID);
   });
 });

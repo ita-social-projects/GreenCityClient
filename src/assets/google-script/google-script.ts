@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
+import { BehaviorSubject, filter, firstValueFrom, take } from 'rxjs';
 import { environment } from '@environment/environment';
-import { BehaviorSubject, filter, take, firstValueFrom } from 'rxjs';
 
 declare global {
   interface Window {

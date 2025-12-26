@@ -37,7 +37,8 @@ import {
   CreateAddress,
   SetSecondFormStatus,
   SetCurrentStep,
-  UpdateAddressFail
+  UpdateAddressFail,
+  SetTariff
 } from '../actions/order.actions';
 import { createReducer, on } from '@ngrx/store';
 
@@ -70,6 +71,12 @@ export const orderReducer = createReducer(
     return {
       ...state,
       orderDetails: null
+    };
+  }),
+  on(SetTariff, (state, action) => {
+    return {
+      ...state,
+      tariff: action.tariff
     };
   }),
   on(GetOrderDetails, (state) => {
@@ -120,7 +127,7 @@ export const orderReducer = createReducer(
   on(GetCourierLocations, (state, action) => {
     return {
       ...state,
-      pendingLocationId: action.locationId
+      pendingLocationId: action.tariffId
     };
   }),
   on(GetCourierLocationsSuccess, (state, action) => {

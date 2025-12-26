@@ -54,11 +54,13 @@
       "btn": {
         "back": "Back",
         "continue": "Continue"
-      }
+      },
+      "no-results": "Nothing found"
     },
     "order-title": "Services",
-    "choose-location": "Change your location",
+    "choose-location": "Change your tariff",
     "current-location": "Your location: {{currentLocation}}",
+    "current-tariff": "Tariff: {{currentTariff}}",
     "title-without-location": "Choose a location, please",
     "order-content": "Please note that the minimum order amount is 500.00 UAH",
     "service": "Service",
@@ -109,7 +111,7 @@
     "order-already-entered": "Order {{order}} has already been entered",
     "comment": "Comment",
     "comment-subtitle": "Do you want to add extra items to your order? Write about them in the comments.",
-    "link": "The list of extrapositions and terms of delivery",
+    "link": "Learn more about extra packages",
     "any-details": "Any details you would like to report further about this order",
     "next": "Next",
     "your-order": "Your order",

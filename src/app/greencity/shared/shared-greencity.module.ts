@@ -21,7 +21,6 @@ import { TagFilterComponent } from './components/tag-filter/tag-filter.component
 import { CalendarBaseComponent } from 'src/app/greencity/shared/components';
 import usLocale from '@angular/common/locales/en';
 import ukLocale from '@angular/common/locales/uk';
-import { FormBaseComponent } from '../../shared/components/form-base/form-base.component';
 import { HabitsPopupComponent } from 'src/app/greencity/modules/user/components/profile/calendar/habits-popup/habits-popup.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
@@ -55,7 +54,6 @@ registerLocaleData(ukLocale, 'uk-UA');
     TagFilterComponent,
     CalendarBaseComponent,
     WarningPopUpComponent,
-    FormBaseComponent,
     HabitsPopupComponent,
     EventsListItemComponent,
     EventsListItemModalComponent,
@@ -111,7 +109,6 @@ registerLocaleData(ukLocale, 'uk-UA');
     TagFilterComponent,
     UserSharedModule,
     WarningPopUpComponent,
-    FormBaseComponent,
     EventsListItemComponent,
     EventsListItemModalComponent,
     TagsSelectComponent,
