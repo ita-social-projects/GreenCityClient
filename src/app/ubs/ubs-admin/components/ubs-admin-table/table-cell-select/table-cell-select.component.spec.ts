@@ -114,7 +114,7 @@ describe('TableCellSelectComponent', () => {
     it('should return early if isLocked is true', () => {
       component.isLocked = true;
       spyOn(component, 'lockOrder');
-      component.onSelectClick();
+      component.onSelectClick(new Event('click'));
       expect(component.lockOrder).not.toHaveBeenCalled();
       expect(mockStore.dispatch).not.toHaveBeenCalled();
     });
@@ -122,7 +122,7 @@ describe('TableCellSelectComponent', () => {
     it('should call lockOrder and dispatch SetCursorWaite if isLocked is false', () => {
       component.isLocked = false;
       spyOn(component, 'lockOrder');
-      component.onSelectClick();
+      component.onSelectClick(new Event('click'));
       expect(component.lockOrder).toHaveBeenCalled();
       expect(mockStore.dispatch).toHaveBeenCalledWith(SetCursorWaite({ isWaiting: true }));
     });

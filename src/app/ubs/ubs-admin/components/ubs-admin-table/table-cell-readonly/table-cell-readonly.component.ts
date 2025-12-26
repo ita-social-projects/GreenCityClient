@@ -1,16 +1,17 @@
-import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
 
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
-import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
+import { MatTooltip } from '@angular/material/tooltip';
+import { PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
 
 @Component({
   selector: 'app-table-cell-readonly',
   templateUrl: './table-cell-readonly.component.html',
-  styleUrls: ['./table-cell-readonly.component.scss']
+  styleUrls: ['./table-cell-readonly.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableCellReadonlyComponent implements OnInit, OnChanges {
   @Input() title: string | number | null;
@@ -23,8 +24,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   halfpaid: boolean;
   dataObj: IColumnBelonging = null;
   data: string | number | { uk: string; en: string } | null;
-  private readonly font = '12px Lato, sans-serif';
-  adminTableService = inject(AdminTableService);
+  readonly paymentStatus = PaymentStatus;
 
   ngOnInit(): void {
     if (this.optional?.length) {
@@ -52,27 +52,11 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
         this.title = (this.title as string).toLowerCase().replace(regex, (el) => match[el]);
       }
       this.data = this.title;
-      this.isStatus();
     }
   }
 
-  isStatus() {
-    switch (this.data) {
-      case PaymnetStatus.PAID:
-        this.paid = true;
-        break;
-
-      case PaymnetStatus.HALF_PAID:
-        this.halfpaid = true;
-        break;
-
-      case PaymnetStatus.UNPAID:
-        this.unpaid = true;
-        break;
-    }
-  }
-
-  onMouseEnter(event: MouseEvent, tooltip: any): void {
-    this.adminTableService.showTooltip(event, tooltip, this.font);
+  onHover(event: MouseEvent, tooltip: MatTooltip): void {
+    const target = event.target as HTMLElement;
+    tooltip.disabled = target.scrollWidth <= target.clientWidth;
   }
 }

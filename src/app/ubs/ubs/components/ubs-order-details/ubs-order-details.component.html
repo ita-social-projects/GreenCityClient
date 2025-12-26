@@ -1,11 +1,11 @@
-<div class="container" *ngIf="(isOrderDetailsLoading | async) === false && isFormInitialized(); else spinner">
+<div class="container" *ngIf="(isOrderDetailsLoading | async) === false && isFormInitialized; else spinner">
   <div>
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <div class="user-location">
         <div>
-          <h5 *ngIf="currentLocation">{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
-          <h5 *ngIf="!currentLocation" class="error-text">{{ 'order-details.title-without-location' | translate }}</h5>
+          <h5 *ngIf="currentTariff">{{ 'order-details.current-tariff' | translate: { currentTariff: currentTariff } }}</h5>
+          <h5 *ngIf="!currentTariff" class="error-text">{{ 'order-details.title-without-location' | translate }}</h5>
           <button class="ubs-link-global-button s-link add-order-btn" (click)="openLocationDialog()">
             {{ 'order-details.choose-location' | translate }}
           </button>
@@ -46,8 +46,6 @@
                   min="0"
                   max="999"
                   placeholder="0"
-                  [unmask]="false"
-                  [imask]="servicesMask"
                   (keypress)="checkOnNumber($event)"
                 />
                 <button (click)="changeQuantity(bag.id, 1)" type="button">
@@ -96,6 +94,9 @@
       <div class="bottom">
         <h3>{{ 'order-details.eco-shop' | translate }}</h3>
         <h5 class="shop-order-question">{{ 'order-details.shop-order-question' | translate }}</h5>
+        <div class="bottom-text">
+          <p class="p-text">{{ 'order-details.cant-found-order' | translate }}</p>
+        </div>
         <div class="form-group shop-submit">
           <div class="shop-submit-box">
             <div class="inputs-box">
@@ -123,15 +124,12 @@
                 </div>
               </div>
             </div>
-            <div class="bottom-text">
-              <p class="p-text">{{ 'order-details.cant-found-order' | translate }}</p>
-            </div>
           </div>
           <button
             *ngIf="isCanAddEcoShopOrderNumber()"
             [disabled]="additionalOrders.controls.length >= limitOfEcoShopOrdersQuantity"
             class="ubs-link-global-button s-link add-order-btn"
-            (click)="addOrder()"
+            (click)="pushAdditionalOrder()"
           >
             {{ 'order-details.additional-orders' | translate }}
           </button>

@@ -333,6 +333,10 @@ input[type='number'] {
     max-width: 455px;
   }
 
+  .bottom-text {
+    width: 360px;
+  }
+
   .custom-control {
     padding-left: 1.4rem;
   }
@@ -439,7 +443,7 @@ input[type='number'] {
   width: 50%;
 
   small {
-    color: var(--ubs-primary-green);
+    color: var(--ubs-secondary-light-green);
   }
 }
 
@@ -517,11 +521,6 @@ h5 {
   }
 }
 
-.bottom-text {
-  width: 360px;
-  padding: 26px 0 0 16px;
-}
-
 .comment {
   background: var(--ubs-primary-white);
 }
@@ -546,6 +545,10 @@ h5 {
 
   .textarea-error {
     border: 1px solid var(--ubs-primary-red);
+  }
+
+  .ubs-link-global-button {
+    margin-bottom: 10px;
   }
 }
 
@@ -634,6 +637,14 @@ li {
     background: transparent;
     border: 1px solid var(--ubs-quaternary-dark-grey);
     border-radius: 4px;
+
+    &:disabled {
+      background: var(--ubs-quintynary-light-grey);
+      border-color: var(--ubs-quintynary-light-grey);
+      color: var(--ubs-primary-light-grey);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
   }
 
   .bottom_comment {

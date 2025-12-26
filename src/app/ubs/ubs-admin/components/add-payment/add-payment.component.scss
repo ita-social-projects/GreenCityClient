@@ -253,19 +253,19 @@
       background: none;
       border: none;
       margin-right: 35px;
-      color: var(--ubs-primary-green);
+      color: var(--ubs-secondary-light-green);
     }
 
     .agree {
       border: none;
       color: var(--ubs-primary-white);
-      background-color: var(--ubs-primary-green);
+      background-color: var(--ubs-secondary-light-green);
       border-radius: 4px;
       padding: 7px 20px;
 
       &:disabled {
-        background: var(--primary-light-green);
-        border-color: var(--primary-light-green);
+        background: var(--ubs-secondary-light-green);
+        border-color: var(--ubs-secondary-light-green);
         color: var(--ubs-primary-white);
       }
     }

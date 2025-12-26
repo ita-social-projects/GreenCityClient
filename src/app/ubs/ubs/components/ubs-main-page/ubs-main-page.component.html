@@ -66,52 +66,45 @@
   </section>
 
   <app-ubs-main-page-price-section
-    [locationToShow]="locationToShow"
-    [locationsToShowBags]="locationsToShowBags"
+    [tariffToShow]="selectedTariff"
+    [tariffs]="tariffs"
     [isTarriffLoading]="isTarriffLoading"
     [bags]="bags"
-    (locationSelected)="getBags($event)"
+    (tariffSelected)="getBags($event)"
   ></app-ubs-main-page-price-section>
 
   <section class="pick-up-service">
     <div class="main-container">
       <h2 [innerHTML]="content?.[currentLanguage].price['caption_steps']"></h2>
 
-      <div *ngIf="screenWidth >= 576" class="box">
+      <div *ngIf="!smallScreen" class="box">
         <div
           class="step-order"
           id="f-step-order-{{ i }}"
           *ngFor="let _ of getSteps(content?.[currentLanguage]?.price); let odd = odd; let i = index"
-          [ngStyle]="{ 'flex-direction': !(i % 2) ? 'column' : 'column-reverse' }"
         >
-          <div class="content-box" [ngStyle]="{ 'flex-direction': odd ? 'column' : 'column-reverse' }">
-            <h1
-              class="step-order-header"
-              [ngClass]="odd ? 'odd' : 'even'"
-              [ngStyle]="odd ? { 'margin-bottom': '20px' } : { 'margin-top': '20px' }"
-              [innerHTML]="content?.[currentLanguage].price['steps_title_0' + (i + 1)]"
-            ></h1>
-            <p class="step-order-content" [innerHTML]="content?.[currentLanguage].price['steps_content_0' + (i + 1)]"></p>
-          </div>
-          <div class="base-line">
-            <hr [ngStyle]="{ width: lineSize[0] + 'px' }" />
-            <div class="circle">
+          <div class="base-line d-flex w-100">
+            <hr class="flex-grow-1" />
+            <div class="circle position-relative">
               <p>{{ i + 1 }}</p>
+              <div class="content-box" [ngStyle]="{ 'flex-direction': odd ? 'column' : 'column-reverse' }" [ngClass]="odd ? 'odd' : 'even'">
+                <h1 class="step-order-header" [innerHTML]="content?.[currentLanguage].price['steps_title_0' + (i + 1)]"></h1>
+                <p class="step-order-content" [innerHTML]="content?.[currentLanguage].price['steps_content_0' + (i + 1)]"></p>
+              </div>
             </div>
-            <hr [ngStyle]="{ width: lineSize[0] + 'px' }" />
+            <hr class="flex-grow-1" />
           </div>
-          <div class="content-box-filler"></div>
         </div>
       </div>
 
-      <div *ngIf="screenWidth < 576" class="box-mobile">
+      <div *ngIf="smallScreen" class="box-mobile">
         <div class="step-order" id="step-order-{{ i }}" *ngFor="let _ of getSteps(content?.[currentLanguage]?.price); let i = index">
           <div class="base-line">
-            <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
+            <hr class="flex-grow-1" />
             <div class="circle">
               <p>{{ i + 1 }}</p>
             </div>
-            <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
+            <hr class="flex-grow-1" />
           </div>
           <div class="content-box">
             <h1 class="step-order-header" [innerHTML]="content?.[currentLanguage].price['steps_title_0' + (i + 1)]"></h1>

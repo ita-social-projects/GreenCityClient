@@ -52,32 +52,27 @@
   <div class="d-flex">
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.region' | translate }}</p>
-      <div class="input-wrapper">
-        <input
-          type="text"
-          class="region"
-          placeholder="{{ 'ubs-tariffs.placeholder-region' | translate }}"
-          matInput
-          #autocompleteTriggerRegion="matAutocompleteTrigger"
+      <div class="wrapper">
+        <mat-select
+          #regionSelect
+          id="region-select"
           formControlName="region"
-          [matAutocomplete]="autoRegion"
-          [ngClass]="{ 'region-not-existing': !canRegionInputValueBeRegion && region.value.length }"
-          (change)="onChangeRegion()"
-          (keyup.enter)="onChangeRegion()"
-        />
-        <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="regionSelected($event)">
+          class="select"
+          placeholder="{{ 'ubs-tariffs.placeholder-region' | translate }}"
+          (selectionChange)="onChangeRegion()"
+        >
           <mat-option [value]="'ubs-tariffs.states.all' | translate">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
           <mat-option *ngFor="let region of filteredRegions | async" [value]="region">
             {{ region | translate }}
           </mat-option>
-        </mat-autocomplete>
+        </mat-select>
         <mat-icon *ngIf="this.region.value" class="cross-img" (click)="resetLocationValues('region')">close</mat-icon>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="regionSelect.open()" />
       </div>
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
-      <div class="input-wrapper" [ngClass]="{ disabled: city.disabled }">
+      <div class="wrapper" [ngClass]="{ disabled: city.disabled }">
         <input
           class="city"
           [placeholder]="cityPlaceholder"
@@ -86,7 +81,6 @@
           [matAutocomplete]="autoCity"
           [matChipInputFor]="chipListCity"
           (matChipInputTokenEnd)="addItem($event)"
-          [disabled]="city.disabled"
         />
         <mat-autocomplete
           #autoCity="matAutocomplete"
@@ -116,11 +110,11 @@
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.courier' | translate }}</p>
-      <div class="input-wrapper">
+      <div class="wrapper">
         <mat-select
           #courierSelect
           formControlName="courier"
-          class="courier-select"
+          class="select"
           placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}"
           (selectionChange)="onSelectCourier($event)"
         >
@@ -135,9 +129,8 @@
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.station' | translate }}</p>
-      <div class="input-wrapper">
+      <div class="wrapper">
         <input
-          class="station"
           [placeholder]="stationPlaceholder"
           #autocompleteTriggerStation="matAutocompleteTrigger"
           formControlName="station"
@@ -164,8 +157,8 @@
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.state' | translate }}</p>
-      <div class="input-wrapper">
-        <mat-select #stateSelect class="state-select" formControlName="state">
+      <div class="wrapper">
+        <mat-select #stateSelect class="select text-truncate" formControlName="state">
           <mat-option class="option-state" value="">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
           <mat-option class="option-state" value="ACTIVE">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
           <mat-option class="option-state" value="DEACTIVATED">{{ 'ubs-tariffs.states.inactive' | translate }}</mat-option>
@@ -179,7 +172,7 @@
 <table class="table-location">
   <thead *ngIf="cards.length || !this.showAllTariff">
     <tr>
-      <th *ngIf="showAllTariff" id="tariff-name">{{ 'ubs-tariffs.tariff-name' | translate }}</th>
+      <th id="tariff-name">{{ 'ubs-tariffs.tariff-name' | translate }}</th>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
       <th id="courier">{{ 'ubs-tariffs.courier' | translate }}</th>
@@ -240,6 +233,7 @@
   </tbody>
   <tbody *ngIf="!showAllTariff && !isLoading">
     <tr class="selected-card">
+      <td [appLangValue]="{ uk: selectedCard.tariffNameUk, en: selectedCard.tariffNameEn }"></td>
       <td [appLangValue]="{ uk: selectedCard.regionUk, en: selectedCard.regionEn }"></td>
       <td>
         <div *ngFor="let item of languageService.getLangValue(selectedCard.citiesUk, selectedCard.citiesEn)">

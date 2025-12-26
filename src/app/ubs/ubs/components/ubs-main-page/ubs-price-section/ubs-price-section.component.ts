@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { Bag, LocationsDtosList } from '../../../models/ubs.interface';
+import { ActiveTariffInfo, Bag } from '../../../models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-main-page-price-section',
@@ -9,19 +9,19 @@ import { Bag, LocationsDtosList } from '../../../models/ubs.interface';
   styleUrls: ['./ubs-price-section.component.scss']
 })
 export class UbsMainPagePriceSectionComponent {
-  @Input() locationToShow: LocationsDtosList | null = null;
-  @Input() locationsToShowBags: LocationsDtosList[] = [];
+  @Input() tariffToShow: ActiveTariffInfo | null = null;
+  @Input() tariffs: ActiveTariffInfo[] = [];
   @Input() isTarriffLoading = true;
   @Input() bags: Bag[] = [];
 
-  @Output() locationSelected = new EventEmitter<number>();
+  @Output() tariffSelected = new EventEmitter<number>();
 
   readonly perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title';
 
   constructor(public languageService: LanguageService) {}
 
-  onLocationSelected(locationId: number): void {
-    this.locationSelected.emit(locationId);
+  onTariffSelected(locationId: number): void {
+    this.tariffSelected.emit(locationId);
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {

@@ -48,10 +48,8 @@ export class OrderService {
     private readonly store: Store
   ) {}
 
-  getOrderDetails(locationId: number, tariffId: number): Observable<OrderDetails> {
-    const params = new HttpParams().set('locationId', locationId.toString()).set('tariffId', tariffId.toString());
-
-    return this.http.get<OrderDetails>(`${this.url}/order-details-for-tariff`, { params });
+  getOrderDetails(tariffId: number): Observable<OrderDetails> {
+    return this.http.get<OrderDetails>(`${this.url}/order-details-for-tariff`, { params: { tariffId } });
   }
 
   getOrderPdf(orderId: number, lang: string): Observable<Blob> {
@@ -200,8 +198,8 @@ export class OrderService {
     return this.http.get<ActiveCourierDto[]>(`${this.url}/getAllActiveCouriers`);
   }
 
-  getInfoAboutTariff(courierId: number, locationId: number): Observable<AllLocationsDtos> {
-    return this.http.get<AllLocationsDtos>(`${this.url}/tariffinfo/${locationId}?courierId=${courierId}`);
+  getInfoAboutTariff(tariffId: number): Observable<AllLocationsDtos> {
+    return this.http.get<AllLocationsDtos>(`${this.url}/tariffinfo/${tariffId}`);
   }
 
   addLocation(location): Observable<any> {
@@ -236,7 +234,7 @@ export class OrderService {
   }
 
   getActiveTariffsInfo(): Observable<ActiveTariffInfo[]> {
-    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo`);
+    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo/1`); // 1 - UBS, may change in future if more couriers available
   }
 
   getTariffName(tariff: ActiveTariffInfo): string {

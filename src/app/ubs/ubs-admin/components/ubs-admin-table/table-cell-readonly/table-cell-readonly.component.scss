@@ -13,6 +13,7 @@ div {
   padding: 0 10px;
   cursor: default;
   position: relative;
+  font-weight: 700;
 }
 
 .readonly_date {
@@ -36,10 +37,6 @@ div {
   font-size: 12px;
   text-align: justify;
   max-width: 350px !important;
-}
-
-.order-number {
-  color: var(--ubs-dark-purple);
 }
 
 .pointer {

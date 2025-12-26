@@ -86,6 +86,8 @@ small.text-message.ng-star-inserted {
 
 .radio-btn {
   margin-left: -6px;
+  display: flex;
+  flex-direction: column;
 }
 
 .checkmark {
@@ -126,7 +128,7 @@ small.text-message.ng-star-inserted {
 }
 
 .custom-radio-btn {
-  display: block;
+  display: flex;
   position: relative;
   padding-left: 28px;
   margin-bottom: 0;

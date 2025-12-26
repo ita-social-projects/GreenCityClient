@@ -10,6 +10,7 @@ import { MetaService } from '@global-service/meta/meta.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SwUpdate } from '@angular/service-worker';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -47,7 +48,8 @@ describe('AppComponent', () => {
       providers: [
         provideMockStore(),
         { provide: LocalStorageService, useValue: localStorageMock },
-        { provide: MetaService, useValue: metaServiceMock }
+        { provide: MetaService, useValue: metaServiceMock },
+        { provide: SwUpdate, useValue: {} }
       ],
       declarations: [AppComponent]
     }).compileComponents();

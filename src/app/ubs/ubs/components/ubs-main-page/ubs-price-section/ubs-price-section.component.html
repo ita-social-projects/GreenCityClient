@@ -8,7 +8,7 @@
           <input
             matInput
             type="text"
-            [ngModel]="languageService.getLangValue(locationToShow?.nameUk, locationToShow?.nameEn)"
+            [ngModel]="languageService.getLangValue(tariffToShow?.tariffNameUk, tariffToShow?.tariffNameEn)"
             class="location-to-show"
             [matAutocomplete]="auto"
             #autocompleteTrigger="matAutocompleteTrigger"
@@ -17,10 +17,10 @@
           />
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option
-              *ngFor="let location of locationsToShowBags"
-              [value]="languageService.getLangValue(location?.nameUk, location?.nameEn)"
-              (click)="onLocationSelected(location.locationId)"
-              [appLangValue]="{ uk: location.nameUk, en: location.nameEn }"
+              *ngFor="let tariff of tariffs"
+              [value]="languageService.getLangValue(tariff.tariffNameUk, tariff.tariffNameEn)"
+              (click)="onTariffSelected(tariff.id)"
+              [appLangValue]="{ uk: tariff.tariffNameUk, en: tariff.tariffNameEn }"
             >
             </mat-option>
           </mat-autocomplete>

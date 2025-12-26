@@ -7,7 +7,7 @@ import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
-import { CancellationReason, OrderStatus, PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
+import { OrderStatus, PaymentStatus, CancellationReason } from '@ubs/ubs/enums/order-status.enum';
 import { OrderStatusEn, PaymentStatusEn } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
@@ -65,7 +65,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
     if (changes.generalInfo) {
       if (changes.generalInfo.currentValue.orderPaymentStatusNameEng === PaymentStatusEn.UNPAID) {
-        this.generalInfo.orderPaymentStatus = PaymnetStatus.UNPAID;
+        this.generalInfo.orderPaymentStatus = PaymentStatus.UNPAID;
       }
       this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
         changes.generalInfo.currentValue.orderStatus,
@@ -174,15 +174,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         this.unPaidAmount > 0 && this.unPaidAmount < this.currentOrderPrice && this.currentOrderPrice > this.totalPaid;
 
       if (confirmedPaidCondition) {
-        this.generalInfo.orderPaymentStatus = PaymnetStatus.PAID;
+        this.generalInfo.orderPaymentStatus = PaymentStatus.PAID;
       }
 
       if (confirmedUnpaidCondition) {
-        this.generalInfo.orderPaymentStatus = PaymnetStatus.UNPAID;
+        this.generalInfo.orderPaymentStatus = PaymentStatus.UNPAID;
       }
 
       if (confirmedHalfPaidCondition) {
-        this.generalInfo.orderPaymentStatus = PaymnetStatus.HALF_PAID;
+        this.generalInfo.orderPaymentStatus = PaymentStatus.HALF_PAID;
       }
     } else if (orderState === 'actual') {
       const actualPaidCondition1 =
@@ -196,15 +196,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         this.unPaidAmount > 0 && this.unPaidAmount < this.currentOrderPrice && this.currentOrderPrice > this.totalPaid;
 
       if (actualPaidCondition) {
-        this.generalInfo.orderPaymentStatus = PaymnetStatus.PAID;
+        this.generalInfo.orderPaymentStatus = PaymentStatus.PAID;
       }
 
       if (actualUnpaidCondition) {
-        this.generalInfo.orderPaymentStatus = PaymnetStatus.UNPAID;
+        this.generalInfo.orderPaymentStatus = PaymentStatus.UNPAID;
       }
 
       if (actualHalfPaidCondition) {
-        this.generalInfo.orderPaymentStatus = PaymnetStatus.HALF_PAID;
+        this.generalInfo.orderPaymentStatus = PaymentStatus.HALF_PAID;
       }
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED

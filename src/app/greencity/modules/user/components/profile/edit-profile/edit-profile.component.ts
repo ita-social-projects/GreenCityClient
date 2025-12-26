@@ -86,6 +86,19 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     return this.editProfileForm.get('credo');
   }
 
+  getFormValues(): any {
+    return {
+      firstName: this.editProfileForm.value.name,
+      latitude: this.coordinates.latitude,
+      longitude: this.coordinates.longitude,
+      userCredo: this.editProfileForm.value.credo === null ? '' : this.editProfileForm.value.credo,
+      showLocation: this.editProfileForm.value.showLocation,
+      showEcoPlace: this.editProfileForm.value.showEcoPlace,
+      showToDoList: this.editProfileForm.value.showToDoList,
+      socialNetworks: this.socialNetworksToServer
+    };
+  }
+
   constructor(
     private readonly injector: Injector,
     public readonly dialog: MatDialog,
@@ -105,19 +118,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.subscribeToLangChange();
     this.initForm();
     this.getInitialValue();
-  }
-
-  getFormValues(): any {
-    return {
-      firstName: this.editProfileForm.value.name,
-      latitude: this.coordinates.latitude,
-      longitude: this.coordinates.longitude,
-      userCredo: this.editProfileForm.value.credo === null ? '' : this.editProfileForm.value.credo,
-      showLocation: this.editProfileForm.value.showLocation,
-      showEcoPlace: this.editProfileForm.value.showEcoPlace,
-      showToDoList: this.editProfileForm.value.showToDoList,
-      socialNetworks: this.socialNetworksToServer
-    };
   }
 
   onCitySelected(coordinates: Coordinates): void {

@@ -1,10 +1,4 @@
-<div
-  class="comments"
-  #tooltip="matTooltip"
-  matTooltip="{{ data | serverTranslate: lang }}"
-  (mouseenter)="onMouseEnter($event, tooltip)"
-  (mouseleave)="tooltip.hide()"
->
+<div class="comments" #tooltip="matTooltip" matTooltip="{{ data | serverTranslate: lang }}" (mouseenter)="onMouseEnter($event, tooltip)">
   <span>{{ data | serverTranslate: lang }}</span>
   <button *ngIf="!isEditable && !isUneditableStatus" (keydown.enter)="edit()" (click)="edit()" class="pencil"></button>
   <button

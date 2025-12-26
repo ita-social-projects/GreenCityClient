@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { GetCurrentUserAction } from 'src/app/store/actions/auth.actions';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private store: Store = inject(Store);
   private googleScript: GoogleScript = inject(GoogleScript);
   private localeStorageService: LocalStorageService = inject(LocalStorageService);
+  private updates: SwUpdate = inject(SwUpdate);
   private readonly destroy$: Subject<void> = new Subject<void>();
   router: Router = inject(Router);
   metaService: MetaService = inject(MetaService);
@@ -32,6 +34,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.googleScript.load(initialLang).then(() => {
       this.googleScript.load(initialLang);
     });
+
+    if (this.updates.isEnabled) {
+      this.updates.versionUpdates.pipe(filter((e): e is VersionReadyEvent => e.type === 'VERSION_READY')).subscribe(() => {
+        this.updates.activateUpdate().then(() => location.reload());
+      });
+    }
 
     this.store.dispatch(GetCurrentUserAction());
   }

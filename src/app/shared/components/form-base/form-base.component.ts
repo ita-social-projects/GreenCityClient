@@ -1,18 +1,16 @@
-import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ComponentCanDeactivate } from 'src/app/shared/guards/pending-changes-guard/pending-changes.guard';
 import { Router } from '@angular/router';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-form-base',
-  templateUrl: './form-base.component.html'
+  template: ''
 })
-export class FormBaseComponent implements ComponentCanDeactivate {
+export abstract class FormBaseComponent implements ComponentCanDeactivate {
   @ViewChild('formEditProf') formEditProf: ElementRef;
 
   areChangesSaved = false;
@@ -31,15 +29,10 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     }
   };
 
-  getFormValues(): any {
-    // TODO: add functionality to this method
-  }
-
-  constructor(
-    public router: Router,
-    public dialog: MatDialog,
-    public orderService?: OrderService,
-    private localStorage?: LocalStorageService
+  protected constructor(
+    protected readonly router: Router,
+    protected readonly dialog: MatDialog,
+    protected readonly orderService?: OrderService
   ) {}
 
   @HostListener('window:beforeunload')
@@ -59,24 +52,23 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     );
   }
 
+  getFormValues(): any {}
+
   private cancelPopupJustifying(condition: boolean, isUbsOrderSubmit?: boolean) {
     if (condition) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
-      matDialogRef
-        .afterClosed()
-        .pipe(take(1))
-        .subscribe((confirm) => {
-          const currentUrl = this.router.url;
-          const isUBS = currentUrl.includes('ubs/order');
+      matDialogRef.afterClosed().subscribe((confirm) => {
+        const currentUrl = this.router.url;
+        const isUBS = currentUrl.includes('ubs/order');
 
-          if (confirm) {
-            this.areChangesSaved = true;
-          }
-          if (confirm && !isUbsOrderSubmit && !isUBS) {
-            this.router.navigate([this.previousPath]);
-          }
-        });
+        if (confirm) {
+          this.areChangesSaved = true;
+        }
+        if (confirm && !isUbsOrderSubmit && !isUBS) {
+          this.router.navigate([this.previousPath]);
+        }
+      });
       return;
     }
     this.areChangesSaved = true;

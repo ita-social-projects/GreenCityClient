@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { TimePickerComponent } from './time-picker.component';
@@ -21,9 +21,15 @@ describe('TimePickerComponent', () => {
     }
   } as unknown as FormGroup;
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   const fakeExportDate = {
-    dateExport: { value: '2025-12-15' }
+    dateExport: {
+      value: tomorrow.toISOString().split('T')[0]
+    }
   };
+
   const fakeTimeSelectFrom = [
     '08:00',
     '08:30',
@@ -54,6 +60,7 @@ describe('TimePickerComponent', () => {
     '21:00',
     '21:30'
   ];
+
   const fakeTimeSelectTo = [
     '08:30',
     '09:00',
@@ -84,34 +91,7 @@ describe('TimePickerComponent', () => {
     '21:30',
     '22:00'
   ];
-  let fakeTimeToChange: string[] = [
-    '09:30',
-    '10:00',
-    '10:30',
-    '11:00',
-    '11:30',
-    '12:00',
-    '12:30',
-    '13:00',
-    '13:30',
-    '14:00',
-    '14:30',
-    '15:00',
-    '15:30',
-    '16:00',
-    '16:30',
-    '17:00',
-    '17:30',
-    '18:00',
-    '18:30',
-    '19:00',
-    '19:30',
-    '20:00',
-    '20:30',
-    '21:00',
-    '21:30',
-    '22:00'
-  ];
+
   const fakeTimeFromChange: string[] = [
     '08:00',
     '08:30',
@@ -128,6 +108,7 @@ describe('TimePickerComponent', () => {
     '14:00',
     '14:30'
   ];
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TimePickerComponent],
@@ -169,7 +150,6 @@ describe('TimePickerComponent', () => {
 
     const selector = fixture.debugElement.query(By.css('#timeFrom')).nativeElement;
     selector.dispatchEvent(new Event('change'));
-    fakeTimeToChange = component.compareFromTime();
 
     fixture.detectChanges();
 
@@ -192,13 +172,14 @@ describe('TimePickerComponent', () => {
     expect(t).toEqual('14:33');
   });
 
-  it('should set list of time "delivery from" with time which precedes the current value in "delivery from" minuse 30 minutes ', () => {
+  it('should set list of time "delivery from" with time which precedes the current value in "delivery from" minus 30 minutes ', () => {
     const selector = fixture.debugElement.query(By.css('#timeTo')).nativeElement;
     selector.value = selector.options[14].value;
     selector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(component.fromSelect).toEqual(fakeTimeFromChange);
   });
+
   it('should save time selected in the time picker', () => {
     const fakeDataToSave = { from: fakeTimeFrom, to: fakeTimeTo, dataWasChanged: true };
     component.from = fakeTimeFrom;
@@ -210,6 +191,7 @@ describe('TimePickerComponent', () => {
     expect(component.from).toBe(fakeTimeFrom);
     expect(component.to).toBe(fakeTimeTo);
   });
+
   it('should cancel all changes in the time picker', () => {
     component.from = fakeTimeFrom;
     component.to = fakeTimeTo;

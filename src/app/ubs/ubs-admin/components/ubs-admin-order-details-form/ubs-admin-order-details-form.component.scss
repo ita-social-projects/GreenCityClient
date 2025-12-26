@@ -52,14 +52,18 @@
 
 .send__btn {
   font-size: 14px;
-  color: var(--ubs-primary-green);
+  color: var(--ubs-secondary-light-green);
   background: var(--ubs-primary-white);
-  border: 1px solid var(--ubs-primary-green);
+  border: 1px solid var(--ubs-secondary-light-green);
   width: 214px;
   box-sizing: border-box;
   border-radius: 4px;
   line-height: 20px;
   margin-top: 24px;
+}
+
+.text-success {
+  color: var(--ubs-secondary-light-green) !important;
 }
 
 .input {
