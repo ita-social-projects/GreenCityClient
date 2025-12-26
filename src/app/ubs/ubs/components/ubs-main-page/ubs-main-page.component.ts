@@ -1,5 +1,5 @@
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -21,8 +21,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-ubs-main-page',
   templateUrl: './ubs-main-page.component.html',
-  styleUrls: ['./ubs-main-page.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./ubs-main-page.component.scss']
 })
 export class UbsMainPageComponent implements OnInit, OnDestroy {
   ubsMainPageImages = ubsMainPageImages;
