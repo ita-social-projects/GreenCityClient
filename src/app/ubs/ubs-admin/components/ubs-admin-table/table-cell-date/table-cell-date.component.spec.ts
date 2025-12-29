@@ -6,7 +6,7 @@ import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.mo
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -18,6 +18,11 @@ describe('TableCellDateComponent', () => {
     { orderId: 1, userName: 'userName1' },
     { orderId: 2, userName: 'userName2' }
   ];
+
+  const mockDatepicker: Partial<MatDatepicker<Date>> = {
+    open: jasmine.createSpy('open'),
+    close: jasmine.createSpy('close')
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -52,7 +57,6 @@ describe('TableCellDateComponent', () => {
     });
 
     it('should set current date to min attribute in input date', () => {
-      component.isEditable = true;
       fixture.componentRef.setInput('uneditableStatus', false);
       fixture.detectChanges();
       const inputElem = fixture.debugElement.nativeElement.querySelector('#date-input');
@@ -66,7 +70,7 @@ describe('TableCellDateComponent', () => {
       component.isAllChecked = true;
       component.ordersToChange = [];
       fixture.detectChanges();
-      component.edit();
+      component.edit(mockDatepicker as MatDatepicker<Date>);
 
       expect(service.blockOrders).toHaveBeenCalledWith([]);
     });
@@ -77,7 +81,7 @@ describe('TableCellDateComponent', () => {
       component.isAllChecked = false;
       component.ordersToChange = [1, 2];
       fixture.detectChanges();
-      component.edit();
+      component.edit(mockDatepicker as MatDatepicker<Date>);
 
       expect(service.blockOrders).toHaveBeenCalledWith([1, 2]);
     });
@@ -89,7 +93,7 @@ describe('TableCellDateComponent', () => {
       component.ordersToChange = [];
       component.id = 1;
       fixture.detectChanges();
-      component.edit();
+      component.edit(mockDatepicker as MatDatepicker<Date>);
 
       expect(service.blockOrders).toHaveBeenCalledWith([1]);
     });
@@ -97,12 +101,15 @@ describe('TableCellDateComponent', () => {
     it('Test changeData() calls editDateCell.emit() ', () => {
       const spy = spyOn(component.editDateCell, 'emit');
       const dateEvent: any = { value: new Date() };
-      const isoDate = dateEvent.value.toISOString();
+      const yyyy = dateEvent.value.getFullYear();
+      const mm = String(dateEvent.value.getMonth() + 1).padStart(2, '0');
+      const dd = String(dateEvent.value.getDate()).padStart(2, '0');
+      const newDate = `${yyyy}-${mm}-${dd}`;
 
       const iEditCell: IEditCell = {
         id: 1,
         nameOfColumn: 'name-of-column',
-        newValue: isoDate
+        newValue: newDate
       };
 
       component.id = 1;
@@ -126,7 +133,10 @@ describe('TableCellDateComponent', () => {
     it('changeData() should set nameOfColumn to newValue field of iEditCell and call editDateCell.emit with it', () => {
       const spy = spyOn(component.editDateCell, 'emit');
       const dateEvent: any = { value: new Date() };
-      const newDate = dateEvent.value.toISOString();
+      const yyyy = dateEvent.value.getFullYear();
+      const mm = String(dateEvent.value.getMonth() + 1).padStart(2, '0');
+      const dd = String(dateEvent.value.getDate()).padStart(2, '0');
+      const newDate = `${yyyy}-${mm}-${dd}`;
 
       component.id = 1;
       component.nameOfColumn = 'name-of-column-for-testing';
@@ -143,9 +153,13 @@ describe('TableCellDateComponent', () => {
     it('changeData() should set id to id field of iEditCell and call editDateCell.emit with it ', () => {
       const spy = spyOn(component.editDateCell, 'emit');
       const dateEvent: any = { value: new Date() };
-      const newDate = dateEvent.value.toISOString();
+      const yyyy = dateEvent.value.getFullYear();
+      const mm = String(dateEvent.value.getMonth() + 1).padStart(2, '0');
+      const dd = String(dateEvent.value.getDate()).padStart(2, '0');
+      const newDate = `${yyyy}-${mm}-${dd}`;
       component.nameOfColumn = 'name-of-column';
       fixture.detectChanges();
+
       component.changeData(dateEvent);
 
       expect(spy).toHaveBeenCalledWith({
@@ -159,7 +173,7 @@ describe('TableCellDateComponent', () => {
       const service = TestBed.inject(AdminTableService);
       spyOn(service, 'blockOrders').and.returnValue(of(iAlertInfo));
       component.isAllChecked = false;
-      component.edit();
+      component.edit(mockDatepicker as MatDatepicker<Date>);
 
       expect(service.blockOrders).toHaveBeenCalledWith([1, 2, 3]);
     });
@@ -168,7 +182,7 @@ describe('TableCellDateComponent', () => {
       const service = TestBed.inject(AdminTableService);
       spyOn(service, 'blockOrders').and.returnValue(of(iAlertInfo));
       component.ordersToChange = [];
-      component.edit();
+      component.edit(mockDatepicker as MatDatepicker<Date>);
 
       expect(service.blockOrders).toHaveBeenCalledWith([]);
     });
