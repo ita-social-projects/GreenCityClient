@@ -1,5 +1,4 @@
 export function transformAddress(input: any) {
-  console.log(input);
   return {
     region: { uk: input.regionUk, en: input.regionEn },
     city: { uk: input.cityUk, en: input.cityEn },

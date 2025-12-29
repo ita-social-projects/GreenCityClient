@@ -16,7 +16,7 @@ import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
   selector: 'app-table-cell-input',
   templateUrl: './table-cell-input.component.html',
   styleUrls: ['./table-cell-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableCellInputComponent {
   @Input() column: IColumnBelonging;
@@ -24,7 +24,7 @@ export class TableCellInputComponent {
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
   @Input() isUneditableStatus: boolean;
-  @Input() data: any;
+  @Input() data: string;
   @Input() lang: string;
   @Output() cancelEdit = new EventEmitter();
   @Output() editCommentCell = new EventEmitter();
@@ -99,7 +99,6 @@ export class TableCellInputComponent {
   }
 
   openEditAddressWindow(): void {
-    console.log(this.data);
     this.store.dispatch(SetCursorWaite({ isWaiting: true }));
     this.adminTableService.blockOrders([this.id]).subscribe();
     this.orderService
