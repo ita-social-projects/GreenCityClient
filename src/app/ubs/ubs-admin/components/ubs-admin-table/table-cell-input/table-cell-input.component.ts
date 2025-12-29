@@ -29,7 +29,6 @@ export class TableCellInputComponent {
   @Output() cancelEdit = new EventEmitter();
   @Output() editCommentCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
-  @Output() addressChanged = new EventEmitter<number>();
 
   isEditable: boolean;
   private typeOfChange: number[];
