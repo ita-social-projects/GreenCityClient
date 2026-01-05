@@ -82,7 +82,7 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
       this.addressId = order.addressId;
       this.tariffId = order.tariff?.id;
       this.isFirstFormValid = order.firstFormValid;
-      this.hasPaymentLink = !!order.existingOrderInfo.paymentLink;
+      this.hasPaymentLink = !!order.existingOrderInfo?.paymentLink;
       this.isPaid = order.existingOrderInfo?.paymentStatusEn === PaymentStatusEn.PAID;
 
       this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;

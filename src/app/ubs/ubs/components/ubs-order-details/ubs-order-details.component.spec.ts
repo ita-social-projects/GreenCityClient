@@ -378,7 +378,7 @@ describe('UBSOrderDetailsComponent', () => {
 
         tick(100);
         expect(orderService.getTariffName).toHaveBeenCalledWith(mockTariff);
-        expect(component.currentTariff).toBe('Standard Tariff');
+        expect(component.currentTariffName).toBe('Standard Tariff');
         expect(store.dispatch).toHaveBeenCalledWith(GetOrderDetails({ tariffId: mockTariff.id }));
         expect(store.dispatch).toHaveBeenCalledWith(GetCourierLocations({ tariffId: mockTariff.id }));
         tick(100);

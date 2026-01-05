@@ -54,7 +54,8 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   locations: CourierLocations;
   orderDetailsForm: FormGroup;
   locationId: number;
-  currentTariff: string;
+  currentTariff: number;
+  currentTariffName: string;
   courierId: number;
   currentLanguage: string;
   orderSum = 0;
@@ -69,6 +70,7 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   SHOP_NUMBER_MASK = Masks.ecoStoreMask;
   commentPattern = Patterns.ubsCommentPattern;
   additionalOrdersPattern = Patterns.orderEcoStorePattern;
+  private changedTariffForExistingOrder = false;
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   popupConfig = {
@@ -156,12 +158,12 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         filter(Boolean),
         distinctUntilChanged(),
         tap((tariff: ActiveTariffInfo) => {
-          this.currentTariff = this.orderService.getTariffName(tariff);
-          const tariffId = tariff.id;
+          this.currentTariffName = this.orderService.getTariffName(tariff);
+          this.currentTariff = tariff.id;
           !this.existingOrderId
-            ? this.store.dispatch(GetOrderDetails({ tariffId }))
+            ? this.store.dispatch(GetOrderDetails({ tariffId: this.currentTariff }))
             : this.store.dispatch(GetExistingOrderDetails({ orderId: this.existingOrderId }));
-          this.store.dispatch(GetCourierLocations({ tariffId }));
+          this.store.dispatch(GetCourierLocations({ tariffId: this.currentTariff }));
         }),
         switchMap(() =>
           combineLatest([
@@ -188,6 +190,9 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.initPointsAndCertificateListeners();
         if (this.existingOrderInfo) {
           this.initExistingOrderValues();
+        }
+        if (this.changedTariffForExistingOrder) {
+          this.changedTariffForExistingOrder = false;
         }
       });
   }
@@ -345,9 +350,13 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
       closeOnNavigation: false
     });
 
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res?.data) {
+    dialogRef.afterClosed().subscribe((tariff: ActiveTariffInfo) => {
+      if (tariff) {
         this.orderDetailsForm.markAllAsTouched();
+        if (tariff.id !== this.currentTariff) {
+          this.existingOrderId = null;
+          this.store.dispatch(SetTariff({ tariff }));
+        }
       }
       this.isDialogOpen = false;
     });
