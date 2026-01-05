@@ -285,6 +285,12 @@
     </div>
   </div>
 </div>
+<div class="tag-filtrs-list" *ngIf="activeFilters.length">
+  <div class="tag-filter-item" *ngFor="let filter of activeFilters">
+    <div class="remove-item-btn" (click)="removeActiveFilter(filter)"></div>
+    <span class="filter-content">{{ filter.labelKey | translate }} {{ filter.valueText }}</span>
+  </div>
+</div>
 
 <div id="table-container" class="scrolling" infiniteScroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false">
   <mat-table [dataSource]="dataSource" id="table" class="customers_table" *ngIf="!isLoading" cdkDropListGroup>

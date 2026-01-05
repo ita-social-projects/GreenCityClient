@@ -34,6 +34,8 @@ import { ClientStatusEnum } from '@ubs/ubs/enums/client-status.enum';
 import { MatSelectChange } from '@angular/material/select';
 import { IAppState } from '../../../../store/state/app.state';
 import { ColumnParam, columnsParams } from '@ubs/ubs-admin/components/ubs-admin-customers/columnsParams.mock';
+import { TranslateService } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -78,6 +80,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   enterPressed: boolean;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   tableData: any[];
+  activeFilters: Array<{key: string; labelKey: string;valueText: string; fromControl: string; toControl: string;}> = [];
   readonly customerStatus = Object.values(ClientStatusEnum);
   private sortType: string;
   private sortingColumn: string;
@@ -111,7 +114,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private readonly convertFromDateToStringService: ConvertFromDateToStringService,
     private readonly localStorageService: LocalStorageService,
     private readonly tableHeightService: TableHeightService,
-    private readonly adminCustomerService: AdminCustomersService
+    private readonly adminCustomerService: AdminCustomersService,
+    private readonly translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -256,7 +260,94 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       this.currentPage = 0;
       this.getTable();
     }
+    this.buildActiveFilters();
   }
+
+  private buildActiveFilters(): void {
+  this.activeFilters = [];
+
+  const map = [
+    {
+      key: 'registrationDate',
+      label: 'ubs-customer-filters.registration-date',
+      from: 'registrationDateFrom',
+      to: 'registrationDateTo',
+      isDate: true
+    },
+    {
+      key: 'lastOrderDate',
+      label: 'ubs-customer-filters.last-order-date',
+      from: 'lastOrderDateFrom',
+      to: 'lastOrderDateTo',
+      isDate: true
+    },
+    {
+      key: 'ordersCount',
+      label: 'ubs-customer-filters.orders-amount',
+      from: 'ordersCountFrom',
+      to: 'ordersCountTo'
+    },
+    {
+      key: 'violations',
+      label: 'ubs-customer-filters.violations',
+      from: 'violationsFrom',
+      to: 'violationsTo'
+    },
+    {
+      key: 'bonuses',
+      label: 'ubs-customer-filters.bonuses',
+      from: 'bonusesFrom',
+      to: 'bonusesTo'
+    }
+  ];
+
+  const localeMap = {
+    uk: 'uk-UA',
+    en: 'en-GB'
+  };
+  const locale = localeMap[this.currentLang] || this.currentLang;
+  const datePipe = new DatePipe(locale);
+
+  map.forEach((f) => {
+    let from = this.filterForm.get(f.from).value;
+    let to = this.filterForm.get(f.to).value;
+
+    if (from || to) {
+      const fromText = this.translate.instant('ubs-customer-filters.from').toLowerCase();
+      const toText = this.translate.instant('ubs-customer-filters.to').toLowerCase();
+
+      if (f.isDate) {
+        from = from ? datePipe.transform(new Date(from), 'dd/MM/yyyy') : from;
+        to = to ? datePipe.transform(new Date(to), 'dd/MM/yyyy') : to;
+      }
+
+      let valueText = '';
+
+      if (from && to) {
+        valueText = `${fromText} ${from} ${toText} ${to}`;
+      } else if (from) {
+        valueText = `${fromText} ${from}`;
+      } else if (to) {
+        valueText = `${toText} ${to}`;
+      }
+
+      this.activeFilters.push({
+        key: f.key,
+        labelKey: f.label,
+        valueText,
+        fromControl: f.from,
+        toControl: f.to
+      });
+    }
+  });
+}
+
+removeActiveFilter(filter): void {
+  this.filterForm.get(filter.fromControl).setValue('');
+  this.filterForm.get(filter.toControl).setValue('');
+  this.activeFilters = this.activeFilters.filter(f => f.key !== filter.key);
+  this.submitFilterForm();
+}
 
   onDeleteFilter(filterFrom: string, filterTo: string) {
     this.filterForm.get(filterFrom).setValue('');
