@@ -79,7 +79,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   saveLocation(): void {
-    this.localStorageService.setTariffId(tariff.id);
+    this.localStorageService.setTariffId(this.selectedTariff.id);
     this.dialogRef.close(this.selectedTariff);
   }
 

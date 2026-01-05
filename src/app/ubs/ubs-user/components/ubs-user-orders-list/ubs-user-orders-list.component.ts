@@ -191,22 +191,16 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     let orderDataResponse: OrderDetails;
     let personalDataResponse: PersonalData;
 
-    const orderDataRequest: Observable<OrderDetails> = this.orderService
-      .getExistingOrderDetails(order.id)
-      .pipe(takeUntil(this.destroy$))
-      .pipe(
-        tap((orderData) => {
-          orderDataResponse = orderData;
-        })
-      );
-    const personalDataRequest: Observable<PersonalData> = this.orderService
-      .getPersonalData()
-      .pipe(takeUntil(this.destroy$))
-      .pipe(
-        tap((personalData) => {
-          personalDataResponse = personalData;
-        })
-      );
+    const orderDataRequest: Observable<OrderDetails> = this.orderService.getExistingOrderDetails(order.id).pipe(
+      tap((orderData) => {
+        orderDataResponse = orderData;
+      })
+    );
+    const personalDataRequest: Observable<PersonalData> = this.orderService.getPersonalData().pipe(
+      tap((personalData) => {
+        personalDataResponse = personalData;
+      })
+    );
 
     forkJoin([orderDataRequest, personalDataRequest]).subscribe(() => {
       this.bags = orderDataResponse.bags || [];
@@ -235,7 +229,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       this.personalDetails.senderPhoneNumber =
         order.sender?.senderPhone !== this.personalDetails.phoneNumber ? order.sender?.senderPhone : null;
       this.anotherClient = order.sender?.senderName !== this.personalDetails.firstName ? 'true' : 'false';
-      this.orderId = order.id.toString();
+      this.orderId = order.id?.toString();
       this.setDataToLocalStorage();
     });
   }
