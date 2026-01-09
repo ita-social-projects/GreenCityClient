@@ -114,7 +114,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private readonly convertFromDateToStringService: ConvertFromDateToStringService,
     private readonly localStorageService: LocalStorageService,
     private readonly tableHeightService: TableHeightService,
-    private readonly adminCustomerService: AdminCustomersService,
+    private readonly adminCustomerService: AdminCustomersService
   ) {}
 
   ngOnInit() {

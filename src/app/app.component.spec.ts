@@ -49,7 +49,7 @@ describe('AppComponent', () => {
         provideMockStore(),
         { provide: LocalStorageService, useValue: localStorageMock },
         { provide: MetaService, useValue: metaServiceMock },
-        { provide: SwUpdate, useValue: {} },
+        { provide: SwUpdate, useValue: {} }
       ],
       declarations: [AppComponent]
     }).compileComponents();
