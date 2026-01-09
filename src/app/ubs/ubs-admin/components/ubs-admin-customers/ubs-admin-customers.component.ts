@@ -36,6 +36,7 @@ import { IAppState } from '../../../../store/state/app.state';
 import { ColumnParam, columnsParams } from '@ubs/ubs-admin/components/ubs-admin-customers/columnsParams.mock';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
+import { FilterCustomers } from './customers-filters.interface';
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -80,7 +81,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   enterPressed: boolean;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   tableData: any[];
-  activeFilters: Array<{key: string; labelKey: string;valueText: string; fromControl: string; toControl: string;}> = [];
+  activeFilters: FilterCustomers[] = [];
   readonly customerStatus = Object.values(ClientStatusEnum);
   private sortType: string;
   private sortingColumn: string;
@@ -301,42 +302,27 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     }
   ];
 
-  const localeMap = {
-    uk: 'uk-UA',
-    en: 'en-GB'
-  };
-  const locale = localeMap[this.currentLang] || this.currentLang;
+  const locale = this.currentLang === 'uk' ? 'uk-UA' : 'en-GB';
   const datePipe = new DatePipe(locale);
 
   map.forEach((f) => {
     let from = this.filterForm.get(f.from).value;
     let to = this.filterForm.get(f.to).value;
 
+    if (f.isDate) {
+      from = from ? datePipe.transform(new Date(from), 'dd/MM/yyyy') : from;
+      to = to ? datePipe.transform(new Date(to), 'dd/MM/yyyy') : to;
+    }
+       
     if (from || to) {
-      const fromText = this.translate.instant('ubs-customer-filters.from').toLowerCase();
-      const toText = this.translate.instant('ubs-customer-filters.to').toLowerCase();
-
-      if (f.isDate) {
-        from = from ? datePipe.transform(new Date(from), 'dd/MM/yyyy') : from;
-        to = to ? datePipe.transform(new Date(to), 'dd/MM/yyyy') : to;
-      }
-
-      let valueText = '';
-
-      if (from && to) {
-        valueText = `${fromText} ${from} ${toText} ${to}`;
-      } else if (from) {
-        valueText = `${fromText} ${from}`;
-      } else if (to) {
-        valueText = `${toText} ${to}`;
-      }
-
       this.activeFilters.push({
         key: f.key,
         labelKey: f.label,
-        valueText,
+        fromValue: from,
+        toValue: to,
         fromControl: f.from,
-        toControl: f.to
+        toControl: f.to,
+        isDate: f.isDate
       });
     }
   });

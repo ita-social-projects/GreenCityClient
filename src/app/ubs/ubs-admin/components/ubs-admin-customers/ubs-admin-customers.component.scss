@@ -433,6 +433,8 @@ button:disabled {
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
+  border: 0;
+  background-color: transparent
 }
 
 .filter-content {
