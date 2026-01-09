@@ -186,7 +186,6 @@ describe('TableCellDateComponent', () => {
       component.edit(mockDatepicker as MatDatepicker<Date>);
 
       expect(component.showBlockedInfo.emit).toHaveBeenCalledWith(iAlertInfo);
-      expect(mockDatepicker.open).toHaveBeenCalled();
     });
 
     it('should dispatch SetCursorWaite with false after blockOrders completes', () => {

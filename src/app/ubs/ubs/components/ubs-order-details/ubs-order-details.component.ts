@@ -70,7 +70,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
   SHOP_NUMBER_MASK = Masks.ecoStoreMask;
   commentPattern = Patterns.ubsCommentPattern;
   additionalOrdersPattern = Patterns.orderEcoStorePattern;
-  private changedTariffForExistingOrder = false;
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   popupConfig = {
@@ -190,9 +189,6 @@ export class UBSOrderDetailsComponent implements OnInit, OnDestroy {
         this.initPointsAndCertificateListeners();
         if (this.existingOrderInfo) {
           this.initExistingOrderValues();
-        }
-        if (this.changedTariffForExistingOrder) {
-          this.changedTariffForExistingOrder = false;
         }
       });
   }
