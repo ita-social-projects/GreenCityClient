@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
-import { Address, LocationsDtosList } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, KyivNamesEnum, LocationsDtosList } from 'src/app/ubs/ubs/models/ubs.interface';
 import { VincentySerivce } from 'src/assets/vincenty/vincenty';
 
 enum ValidatorsRegion {
@@ -44,6 +44,10 @@ class KyivRegionValidator extends CityValidationStrategy {
     }
 
     if (address.coordinates.latitude === 0 && address.coordinates.longitude === 0) {
+      return false;
+    }
+
+    if (address.cityEn === KyivNamesEnum.KyivEn && address.cityUk === KyivNamesEnum.KyivUa) {
       return false;
     }
 

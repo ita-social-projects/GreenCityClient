@@ -28,7 +28,8 @@ describe('UBSSubmitOrderComponent', () => {
 
   beforeEach(async () => {
     const storeSpy = jasmine.createSpyObj('Store', ['pipe']);
-    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['processExistingOrder', 'processNewOrder']);
+    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['processExistingOrder', 'processNewOrder', 'cancelExistingPayment']);
+    orderServiceSpy.cancelExistingPayment.and.returnValue(of(true));
     ubsOrderFormServiceSpy = jasmine.createSpyObj('UBSOrderFormService', [
       'transferOrderId',
       'setOrderResponseErrorStatus',

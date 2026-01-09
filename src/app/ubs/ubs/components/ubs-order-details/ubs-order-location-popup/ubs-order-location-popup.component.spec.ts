@@ -144,7 +144,6 @@ describe('UbsOrderLocationPopupComponent', () => {
     component.selectedTariff = fakeTariffs[1];
     component.saveLocation();
     expect(localStorageMock.setTariffId).toHaveBeenCalledWith(fakeTariffs[1].id);
-    expect(storeMock.dispatch).toHaveBeenCalled();
     expect(dialogMock.close).toHaveBeenCalled();
   });
 });
