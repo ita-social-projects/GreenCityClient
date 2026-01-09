@@ -71,6 +71,14 @@ describe('TableCellDateComponent', () => {
     });
   });
 
+  it('should call adapter.setLocale when lang is set', () => {
+    const adapterSpy = spyOn(component['adapter'], 'setLocale');
+
+    component.lang = 'en';
+
+    expect(adapterSpy).toHaveBeenCalledWith('en');
+  });
+
   describe('edit() method', () => {
     beforeEach(() => {
       spyOn(store, 'dispatch');
