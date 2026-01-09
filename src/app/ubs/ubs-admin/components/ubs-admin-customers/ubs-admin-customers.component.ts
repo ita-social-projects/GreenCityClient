@@ -34,7 +34,6 @@ import { ClientStatusEnum } from '@ubs/ubs/enums/client-status.enum';
 import { MatSelectChange } from '@angular/material/select';
 import { IAppState } from '../../../../store/state/app.state';
 import { ColumnParam, columnsParams } from '@ubs/ubs-admin/components/ubs-admin-customers/columnsParams.mock';
-import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { FilterCustomers } from './customers-filters.interface';
 
@@ -116,7 +115,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private readonly localStorageService: LocalStorageService,
     private readonly tableHeightService: TableHeightService,
     private readonly adminCustomerService: AdminCustomersService,
-    private readonly translate: TranslateService
   ) {}
 
   ngOnInit() {

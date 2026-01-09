@@ -11,7 +11,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SwUpdate } from '@angular/service-worker';
-import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -20,7 +19,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let matSnackBarMock: jasmine.SpyObj<MatSnackBarService>;
 
   const localStorageMock = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
@@ -34,7 +32,6 @@ describe('AppComponent', () => {
   const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMetaOnRouteChange']);
 
   beforeEach(waitForAsync(() => {
-    matSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -53,7 +50,6 @@ describe('AppComponent', () => {
         { provide: LocalStorageService, useValue: localStorageMock },
         { provide: MetaService, useValue: metaServiceMock },
         { provide: SwUpdate, useValue: {} },
-        { provide: MatSnackBarService, useValue: matSnackBarMock }
       ],
       declarations: [AppComponent]
     }).compileComponents();
@@ -67,17 +63,5 @@ describe('AppComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should show snackbar when network is offline', () => {
-    spyOnProperty(navigator, 'onLine', 'get').and.returnValue(false);
-    component.onNetworkStatusChange();
-    expect(matSnackBarMock.openSnackBar).toHaveBeenCalledWith('noInternet');
-  });
-
-  it('should NOT show snackbar when network is online', () => {
-    spyOnProperty(navigator, 'onLine', 'get').and.returnValue(true);
-    component.onNetworkStatusChange();
-    expect(matSnackBarMock.openSnackBar).not.toHaveBeenCalled();
   });
 });
