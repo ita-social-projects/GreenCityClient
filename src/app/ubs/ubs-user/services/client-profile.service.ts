@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { mainUbsLink, mainUserLink } from 'src/app/main/links';
+import { mainUbsLink } from 'src/app/main/links';
 import { UserProfile } from '../../../ubs/ubs-admin/models/ubs-admin.interface';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +18,6 @@ export class ClientProfileService {
   }
 
   deactivateProfile(reason: string): Observable<void> {
-    return this.http.delete<void>(`${mainUserLink}ubs/userProfile/user/delete`, { body: reason });
+    return this.http.delete<void>(`${mainUbsLink}/ubs/userProfile/user/delete`, { body: { reason } });
   }
 }
