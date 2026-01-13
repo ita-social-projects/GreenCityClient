@@ -1374,10 +1374,12 @@
       "how_works": {
         "title": "How it works",
         "content": "Content",
-        "route": "Route",
-        "route_caption": "Route Caption",
         "working_hours": "Working Hours",
-        "working_hours_caption": "Working Hours Caption"
+        "working_hours_caption": "Working Hours Caption",
+        "tech_support": "Technical support",
+        "tech_support_caption": "Technical support Caption",
+        "route": "Route",
+        "route_caption": "Route Caption"
       },
       "preparing": {
         "title": "Preparation",
