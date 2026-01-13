@@ -580,11 +580,10 @@ section .main-container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      gap: 10px;
       margin-top: 140px;
 
       .time-frame {
-        @include height-and-width(160px, 45%);
-
         max-width: 850px;
         background-color: var(--ubs-primary-white);
         border: 1px solid var(--ubs-quaternary-dark-green);
@@ -865,7 +864,6 @@ section .main-container {
       .box-how-works {
         margin: 0 auto;
         padding: 0;
-        max-width: 1140px;
 
         #main-content {
           margin: 0;
