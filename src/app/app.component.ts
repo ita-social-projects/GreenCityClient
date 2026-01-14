@@ -7,6 +7,7 @@ import { filter, Subject } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
   router: Router = inject(Router);
   metaService: MetaService = inject(MetaService);
-  offline: boolean;
+  private readonly snackBar = inject(MatSnackBarService);
 
   ngOnInit(): void {
     this.metaService.setMetaOnRouteChange();
@@ -45,7 +46,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onNetworkStatusChange(): void {
-    this.offline = !navigator.onLine;
+    if (!navigator.onLine) {
+      this.snackBar.openSnackBar('noInternet');
+    }
   }
 
   ngOnDestroy(): void {

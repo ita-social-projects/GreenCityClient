@@ -335,6 +335,28 @@ describe('UbsAdminCustomersComponent', () => {
     expect((component as any)['getTable']).toHaveBeenCalledTimes(1);
   });
 
+  it('should remove active filter and reset form controls', () => {
+    spyOn(component, 'submitFilterForm');
+    component.activeFilters = [{
+      key: 'bonuses',
+      labelKey: 'ubs-customer-filters.bonuses',
+      fromValue: '10',
+      toValue: '20',
+      fromControl: 'bonusesFrom',
+      toControl: 'bonusesTo',
+      isDate: false
+    }];
+    component.filterForm.patchValue({
+      bonusesFrom: 10,
+      bonusesTo: 20
+    });
+    component.removeActiveFilter(component.activeFilters[0]);
+    expect(component.activeFilters.length).toBe(0);
+    expect(component.filterForm.value.bonusesFrom).toBe('');
+    expect(component.filterForm.value.bonusesTo).toBe('');
+    expect(component.submitFilterForm).toHaveBeenCalled();
+  });
+
   it('should clear all filters and submit form', () => {
     component.filterForm.get('bonusesFrom').setValue('10');
     spyOn(component, 'submitFilterForm').and.callThrough();
