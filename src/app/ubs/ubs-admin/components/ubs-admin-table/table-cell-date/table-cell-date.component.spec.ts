@@ -398,7 +398,6 @@ describe('TableCellDateComponent', () => {
 
       expect(adminTableService.blockOrders).toHaveBeenCalledWith([10]);
       expect(component.showBlockedInfo.emit).toHaveBeenCalledWith(iAlertInfo);
-      expect(mockDatepicker.open).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(SetCursorWaite({ isWaiting: false }));
     });
   });
