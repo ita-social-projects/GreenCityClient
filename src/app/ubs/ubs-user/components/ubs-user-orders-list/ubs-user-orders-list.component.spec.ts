@@ -93,11 +93,13 @@ describe('UbsUserOrdersListComponent', () => {
     'getOrderPdf',
     'cleanOrderState',
     'getExistingOrderDetails',
-    'getPersonalData'
+    'getPersonalData',
+    'getExistingOrderInfo'
   ]);
   orderServiceMock.getOrderPdf.and.returnValue(of(new Blob(['pdf content'], { type: 'application/pdf' })));
   orderServiceMock.getExistingOrderDetails.and.returnValue(of(fakeInputOrderData[1] as any));
   orderServiceMock.getPersonalData.and.returnValue(of(fakePersonalData));
+  orderServiceMock.getExistingOrderInfo.and.returnValue(of({ paymentLink: null }));
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
@@ -229,12 +231,12 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('openOrderPaymentDialog', () => {
     it('makes expected calls', () => {
-      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[1] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[0] as any);
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
         maxWidth: '500px',
         panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
         data: {
-          orderId: 7,
+          orderId: 3,
           price: 55,
           bonuses: 111,
           hasLink: false
@@ -386,7 +388,7 @@ describe('UbsUserOrdersListComponent', () => {
   });
 
   describe('sortingOrdersByData', () => {
-    it('sort orsers data', () => {
+    it('sort orders data', () => {
       const resultOrderData = [
         {
           id: 7,
@@ -461,6 +463,7 @@ describe('UbsUserOrdersListComponent', () => {
       dialogRefSpy.afterClosed.and.returnValue(of(true));
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
+      orderServiceMock.getExistingOrderInfo.and.returnValue(of({ ...fakeInputOrderData[1] }));
 
       component.editOrPayPopup(fakeInputOrderData[1] as any);
       tick();
@@ -475,13 +478,14 @@ describe('UbsUserOrdersListComponent', () => {
       dialogRefSpy.afterClosed.and.returnValue(of(false));
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage').and.callThrough();
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      orderServiceMock.getExistingOrderInfo.and.returnValue(of({ ...fakeInputOrderData[2] }));
 
-      component.editOrPayPopup(fakeInputOrderData[1] as any);
+      component.editOrPayPopup(fakeInputOrderData[2] as any);
       tick();
 
       expect(matDialogMock.open).toHaveBeenCalled();
       expect(getDataForLocalStorageSpy).toHaveBeenCalled();
-      expect(getDataForLocalStorageSpy).toHaveBeenCalledWith(fakeInputOrderData[1] as any);
+      expect(getDataForLocalStorageSpy).toHaveBeenCalledWith(fakeInputOrderData[2] as any);
       expect(orderPaymentPopupSpy).not.toHaveBeenCalled();
     }));
 

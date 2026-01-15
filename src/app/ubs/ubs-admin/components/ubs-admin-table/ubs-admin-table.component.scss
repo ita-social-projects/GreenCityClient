@@ -56,6 +56,7 @@ mat-header-cell {
   line-height: 2.8;
   padding: 0;
   width: auto;
+  min-width: 48px;
 
   .column-title {
     display: block;
@@ -559,7 +560,8 @@ mat-spinner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 5px;
+  padding: 0 10px;
+  box-sizing: content-box;
 }
 
 .column_cell {

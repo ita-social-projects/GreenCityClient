@@ -404,3 +404,40 @@ button:disabled {
   background-color: var(--ubs-primary-light-grey);
   border-color: var(--ubs-quaternary-light-grey);
 }
+
+.tag-filtrs-list {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 6px; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.tag-filter-item {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  padding: 2px 6px; 
+  border-radius: 4px;
+  font-size: 12px; 
+  line-height: 16px;
+  max-width: fit-content;
+}
+
+.remove-item-btn {
+  width: 6px; 
+  height: 6px;
+  margin-left: 1px;
+  margin-right: 5px;
+  background-image: url('/assets/img/ubs-admin-employees/cross.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  border: 0;
+  background-color: transparent
+}
+
+.filter-content {
+  color: var(--ubs-dark-purple);
+  white-space: nowrap;
+}

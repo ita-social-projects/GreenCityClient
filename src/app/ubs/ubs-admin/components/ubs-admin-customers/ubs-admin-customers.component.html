@@ -285,6 +285,25 @@
     </div>
   </div>
 </div>
+<div class="tag-filtrs-list" *ngIf="activeFilters.length">
+  <div class="tag-filter-item" *ngFor="let filter of activeFilters">
+    <button
+      type="button"
+      class="remove-item-btn"
+      (click)="removeActiveFilter(filter)"
+      [attr.aria-label]="'ubs-tables.clear-filters' | translate"
+    ></button>
+    <span class="filter-content">
+      {{ filter.labelKey | translate }}
+      <ng-container *ngIf="filter.fromValue">
+        {{ 'ubs-customer-filters.from' | translate }} {{ filter.fromValue }}
+      </ng-container>
+      <ng-container *ngIf="filter.toValue">
+        {{ 'ubs-customer-filters.to' | translate }} {{ filter.toValue }}
+      </ng-container>
+    </span>
+  </div>
+</div>
 
 <div id="table-container" class="scrolling" infiniteScroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false">
   <mat-table [dataSource]="dataSource" id="table" class="customers_table" *ngIf="!isLoading" cdkDropListGroup>

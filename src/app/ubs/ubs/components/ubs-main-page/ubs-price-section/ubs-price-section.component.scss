@@ -6,9 +6,14 @@
 
 .price-section {
   background-color: var(--ubs-main-page-secondary-light-grey);
+  margin: 0;
+  padding: 110px 33px;
 
   h2 {
-    padding: 0 0 80px;
+    font-weight: 800;
+    font-size: 48px;
+    text-align: center;
+    color: var(--ubs-primary-black);
   }
 
   .box-card {
@@ -116,5 +121,238 @@
 
   .arrowDownImg {
     cursor: pointer;
+  }
+}
+
+section .price-section {
+  height: 100%;
+
+  h2 {
+    margin-bottom: 0;
+  }
+
+  .box-card {
+    #price-frame {
+      height: 229px;
+
+      .content-price {
+        margin: 0;
+        width: 100%;
+        line-height: 20px !important;
+      }
+
+      .header-price {
+        flex-direction: column-reverse;
+
+        .price {
+          line-height: 34px;
+        }
+      }
+    }
+  }
+}
+
+@include responsiveMobileFirst(sm) {
+  section .price-section {
+    padding: 60px 0;
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    .box-card {
+      margin: 0 16px;
+
+      #price-frame {
+        width: 100%;
+        height: 125px;
+        border-radius: 4px;
+
+        .content-price {
+          line-height: 15px;
+          justify-content: center;
+        }
+
+        .header-price {
+          height: 100px;
+          border: 0.5px solid var(--ubs-primary-dark-grey);
+          border-radius: 4px;
+
+          .price {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  @include responsivePCFirst(md) {
+    .price-section {
+      height: 100%;
+      padding-bottom: 60px;
+
+      h2 {
+        font-size: 26px;
+        line-height: 32px;
+        margin-bottom: 0;
+      }
+
+      .box-card {
+        flex-direction: column;
+        justify-content: normal;
+
+        #price-frame {
+          margin: 0 auto;
+          width: 287px;
+          border-radius: 6px;
+
+          .content-price {
+            font-size: 12px;
+            line-height: 15px;
+            padding: 0;
+            width: 190px;
+            height: 69px;
+
+            div {
+              width: 100%;
+              align-items: center;
+            }
+          }
+
+          .header-price {
+            border-radius: 6px;
+            height: 57px;
+            font-size: 11px;
+          }
+
+          .header-price .price {
+            font-size: 16px;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include responsivePCFirst(sm) {
+  section .price-section h2 {
+    font-size: 28px;
+    line-height: 1.1;
+  }
+}
+
+@include responsiveMobileFirst(md) {
+  @include responsivePCFirst(xl) {
+    section .price-section {
+      height: 100%;
+      margin: 0;
+      padding: 90px 24px;
+
+      h2 {
+        margin: 0 auto;
+        padding: 0;
+        font-weight: 800;
+        font-size: 40px;
+        line-height: 49px;
+      }
+
+      .box-card {
+        margin-top: 50px;
+
+        #price-frame {
+          width: 218px;
+          height: 229px;
+          font-size: 16px;
+
+          .content-price {
+            margin: 0;
+            padding: 33px 16px 0;
+            width: 100%;
+            line-height: 20px !important;
+          }
+
+          .header-price {
+            flex-direction: column-reverse;
+            height: 100px;
+
+            .price {
+              font-size: 24px;
+              line-height: 29px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include responsiveMobileFirst(xl) {
+  @include responsivePCFirst(3xl) {
+    section .price-section {
+      height: 100%;
+
+      .box-card {
+        #price-frame {
+          width: 298px;
+          height: 229px;
+          font-size: 16px;
+
+          .content-price {
+            margin: 0;
+            padding: 33px 30px 0 24px;
+            width: 100%;
+            line-height: 20px !important;
+          }
+
+          .header-price {
+            flex-direction: column-reverse;
+            height: 100px;
+
+            .price {
+              font-size: 28px;
+              line-height: 34px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include responsiveMobileFirst(3xl) {
+  section .price-section {
+    height: 100%;
+
+    .box-card {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      #price-frame {
+        width: 358px;
+        height: 229px;
+        font-size: 18px;
+
+        .content-price {
+          margin: 0;
+          padding: 0 40px;
+          width: 100%;
+          line-height: 20px !important;
+          align-items: center;
+        }
+
+        .header-price {
+          flex-direction: column-reverse;
+          height: 100px;
+
+          .price {
+            font-size: 28px;
+            line-height: 34px;
+          }
+        }
+      }
+    }
   }
 }

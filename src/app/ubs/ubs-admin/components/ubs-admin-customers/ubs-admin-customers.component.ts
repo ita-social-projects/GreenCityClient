@@ -34,6 +34,8 @@ import { ClientStatusEnum } from '@ubs/ubs/enums/client-status.enum';
 import { MatSelectChange } from '@angular/material/select';
 import { IAppState } from '../../../../store/state/app.state';
 import { ColumnParam, columnsParams } from '@ubs/ubs-admin/components/ubs-admin-customers/columnsParams.mock';
+import { DatePipe } from '@angular/common';
+import { FilterCustomers } from './customers-filters.interface';
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -78,6 +80,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   enterPressed: boolean;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   tableData: any[];
+  activeFilters: FilterCustomers[] = [];
   readonly customerStatus = Object.values(ClientStatusEnum);
   private sortType: string;
   private sortingColumn: string;
@@ -256,7 +259,79 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       this.currentPage = 0;
       this.getTable();
     }
+    this.buildActiveFilters();
   }
+
+  private buildActiveFilters(): void {
+  this.activeFilters = [];
+
+  const map = [
+    {
+      key: 'registrationDate',
+      label: 'ubs-customer-filters.registration-date',
+      from: 'registrationDateFrom',
+      to: 'registrationDateTo',
+      isDate: true
+    },
+    {
+      key: 'lastOrderDate',
+      label: 'ubs-customer-filters.last-order-date',
+      from: 'lastOrderDateFrom',
+      to: 'lastOrderDateTo',
+      isDate: true
+    },
+    {
+      key: 'ordersCount',
+      label: 'ubs-customer-filters.orders-amount',
+      from: 'ordersCountFrom',
+      to: 'ordersCountTo'
+    },
+    {
+      key: 'violations',
+      label: 'ubs-customer-filters.violations',
+      from: 'violationsFrom',
+      to: 'violationsTo'
+    },
+    {
+      key: 'bonuses',
+      label: 'ubs-customer-filters.bonuses',
+      from: 'bonusesFrom',
+      to: 'bonusesTo'
+    }
+  ];
+
+  const locale = this.currentLang === 'uk' ? 'uk-UA' : 'en-GB';
+  const datePipe = new DatePipe(locale);
+
+  map.forEach((f) => {
+    let from = this.filterForm.get(f.from).value;
+    let to = this.filterForm.get(f.to).value;
+
+    if (f.isDate) {
+      from = from ? datePipe.transform(new Date(from), 'dd/MM/yyyy') : from;
+      to = to ? datePipe.transform(new Date(to), 'dd/MM/yyyy') : to;
+    }
+       
+    if (from || to) {
+      this.activeFilters.push({
+        key: f.key,
+        labelKey: f.label,
+        fromValue: from,
+        toValue: to,
+        fromControl: f.from,
+        toControl: f.to,
+        isDate: f.isDate
+      });
+    }
+  });
+}
+
+removeActiveFilter(filter): void {
+  this.filterForm.get(filter.fromControl).setValue('');
+  this.filterForm.get(filter.toControl).setValue('');
+  this.activeFilters = this.activeFilters.filter(f => f.key !== filter.key);
+  this.submitFilterForm();
+}
 
   onDeleteFilter(filterFrom: string, filterTo: string) {
     this.filterForm.get(filterFrom).setValue('');

@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { ActiveTariffInfo, Address, AddressData, CourierLocations, OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export enum OrderActions {
   SetCurrentStep = '[Order] Set Current Step',
@@ -37,6 +38,7 @@ export enum OrderActions {
 
   GetExistingOrderDetails = '[Order] Get Existing Order Details',
   GetExistingOrderDetailsSuccess = '[Order] Get Existing Order Details Success',
+  GetExistingOrderDetailsFail = '[Order] Get Existing Order Details Fail',
 
   GetExistingOrderTariff = '[Order] Get Existing Order Tariff',
   GetExistingOrderTariffSuccess = '[Order] Get Existing Order Tariff Success',
@@ -109,6 +111,7 @@ export const GetExistingOrderDetailsSuccess = createAction(
   OrderActions.GetExistingOrderDetailsSuccess,
   props<{ orderDetails: OrderDetails }>()
 );
+export const GetExistingOrderDetailsFail = createAction(OrderActions.GetExistingOrderDetailsFail, props<{ error: HttpErrorResponse }>());
 
 export const GetExistingOrderTariff = createAction(OrderActions.GetExistingOrderTariff, props<{ orderId: number }>());
 export const GetExistingOrderTariffSuccess = createAction(

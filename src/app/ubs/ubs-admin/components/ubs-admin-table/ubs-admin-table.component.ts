@@ -1000,10 +1000,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       const width = this.defaultColumnsWidth.get(this.columns[i].title.key);
       col.style.width = width + 'px';
     }
-    this.adminTableService
-      .setUbsAdminOrdersTableColumnsWidthPreference(this.defaultColumnsWidth)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+    this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.defaultColumnsWidth).subscribe();
   }
 
   getOrderTotalElements(): void {

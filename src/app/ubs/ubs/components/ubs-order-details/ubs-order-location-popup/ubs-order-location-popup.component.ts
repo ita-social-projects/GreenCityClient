@@ -7,7 +7,6 @@ import { ActiveTariffInfo } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
-import { SetTariff } from '../../../../../store/actions/order.actions';
 import { finalize, startWith, takeUntil } from 'rxjs/operators';
 import { LanguageService } from '../../../../../shared/i18n/language.service';
 
@@ -81,8 +80,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   saveLocation(): void {
     this.localStorageService.setTariffId(this.selectedTariff.id);
-    this.store.dispatch(SetTariff({ tariff: this.selectedTariff }));
-    this.dialogRef.close(true);
+    this.dialogRef.close(this.selectedTariff);
   }
 
   changeTariff(tariff: ActiveTariffInfo): void {
