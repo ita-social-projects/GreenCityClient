@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, filter, of } from 'rxjs';
 import {
   CreateAddress,
   CreateAddressFail,
@@ -14,6 +14,7 @@ import {
   GetCourierLocationsSuccess,
   GetExistingOrderDetails,
   GetExistingOrderDetailsSuccess,
+  GetExistingOrderDetailsFail,
   GetExistingOrderInfo,
   GetExistingOrderInfoSuccess,
   GetExistingOrderTariff,
@@ -35,6 +36,8 @@ import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Address, AddressData } from 'src/app/ubs/ubs/models/ubs.interface';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class OrderEffects {
@@ -42,7 +45,8 @@ export class OrderEffects {
     private readonly actions: Actions,
     private readonly orderService: OrderService,
     private readonly localStorageService: LocalStorageService,
-    private readonly snackBar: MatSnackBarService
+    private readonly snackBar: MatSnackBarService,
+    private readonly router: Router
   ) {}
 
   getOrderDetails = createEffect(() =>
@@ -64,10 +68,23 @@ export class OrderEffects {
       mergeMap((action: { orderId: number }) =>
         this.orderService.getExistingOrderDetails(action.orderId).pipe(
           map((orderDetails) => GetExistingOrderDetailsSuccess({ orderDetails })),
-          catchError(() => EMPTY)
+          catchError((error: HttpErrorResponse) => of(GetExistingOrderDetailsFail({ error })))
         )
       )
     )
+  );
+
+  getExistingOrderDetailsFail = createEffect(
+    () =>
+      this.actions.pipe(
+        ofType(GetExistingOrderDetailsFail),
+        filter(({ error }) => error.status === 403),
+        tap(() => {
+          this.snackBar.openSnackBar('errorOrderUnauthorized');
+          this.router.navigate(['/ubs/user/orders']);
+        })
+      ),
+    { dispatch: false }
   );
 
   getExistingOrderTariff = createEffect(() =>

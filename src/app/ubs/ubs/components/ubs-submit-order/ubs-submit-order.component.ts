@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { iif, Subject } from 'rxjs';
+import { iif, Subject, switchMap } from 'rxjs';
 import { filter, finalize, take, takeUntil } from 'rxjs/operators';
 import { Bag, IProcessOrderResponse, Order, OrderDetails, PaymentSystem, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -38,6 +38,7 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
   isShouldBePaid: boolean;
   isFirstFormValid: boolean;
   isPaid: boolean;
+  private hasPaymentLink: boolean;
   private $destroy: Subject<void> = new Subject<void>();
 
   popupConfig = {
@@ -81,6 +82,7 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
       this.addressId = order.addressId;
       this.tariffId = order.tariff?.id;
       this.isFirstFormValid = order.firstFormValid;
+      this.hasPaymentLink = !!order.existingOrderInfo?.paymentLink;
       this.isPaid = order.existingOrderInfo?.paymentStatusEn === PaymentStatusEn.PAID;
 
       this.finalSum = this.orderSum - this.certificateUsed - this.pointsUsed;
@@ -116,7 +118,13 @@ export class UBSSubmitOrderComponent implements OnInit, OnDestroy {
     this.isLoadingAnim = true;
     iif(
       () => this.existingOrderId >= 0,
-      this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId),
+      iif(
+        () => this.hasPaymentLink,
+        this.orderService
+          .cancelExistingPayment(this.existingOrderId)
+          .pipe(switchMap(() => this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId))),
+        this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId)
+      ),
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
       .pipe(finalize(() => this.redirectToConfirmPage()))

@@ -1373,10 +1373,12 @@
       "how_works": {
         "title": "Принцип роботи",
         "content": "Зміст",
-        "route": "Шлях",
-        "route_caption": "Шлях Заголовок",
         "working_hours": "Робочі години",
-        "working_hours_caption": "Робочі години Заголовок"
+        "working_hours_caption": "Робочі години Заголовок",
+        "tech_support": "Технічна підтримка",
+        "tech_support_caption": "Технічна підтримка Заголовок",
+        "route": "Шлях",
+        "route_caption": "Шлях Заголовок"
       },
       "preparing": {
         "title": "Підготовка",

@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { forkJoin, Observable, Subject, take } from 'rxjs';
+import { forkJoin, map, Observable, Subject, switchMap, take } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '@ubs/ubs/models/ubs.interface';
 import { OrderService } from '@ubs/ubs/services/order.service';
@@ -130,22 +130,34 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   editOrPayPopup(order: IUserOrderInfo) {
-    this.dialog
-      .open(DialogPopUpComponent, { data: this.editOrPayDialogData, autoFocus: true })
-      .afterClosed()
-      .subscribe((res) => {
+    this.orderService
+      .getExistingOrderInfo(order.id)
+      .pipe(
+        switchMap((info) =>
+          this.dialog
+            .open(DialogPopUpComponent, {
+              data: this.editOrPayDialogData,
+              autoFocus: true
+            })
+            .afterClosed()
+            .pipe(map((res) => ({ res, info })))
+        )
+      )
+      .subscribe(({ res, info }) => {
         if (res) {
-          if (order.paymentLink) {
-            window.location.href = order.paymentLink;
+          if (info.paymentLink) {
+            window.location.href = info.paymentLink;
           } else {
-            this.openOrderPaymentPopUp(order);
+            this.openOrderPaymentPopUp(info);
           }
+          return;
         }
+
         if (res === false) {
-          if (this.isOrderHalfPaid(order) && order.paymentLink) {
-            this.openOrderPaymentPopUp(order);
+          if (this.isOrderHalfPaid(info)) {
+            this.openOrderPaymentPopUp(info);
           } else {
-            this.getDataForLocalStorage(order);
+            this.getDataForLocalStorage(info);
           }
         }
       });
@@ -179,22 +191,16 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     let orderDataResponse: OrderDetails;
     let personalDataResponse: PersonalData;
 
-    const orderDataRequest: Observable<OrderDetails> = this.orderService
-      .getExistingOrderDetails(order.id)
-      .pipe(takeUntil(this.destroy$))
-      .pipe(
-        tap((orderData) => {
-          orderDataResponse = orderData;
-        })
-      );
-    const personalDataRequest: Observable<PersonalData> = this.orderService
-      .getPersonalData()
-      .pipe(takeUntil(this.destroy$))
-      .pipe(
-        tap((personalData) => {
-          personalDataResponse = personalData;
-        })
-      );
+    const orderDataRequest: Observable<OrderDetails> = this.orderService.getExistingOrderDetails(order.id).pipe(
+      tap((orderData) => {
+        orderDataResponse = orderData;
+      })
+    );
+    const personalDataRequest: Observable<PersonalData> = this.orderService.getPersonalData().pipe(
+      tap((personalData) => {
+        personalDataResponse = personalData;
+      })
+    );
 
     forkJoin([orderDataRequest, personalDataRequest]).subscribe(() => {
       this.bags = orderDataResponse.bags || [];
@@ -223,13 +229,9 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       this.personalDetails.senderPhoneNumber =
         order.sender?.senderPhone !== this.personalDetails.phoneNumber ? order.sender?.senderPhone : null;
       this.anotherClient = order.sender?.senderName !== this.personalDetails.firstName ? 'true' : 'false';
-      this.orderId = order.id.toString();
+      this.orderId = order.id?.toString();
       this.setDataToLocalStorage();
     });
-  }
-
-  private filterUtil(id: number) {
-    return this.bags.filter((item) => item.id === id)[0].quantity;
   }
 
   setDataToLocalStorage(): void {
