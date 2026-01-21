@@ -235,7 +235,7 @@
                             value="id1"
                             (change)="changeColumns($event?.checked, column.title.key, column.index)"
                           >
-                            {{ column.title | serverTranslate: 'uk' }}
+                            {{ column.title | serverTranslate: currentLang }}
                           </mat-checkbox>
                         </li>
                       </ng-container>
