@@ -239,7 +239,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       this.setDisplayedColumns();
     }
     this.editDetails();
-    this.sortColumnsToDisplay();
     this.checkAllColumnsDisplayed();
 
     this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
@@ -330,7 +329,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
-    this.sortColumnsToDisplay();
   }
 
   stickColumns() {
@@ -434,7 +432,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
     this.checkAllColumnsDisplayed();
-    this.sortColumnsToDisplay();
   }
 
   toggleTableView(): void {
@@ -655,7 +652,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.isAllColumnsDisplayed = true;
     this.displayedColumns = this.displayedColumnsViewTitles;
     this.count = this.displayedColumnsViewTitles.length;
-    this.sortColumnsToDisplay();
   }
 
   private setUnDisplayedColumns(): void {
@@ -887,42 +883,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  sortColumnsToDisplay() {
-    const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
-    const prop = this.nestedSortProperty.split('.');
-    const len = prop.length;
-    this.columns.sort((a, b) => {
-      let i = 0;
-      while (i < len) {
-        a = a[prop[i]];
-        b = b[prop[i]];
-        i++;
-      }
-      return displayedColumnsCopy.indexOf(a) - displayedColumnsCopy.indexOf(b);
-    });
-
-    this.checkAllColumnsDisplayed();
-    if (!this.isAllColumnsDisplayed) {
-      const undisplayedColumns = [];
-      for (const column of this.columns) {
-        if (!this.displayedColumns.includes(column.title.key)) {
-          undisplayedColumns.push(column);
-        }
-      }
-      undisplayedColumns.length =
-        undisplayedColumns.length % this.columns.length >= 0 ? undisplayedColumns.length % this.columns.length : 0;
-      for (let i = 0; i < undisplayedColumns.length; i++) {
-        this.columns.push(this.columns[i]);
-      }
-      this.columns.splice(0, undisplayedColumns.length);
-    }
-    this.columns.forEach((item) => {
-      item.index = this.columns.indexOf(item);
-    });
-    this.displayedColumnsView = this.columns;
-    this.stickColumns();
   }
 
   onResizeColumn(event: MouseEvent, columnName: string): void {
