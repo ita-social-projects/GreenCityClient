@@ -145,7 +145,7 @@ export class UBSPersonalInformationComponent implements OnInit, OnDestroy {
       firstName: [this.personalData.firstName ?? '', this.nameValidators],
       lastName: [this.personalData.lastName ?? '', this.nameValidators],
       email: [this.personalData.email ?? '', [Validators.required, Validators.maxLength(50), Validators.pattern(this.emailPattern)]],
-      phoneNumber: [this.personalData.phoneNumber ?? '', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
+      phoneNumber: [this.personalData.phoneNumber ?? '', [Validators.required, Validators.minLength(13), PhoneNumberValidator('UA')]],
       senderFirstName: [this.personalData.firstName ?? '', this.nameValidators],
       senderLastName: [this.personalData.lastName ?? '', this.nameValidators],
       senderEmail: [this.personalData.email ?? null, [Validators.maxLength(50), Validators.pattern(this.emailPattern)]],
