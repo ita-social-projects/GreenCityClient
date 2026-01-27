@@ -556,6 +556,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.selectedElements = sortedOrders;
     dialogRef.componentInstance.totalElements = this.totalElements;
     dialogRef.componentInstance.allElements = this.allElements;
+    dialogRef.componentInstance.allFilters = this.allFilters;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
     dialogRef.componentInstance.search = this.filterValue;

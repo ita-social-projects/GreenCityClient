@@ -5,7 +5,7 @@ import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-ce
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Language } from 'src/app/shared/i18n/Language';
-import { IBigOrderTableOrderInfo } from '../../../models/ubs-admin.interface';
+import { IBigOrderTableOrderInfo, IFilters } from '../../../models/ubs-admin.interface';
 import { tableViewParameters, nameOfTable, notTranslatedRows } from '../../../models/admin-tables.model';
 import * as XLSX from 'xlsx';
 
@@ -27,6 +27,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   search: string;
   name: string;
   allElements: number;
+  allFilters: IFilters;
   filters: string;
   dataForTranslation: any[];
   language: Language;
@@ -95,7 +96,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
     if (this.tableView === tableViewParameters.currentFilter) {
       if (isOrdersTable) {
-        this.getOrdersTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
+        this.getOrdersTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn, this.allFilters)
           .then((res) => {
             this.tableData = res[`content`];
             this.setTranslatedOrders();
@@ -166,11 +167,12 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   getOrdersTable(
     currentPage,
     pageSize,
-    filters = this.search || '',
+    query = this.search || '',
     sortingType = this.sortType || 'DESC',
-    columnName = this.sortingColumn || 'id'
+    columnName = this.sortingColumn || 'id',
+    filters?: IFilters
   ) {
-    return this.adminTableService.getTable(columnName, currentPage, filters, pageSize, sortingType).toPromise();
+    return this.adminTableService.getTable(columnName, currentPage, query, pageSize, sortingType, filters).toPromise();
   }
 
   getCertificatesTable(
@@ -210,6 +212,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
 
   createXLSX() {
     this.isLoading = false;
+    console.log(this.tableData);
     if (this.tableData) {
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData, { header: this.columnKeys });
       const wst = XLSX.utils.sheet_add_aoa(ws, [this.columnTitles], { origin: 'A1' });
