@@ -160,15 +160,14 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getTable();
     this.getCurrentLanguage();
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
         this.getBigOrderTableContent(tableData);
         this.getOrderTotalElements();
       } else {
-        this.getTable();
         this.getColumns();
+        this.getTable();
         this.store.dispatch(GetLocationsDetails());
         this.store.dispatch(GetTableColumnWidth());
       }
