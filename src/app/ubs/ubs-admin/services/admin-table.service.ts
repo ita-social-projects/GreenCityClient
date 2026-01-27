@@ -17,9 +17,9 @@ const columnMapping: { [key: string]: string } = {
   responsibleNavigator: 'responsibleNavigatorId',
   responsibleCaller: 'responsibleCallerId',
   responsibleLogicMan: 'responsibleLogicManId',
-  city: 'citiesEn',
+  city: 'citiesId',
   district: 'districtsEn',
-  region: 'regionEn'
+  region: 'regionId'
 };
 
 @Injectable({
@@ -180,7 +180,7 @@ export class AdminTableService {
   setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
 
-    const currentFilters = Array.isArray(this.selectedFilters[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
+    const currentFilters = Array.isArray(this.selectedFilters?.[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
 
     const updatedFilters = checked ? [...currentFilters, value] : currentFilters.filter((item) => item !== value);
 
@@ -191,7 +191,7 @@ export class AdminTableService {
   }
 
   setNewDateChecked(columnName: string, checked: boolean): void {
-    this.selectedFilters[columnName + 'Check'] = checked ? true : false;
+    this.selectedFilters[columnName + 'Check'] = checked;
   }
 
   setNewDateRange(columnName: string, dateFrom: string, dateTo: string): void {
@@ -274,7 +274,7 @@ export class AdminTableService {
     }
   }
 
-  changeInputDateFilters(value: string, currentColumn: string, suffix: string, check?: boolean): void {
+  changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
     elem[`${columnName}From`] = value;
@@ -346,9 +346,7 @@ export class AdminTableService {
     month = +month >= 10 ? month : `0${month}`;
     day = +day >= 10 ? day : `0${day}`;
 
-    const todayDate = `${year}-${month}-${day}`;
-
-    return todayDate;
+    return `${year}-${month}-${day}`;
   }
 
   setFilters(filters): void {
