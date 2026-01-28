@@ -1,1 +1,1 @@
-export const columnsToFilterByName = ['district'];
+export const locationColumns = ['region', 'city', 'district'];

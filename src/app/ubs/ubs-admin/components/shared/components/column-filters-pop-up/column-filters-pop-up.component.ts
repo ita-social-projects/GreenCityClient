@@ -7,7 +7,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { locationColumns } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { LanguageModel } from 'src/app/shared/models/languageModel';
 import { filtersSelector, locationsDetailsSelector } from 'src/app/store/selectors/big-order-table.selectors';
 import {
@@ -66,7 +66,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     this.initListeners();
     this.disableButtons = true;
 
-    this.isLocationColumn = columnsToFilterByName.includes(this.data.columnName);
+    this.isLocationColumn = locationColumns.includes(this.data.columnName);
     this.isLocationColumn ? this.getLocationsForFiltering() : this.getOptionsForFiltering();
   }
 

@@ -19,7 +19,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { locationColumns } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { timer } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -119,9 +119,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   showPopUp: boolean;
   cancellationReason: string;
   cancellationComment: string;
-  @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
   @ViewChild(MatTable) table!: MatTable<any>;
-  defaultColumnWidth = 120; // In px
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
@@ -142,6 +140,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   amountNewOrders: number;
   areFiltersApplied: boolean;
   isCursorWaite$ = this.store.select(isCursorWaiteSelector);
+  protected readonly Math = Math;
   private isLastPage = false;
 
   constructor(
@@ -165,6 +164,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       if (tableData) {
         this.getBigOrderTableContent(tableData);
         this.getOrderTotalElements();
+        this.cdr.markForCheck();
       } else {
         this.getColumns();
         this.getTable();
@@ -172,7 +172,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.store.dispatch(GetTableColumnWidth());
       }
       this.initDateForm();
-      this.cdr.detectChanges();
     });
     this.locationsDetailsSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locations) => {
       if (locations.length) {
@@ -275,7 +274,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   updateLocationsForFiltering(): void {
-    columnsToFilterByName.forEach((columnName) => {
+    locationColumns.forEach((columnName) => {
       this.locationsForFiltering[columnName] = this.getLocationsForFiltering(columnName);
     });
   }
@@ -478,7 +477,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   isLocationColumn(columnName: string): boolean {
-    return columnsToFilterByName.includes(columnName);
+    return locationColumns.includes(columnName);
   }
 
   onSearchTermChange(columnName: string, event: Event): void {
@@ -727,10 +726,10 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.cancellationComment = null;
   }
 
-  toggleAccordion(e: MouseEvent): void {
-    (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
-    const matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
-    matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+  toggleAccordion(e: MouseEvent, accordion: HTMLElement): void {
+    accordion.classList.toggle('show');
+    const matIcon = accordion.closest('mat-icon');
+    matIcon.textContent = accordion.classList.contains('show') ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
   openOrder(id: number): void {
@@ -767,7 +766,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.tableData = [];
     this.isLoading = true;
-    const value = columnsToFilterByName.includes(currentColumn) ? option[this.currentLang] : option.key;
+    const value = locationColumns.includes(currentColumn) ? option[this.currentLang] : option.key;
     checked
       ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
       : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
@@ -780,7 +779,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.noFiltersApplied = false;
     this.adminTableService.setNewFilters(checked, currentColumn, option);
-    if (columnsToFilterByName.includes(currentColumn)) {
+    if (locationColumns.includes(currentColumn)) {
       this.updateLocationsForFiltering();
     }
   }

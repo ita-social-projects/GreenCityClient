@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters, ILocationDetails } from '../models/ubs-admin.interface';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { locationColumns } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import moment from 'moment';
@@ -169,7 +169,7 @@ export class AdminTableService {
   }
 
   isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
-    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
+    const value = columnName === 'district' ? option.en : option.key;
     return (this.selectedFilters?.[columnName] as string[])?.includes(value);
   }
 
@@ -178,7 +178,7 @@ export class AdminTableService {
   }
 
   setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+    const value = locationColumns.includes(currentColumn) ? option.en : option.key;
 
     const currentFilters = Array.isArray(this.selectedFilters?.[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
 
@@ -309,10 +309,6 @@ export class AdminTableService {
     return moment(date).format('YYYY-MM-DD');
   }
 
-  convertDate(date: Date): string {
-    return moment(date).format('YYYY-MM-DD');
-  }
-
   setDateCheckedFromStorage(dateColumn): void {
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     currentColumnDateFilter.values[0].filtered = true;
@@ -347,22 +343,6 @@ export class AdminTableService {
     day = +day >= 10 ? day : `0${day}`;
 
     return `${year}-${month}-${day}`;
-  }
-
-  setFilters(filters): void {
-    this.filters = filters;
-  }
-
-  clearColumnFilters(column: string): void {
-    const colName = this.changeColumnNameEqualToEndPoint(column);
-    this.columnsForFiltering.forEach((col) => {
-      if (col.key === colName) {
-        col.values.forEach((value) => {
-          value.filtered = false;
-        });
-      }
-    });
-    this.filters = this.filters.filter((filteredElem) => !filteredElem[colName]);
   }
 
   showTooltip(event: MouseEvent, tooltip: any, font: string, maxLength = 50): void {

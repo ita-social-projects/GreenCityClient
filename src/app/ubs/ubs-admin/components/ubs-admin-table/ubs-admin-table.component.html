@@ -49,12 +49,13 @@
                     attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
                     aria-expanded="false"
                     attr.aria-controls="panelsStayOpen-collapse{{ i }}"
-                    (click)="toggleAccordion($event)"
+                    (click)="toggleAccordion($event, accordion)"
                   >
                     <mat-icon>keyboard_arrow_down</mat-icon>
                     <span class="head">{{ column | serverTranslate: currentLang }}</span>
                   </div>
                   <div
+                    #accordion
                     id="panelsStayOpen-collapse{{ i }}"
                     class="accordion-collapse collapse"
                     attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
@@ -215,12 +216,13 @@
                     attr.data-bs-target="#panelsStayOpen-collapse{{ columnIndex }}"
                     aria-expanded="false"
                     attr.aria-controls="panelsStayOpen-collapse{{ columnIndex }}"
-                    (click)="toggleAccordion($event)"
+                    (click)="toggleAccordion($event, accordion)"
                   >
                     <mat-icon>keyboard_arrow_down</mat-icon>
                     <li class="head">{{ header | serverTranslate: currentLang | titlecase }}</li>
                   </div>
                   <div
+                    #accordion
                     id="panelsStayOpen-collapse{{ columnIndex }}"
                     class="accordion-collapse collapse"
                     attr.aria-labelledby="panelsStayOpen-heading{{ columnIndex }}"
@@ -269,7 +271,12 @@
     <span class="close_alert">&#10006;</span>
   </div>
   <div class="w-100 overflow-auto">
-    <cdk-virtual-scroll-viewport itemSize="39" class="viewport" [style.height.px]="674" (scrolledIndexChange)="onScrollIndexChange($event)">
+    <cdk-virtual-scroll-viewport
+      itemSize="39"
+      class="viewport"
+      [style.height.px]="Math.min(dataSource.data.length * 39, 674)"
+      (scrolledIndexChange)="onScrollIndexChange($event)"
+    >
       <table
         id="table"
         mat-table
