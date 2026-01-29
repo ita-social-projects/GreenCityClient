@@ -53,7 +53,6 @@ describe('UbsAdminTableComponent', () => {
       values: [{ key: 'value2', en: 'value2En', uk: 'value2Ua', filtered: true }]
     }
   ];
-  const mockColumns = [{ title: { key: 'key' } }, { title: { key: 'gg' } }, { title: { key: 'dd' } }] as IColumnDTO[];
   const mockColumnDTO: IColumnDTO[] = [
     {
       checked: [],
@@ -346,11 +345,9 @@ describe('UbsAdminTableComponent', () => {
   });
 
   it('sortColumnsToDisplay expect to filter columns when box is unchecked', () => {
-    const expected = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }] as IColumnDTO[];
-    component.columns = expected;
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }] as IColumnDTO[];
     component.displayedColumns = ['title1', 'title2', 'title3'];
     component.changeColumns(false, 'title1', 1);
-    component.sortColumnsToDisplay();
     expect(component.displayedColumns).toEqual(['title2', 'title3']);
   });
 
@@ -358,7 +355,6 @@ describe('UbsAdminTableComponent', () => {
     component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title4' } }] as IColumnDTO[];
     component.displayedColumns = ['title1', 'title2', 'title4'];
     component.changeColumns(true, 'title3', 2);
-    component.sortColumnsToDisplay();
     expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
@@ -602,13 +598,6 @@ describe('UbsAdminTableComponent', () => {
     expect(FakeMatDialog.open).toHaveBeenCalledTimes(1);
   }));
 
-  it('sortColumnsToDisplay expect columns.length to be 3', () => {
-    component.columns = mockColumns;
-    component.displayedColumns = ['key', 'kol'];
-    component.sortColumnsToDisplay();
-    expect(component.columns.length).toBe(3);
-  });
-
   it('checkStatusOfOrders', () => {
     component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE } as any];
     const Res = component.checkStatusOfOrders(OrderStatus.DONE);
@@ -648,24 +637,6 @@ describe('UbsAdminTableComponent', () => {
     const result = component.getColumnsForFiltering();
     expect(result).toEqual(columnsForFiltering);
   });
-
-  it('should sort columns to display', fakeAsync(() => {
-    component.displayedColumns = ['key', 'gg', 'dd'];
-    component.nestedSortProperty = 'title.key';
-    component.columns = mockColumns;
-    // @ts-ignore
-    spyOn(component, 'checkAllColumnsDisplayed');
-    spyOn(component, 'stickColumns');
-
-    component.sortColumnsToDisplay();
-    tick();
-
-    expect(component.columns[0].title.key).toEqual('key');
-    expect(component.columns[1].title.key).toEqual('gg');
-    expect(component.columns[2].title.key).toEqual('dd');
-    expect(component.checkAllColumnsDisplayed).toHaveBeenCalled();
-    expect(component.stickColumns).toHaveBeenCalled();
-  }));
 
   it('should process blockedInfo and reset it after 7 seconds', fakeAsync(() => {
     const info: IAlertInfo[] = [

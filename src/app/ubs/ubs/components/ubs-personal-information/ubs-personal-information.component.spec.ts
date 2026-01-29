@@ -31,7 +31,7 @@ const personalDataMock: PersonalData = {
   firstName: 'Test',
   lastName: 'User',
   email: 'test@example.com',
-  phoneNumber: '380671234567',
+  phoneNumber: '+380671234567',
   isAnotherClient: false,
   addressComment: 'Leave at the doorstep.',
   city: 'Kyiv',
@@ -45,7 +45,7 @@ const personalDataMock: PersonalData = {
   senderEmail: 'test@example.com',
   senderFirstName: 'Test',
   senderLastName: 'User',
-  senderPhoneNumber: '380671234567'
+  senderPhoneNumber: '+380671234567'
 };
 
 describe('UBSPersonalInformationComponent', () => {
@@ -195,7 +195,7 @@ describe('UBSPersonalInformationComponent', () => {
     it('should validate phoneNumber with PhoneNumberValidator', () => {
       component.phoneNumber.setValue('12345');
       expect(component.phoneNumber.invalid).toBeTrue();
-      component.phoneNumber.setValue('380671234567');
+      component.phoneNumber.setValue('+380671234567');
       expect(component.phoneNumber.valid).toBeTrue();
     });
 
@@ -246,7 +246,7 @@ describe('UBSPersonalInformationComponent', () => {
         senderEmail: personalDataMock.email,
         senderPhoneNumber: personalDataMock.phoneNumber
       });
-
+      console.log(component.personalDataForm);
       tick();
       expect(store.dispatch).toHaveBeenCalledWith(SetSecondFormStatus({ isValid: true }));
     }));
