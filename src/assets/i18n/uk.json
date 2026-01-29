@@ -562,7 +562,8 @@
       "habit-decline-success": "Запрошення відхилено",
       "friend-added-success": "Запит на дружбу прийнято",
       "friend-declined-success": "Запит на дружбу відхилено",
-      "habit-invite-success": "Запит на запрошення надіслано"
+      "habit-invite-success": "Запит на запрошення надіслано",
+      "update-order": "Внесені зміни збережено"
     },
     "saved-order": "Замовлення успішно збережене",
     "save-employee-permissons": "Внесені зміни збережено"
