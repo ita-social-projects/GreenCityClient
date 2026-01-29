@@ -8,7 +8,20 @@
   line-height: 24px;
   color: var(--ubs-primary-black);
   font-family: var(--primary-font);
-  background-color: var(--after-primary-light-grey);
+}
+
+:host ::ng-deep .mdc-tab {
+  &.mdc-tab--active .mdc-tab__content .mdc-tab__text-label {
+    color: var(--ubs-tertiary-light-green);
+  }
+
+  &.mdc-tab--active,
+  &.mdc-tab--active:focus {
+    .mdc-tab-indicator__content--underline,
+    .mdc-tab-indicator__content--underline:hover {
+      border-color: var(--ubs-tertiary-light-green);
+    }
+  }
 }
 
 .main-header {
@@ -74,7 +87,6 @@
     line-height: 24px;
     color: var(--ubs-primary-black);
     font-family: var(--primary-font);
-    background-color: var(--after-primary-light-grey);
     margin-top: 0;
     margin-bottom: 10px;
   }
@@ -135,6 +147,5 @@
     line-height: 24px;
     color: var(--ubs-primary-black);
     font-family: var(--primary-font);
-    background-color: var(--after-primary-light-grey);
   }
 }
