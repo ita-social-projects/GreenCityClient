@@ -17,7 +17,7 @@ const columnMapping: { [key: string]: string } = {
   responsibleNavigator: 'responsibleNavigatorId',
   responsibleCaller: 'responsibleCallerId',
   responsibleLogicMan: 'responsibleLogicManId',
-  city: 'citiesId',
+  city: 'cityId',
   district: 'districtsEn',
   region: 'regionId'
 };
@@ -178,7 +178,7 @@ export class AdminTableService {
   }
 
   setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    const value = locationColumns.includes(currentColumn) ? option.en : option.key;
+    const value = currentColumn === 'district' ? option.en : option.key;
 
     const currentFilters = Array.isArray(this.selectedFilters?.[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
 

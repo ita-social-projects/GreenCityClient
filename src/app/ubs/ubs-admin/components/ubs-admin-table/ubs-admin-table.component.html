@@ -271,12 +271,7 @@
     <span class="close_alert">&#10006;</span>
   </div>
   <div class="w-100 overflow-auto">
-    <cdk-virtual-scroll-viewport
-      itemSize="39"
-      class="viewport"
-      [style.height.px]="Math.min(dataSource.data.length * 39, 674)"
-      (scrolledIndexChange)="onScrollIndexChange($event)"
-    >
+    <cdk-virtual-scroll-viewport itemSize="39" class="viewport" [style.height.px]="674" (scrolledIndexChange)="onScrollIndexChange($event)">
       <table
         id="table"
         mat-table
@@ -427,8 +422,8 @@
           [ngStyle]="{ 'background-color': isStatus(row) }"
         ></mat-row>
       </table>
-      <app-spinner *ngIf="isUpdate"></app-spinner>
-      <div class="message-container" *ngIf="!tableData?.length && !isLoading">
+      <mat-progress-bar *ngIf="isUpdate" mode="indeterminate"></mat-progress-bar>
+      <div class="message-container" *ngIf="!dataSource.data.length && !isLoading">
         {{ 'ubs-tables.no-orders-found' | translate }}
       </div>
     </cdk-virtual-scroll-viewport>

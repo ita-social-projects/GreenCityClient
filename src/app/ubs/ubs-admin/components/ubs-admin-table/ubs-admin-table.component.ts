@@ -728,7 +728,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   toggleAccordion(e: MouseEvent, accordion: HTMLElement): void {
     accordion.classList.toggle('show');
-    const matIcon = accordion.closest('mat-icon');
+    const matIcon = (e.currentTarget as HTMLElement).querySelector('mat-icon');
     matIcon.textContent = accordion.classList.contains('show') ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
