@@ -246,7 +246,6 @@ describe('UBSPersonalInformationComponent', () => {
         senderEmail: personalDataMock.email,
         senderPhoneNumber: personalDataMock.phoneNumber
       });
-      console.log(component.personalDataForm);
       tick();
       expect(store.dispatch).toHaveBeenCalledWith(SetSecondFormStatus({ isValid: true }));
     }));

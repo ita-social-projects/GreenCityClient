@@ -212,7 +212,6 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
 
   createXLSX() {
     this.isLoading = false;
-    console.log(this.tableData);
     if (this.tableData) {
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData, { header: this.columnKeys });
       const wst = XLSX.utils.sheet_add_aoa(ws, [this.columnTitles], { origin: 'A1' });

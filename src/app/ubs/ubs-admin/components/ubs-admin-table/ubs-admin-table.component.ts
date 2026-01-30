@@ -766,7 +766,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.tableData = [];
     this.isLoading = true;
-    const value = locationColumns.includes(currentColumn) ? option[this.currentLang] : option.key;
+    const value = currentColumn === 'district' ? option[this.currentLang] : option.key;
     checked
       ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
       : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
