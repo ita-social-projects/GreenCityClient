@@ -152,7 +152,7 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
           this.totalClosedOrdersPages = closed.totalPages;
           this.loading = false;
         },
-        error: (err) => this.displayError(err)
+        error: () => this.displayError()
       });
   }
 
