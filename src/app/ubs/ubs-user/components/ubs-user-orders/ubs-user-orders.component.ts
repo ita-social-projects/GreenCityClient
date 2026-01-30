@@ -43,7 +43,6 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
     private readonly bonusesService: BonusesService,
     private readonly userOrdersService: UserOrdersService,
     private readonly translate: TranslateService,
-    private readonly localStorage: LocalStorageService,
     private readonly orderService: OrderService,
     private readonly dialog: MatDialog,
     private readonly localStorageService: LocalStorageService
@@ -157,10 +156,10 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    this.orderIdToScroll = this.localStorage.getOrderIdToRedirect();
+    this.orderIdToScroll = this.localStorageService.getOrderIdToRedirect();
     if (this.orderIdToScroll) {
       this.openExtendedOrder();
-      this.localStorage.setOrderIdToRedirect(0);
+      this.localStorageService.setOrderIdToRedirect(0);
     }
     this.getActiveCouriers();
   }
