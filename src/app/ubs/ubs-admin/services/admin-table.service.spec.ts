@@ -312,14 +312,13 @@ describe('AdminTableService', () => {
     const value = '2022-10-12';
     const currentColumn = 'orderDate';
     const suffix = 'From';
-    const check = false;
-    service.changeInputDateFilters(value, currentColumn, suffix, check);
-    expect(service.changeInputDateFilters).toHaveBeenCalledWith('2022-10-12', 'orderDate', 'From', false);
+    service.changeInputDateFilters(value, currentColumn, suffix);
+    expect(service.changeInputDateFilters).toHaveBeenCalledWith('2022-10-12', 'orderDate', 'From');
   });
 
   it('should call changeColumnNameEqualToEndPoint on changeInputDateFilters', () => {
     spyOn(service, 'changeColumnNameEqualToEndPoint');
-    service.changeInputDateFilters('2022-10-12', 'paymentDate', 'To', false);
+    service.changeInputDateFilters('2022-10-12', 'paymentDate', 'To');
     expect(service.changeColumnNameEqualToEndPoint).toHaveBeenCalledWith('paymentDate');
   });
 
@@ -328,14 +327,14 @@ describe('AdminTableService', () => {
     const suffix = 'To';
     const column = service.changeColumnNameEqualToEndPoint(currentColumn);
     const convColumn = `${column}${suffix}`;
-    service.changeInputDateFilters('2022-10-12', currentColumn, 'To', false);
+    service.changeInputDateFilters('2022-10-12', currentColumn, 'To');
     expect(column).toBe('deliveryDate');
     expect(convColumn).toBe('deliveryDateTo');
   });
 
   it('should set elem keyNameFrom value on changeInputDateFilters', () => {
     const value = '2022-10-01';
-    service.changeInputDateFilters(value, 'orderDate', 'From', false);
+    service.changeInputDateFilters(value, 'orderDate', 'From');
     const elem = {};
     const keyNameFrom = 'orderDateFrom';
     elem[keyNameFrom] = value;
@@ -344,7 +343,7 @@ describe('AdminTableService', () => {
 
   it('should set elem keyNameTo value on changeInputDateFilters', () => {
     const value = '2022-10-12';
-    service.changeInputDateFilters(value, 'deliveryDate', 'From', false);
+    service.changeInputDateFilters(value, 'deliveryDate', 'From');
     const elem = {};
     const keyNameTo = 'deliveryDateTo';
     elem[keyNameTo] = value;
@@ -354,7 +353,7 @@ describe('AdminTableService', () => {
   it('changeInputDateFilters should set keyNameFrom value', () => {
     const currentColumn = 'orderDate';
     const suffix = 'From';
-    service.changeInputDateFilters('2022-10-12', currentColumn, suffix, false);
+    service.changeInputDateFilters('2022-10-12', currentColumn, suffix);
     const keyNameFrom = `${currentColumn}From`;
     expect(keyNameFrom).toBe('orderDateFrom');
   });
@@ -362,7 +361,7 @@ describe('AdminTableService', () => {
   it('changeInputDateFilters should set keyNameTo value', () => {
     const currentColumn = 'orderDate';
     const suffix = 'To';
-    service.changeInputDateFilters('2022-10-12', currentColumn, suffix, false);
+    service.changeInputDateFilters('2022-10-12', currentColumn, suffix);
     const keyNameTo = `${currentColumn}To`;
     expect(keyNameTo).toBe('orderDateTo');
   });
@@ -372,7 +371,7 @@ describe('AdminTableService', () => {
     const currentColumn = 'orderDate';
     const suffix = 'From';
     spyOn(service, 'saveDateFilters');
-    service.changeInputDateFilters(value, currentColumn, suffix, false);
+    service.changeInputDateFilters(value, currentColumn, suffix);
     const keyToChange = 'orderDateFrom';
     service.filters = [{ orderDateFrom: '2022-10-08' }];
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
@@ -383,7 +382,7 @@ describe('AdminTableService', () => {
   it('should set filterToChange undefined on changeInputDateFilters', () => {
     const value = '2022-10-12';
     spyOn(service, 'saveDateFilters');
-    service.changeInputDateFilters(value, 'orderDate', 'To', false);
+    service.changeInputDateFilters(value, 'orderDate', 'To');
     service.filters = [{ orderDateFrom: '2022-10-08' }];
     const keyToChange = 'orderDateTo';
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));

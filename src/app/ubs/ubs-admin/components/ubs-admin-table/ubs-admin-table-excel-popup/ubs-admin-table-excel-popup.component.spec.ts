@@ -10,6 +10,7 @@ import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-ce
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import * as XLSX from 'xlsx';
+import { of } from 'rxjs';
 
 describe('UbsAdminTableExcelPopupComponent', () => {
   let component: UbsAdminTableExcelPopupComponent;
@@ -151,5 +152,11 @@ describe('UbsAdminTableExcelPopupComponent', () => {
 
     const result = component.getColumnValue(columnKey, itemKey);
     expect(result).toEqual(expectedValue);
+  });
+
+  it('get orders table', () => {
+    AdminTableServiceFake.getTable.and.returnValue(of({}));
+    component.getOrdersTable(0, 1, 'hello', 'ASC', 'colname');
+    expect(AdminTableServiceFake.getTable).toHaveBeenCalledWith('colname', 0, 'hello', 1, 'ASC', undefined);
   });
 });

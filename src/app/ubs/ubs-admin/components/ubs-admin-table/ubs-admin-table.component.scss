@@ -474,12 +474,9 @@ mat-header-cell mat-icon {
   font-size: 14px;
 }
 
-mat-spinner {
-  margin: 3rem auto;
-  padding-top: 40px;
-
-  ::ng-deep circle {
-    stroke: var(--primary-green);
+mat-progress-bar {
+  ::ng-deep .mdc-linear-progress__bar-inner {
+    border-color: var(--ubs-button-light-green);
   }
 }
 

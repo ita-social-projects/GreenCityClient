@@ -49,12 +49,13 @@
                     attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
                     aria-expanded="false"
                     attr.aria-controls="panelsStayOpen-collapse{{ i }}"
-                    (click)="toggleAccordion($event)"
+                    (click)="toggleAccordion($event, accordion)"
                   >
                     <mat-icon>keyboard_arrow_down</mat-icon>
                     <span class="head">{{ column | serverTranslate: currentLang }}</span>
                   </div>
                   <div
+                    #accordion
                     id="panelsStayOpen-collapse{{ i }}"
                     class="accordion-collapse collapse"
                     attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
@@ -215,12 +216,13 @@
                     attr.data-bs-target="#panelsStayOpen-collapse{{ columnIndex }}"
                     aria-expanded="false"
                     attr.aria-controls="panelsStayOpen-collapse{{ columnIndex }}"
-                    (click)="toggleAccordion($event)"
+                    (click)="toggleAccordion($event, accordion)"
                   >
                     <mat-icon>keyboard_arrow_down</mat-icon>
                     <li class="head">{{ header | serverTranslate: currentLang | titlecase }}</li>
                   </div>
                   <div
+                    #accordion
                     id="panelsStayOpen-collapse{{ columnIndex }}"
                     class="accordion-collapse collapse"
                     attr.aria-labelledby="panelsStayOpen-heading{{ columnIndex }}"
@@ -235,7 +237,7 @@
                             value="id1"
                             (change)="changeColumns($event?.checked, column.title.key, column.index)"
                           >
-                            {{ column.title | serverTranslate: 'uk' }}
+                            {{ column.title | serverTranslate: currentLang }}
                           </mat-checkbox>
                         </li>
                       </ng-container>
@@ -420,8 +422,8 @@
           [ngStyle]="{ 'background-color': isStatus(row) }"
         ></mat-row>
       </table>
-      <app-spinner *ngIf="isUpdate"></app-spinner>
-      <div class="message-container" *ngIf="!tableData?.length && !isLoading">
+      <mat-progress-bar *ngIf="isUpdate" mode="indeterminate"></mat-progress-bar>
+      <div class="message-container" *ngIf="!dataSource.data.length && !isLoading">
         {{ 'ubs-tables.no-orders-found' | translate }}
       </div>
     </cdk-virtual-scroll-viewport>

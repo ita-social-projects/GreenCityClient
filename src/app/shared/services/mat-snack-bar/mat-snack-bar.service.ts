@@ -37,7 +37,7 @@ export class MatSnackBarService {
     signUpUbs: { classname: SnackbarClassName.successUbs, key: 'snack-bar.success.sign-up' },
     successConfirmEmail: { classname: SnackbarClassName.success, key: 'snack-bar.success.confirm-email' },
     successConfirmSaveOrder: { classname: SnackbarClassName.successUbs, key: 'snack-bar.saved-order' },
-    successConfirmUpdateOrder: { classname: SnackbarClassName.successUbs, key: 'snack-bar.update-order' },
+    successConfirmUpdateOrder: { classname: SnackbarClassName.successUbs, key: 'snack-bar.success.update-order' },
     errorOrderUnauthorized: { classname: SnackbarClassName.error, key: 'snack-bar.error.order-not-authorized' },
     successUpdateUbsData: { classname: SnackbarClassName.successUbs, key: 'snack-bar.save-employee-permissons' },
     cafeNotificationsExists: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.exists' },

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters, ILocationDetails } from '../models/ubs-admin.interface';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import moment from 'moment';
@@ -17,9 +16,9 @@ const columnMapping: { [key: string]: string } = {
   responsibleNavigator: 'responsibleNavigatorId',
   responsibleCaller: 'responsibleCallerId',
   responsibleLogicMan: 'responsibleLogicManId',
-  city: 'citiesEn',
+  city: 'cityId',
   district: 'districtsEn',
-  region: 'regionEn'
+  region: 'regionId'
 };
 
 @Injectable({
@@ -169,7 +168,7 @@ export class AdminTableService {
   }
 
   isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
-    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
+    const value = columnName === 'district' ? option.en : option.key;
     return (this.selectedFilters?.[columnName] as string[])?.includes(value);
   }
 
@@ -178,9 +177,9 @@ export class AdminTableService {
   }
 
   setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+    const value = currentColumn === 'district' ? option.en : option.key;
 
-    const currentFilters = Array.isArray(this.selectedFilters[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
+    const currentFilters = Array.isArray(this.selectedFilters?.[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
 
     const updatedFilters = checked ? [...currentFilters, value] : currentFilters.filter((item) => item !== value);
 
@@ -191,7 +190,7 @@ export class AdminTableService {
   }
 
   setNewDateChecked(columnName: string, checked: boolean): void {
-    this.selectedFilters[columnName + 'Check'] = checked ? true : false;
+    this.selectedFilters[columnName + 'Check'] = checked;
   }
 
   setNewDateRange(columnName: string, dateFrom: string, dateTo: string): void {
@@ -274,7 +273,7 @@ export class AdminTableService {
     }
   }
 
-  changeInputDateFilters(value: string, currentColumn: string, suffix: string, check?: boolean): void {
+  changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
     elem[`${columnName}From`] = value;
@@ -306,10 +305,6 @@ export class AdminTableService {
   }
 
   setDateFormat(date): string {
-    return moment(date).format('YYYY-MM-DD');
-  }
-
-  convertDate(date: Date): string {
     return moment(date).format('YYYY-MM-DD');
   }
 
@@ -346,25 +341,7 @@ export class AdminTableService {
     month = +month >= 10 ? month : `0${month}`;
     day = +day >= 10 ? day : `0${day}`;
 
-    const todayDate = `${year}-${month}-${day}`;
-
-    return todayDate;
-  }
-
-  setFilters(filters): void {
-    this.filters = filters;
-  }
-
-  clearColumnFilters(column: string): void {
-    const colName = this.changeColumnNameEqualToEndPoint(column);
-    this.columnsForFiltering.forEach((col) => {
-      if (col.key === colName) {
-        col.values.forEach((value) => {
-          value.filtered = false;
-        });
-      }
-    });
-    this.filters = this.filters.filter((filteredElem) => !filteredElem[colName]);
+    return `${year}-${month}-${day}`;
   }
 
   showTooltip(event: MouseEvent, tooltip: any, font: string, maxLength = 50): void {

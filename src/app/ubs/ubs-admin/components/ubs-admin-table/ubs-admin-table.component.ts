@@ -19,7 +19,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { locationColumns } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { timer } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -119,9 +119,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   showPopUp: boolean;
   cancellationReason: string;
   cancellationComment: string;
-  @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
   @ViewChild(MatTable) table!: MatTable<any>;
-  defaultColumnWidth = 120; // In px
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
@@ -142,6 +140,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   amountNewOrders: number;
   areFiltersApplied: boolean;
   isCursorWaite$ = this.store.select(isCursorWaiteSelector);
+  protected readonly Math = Math;
   private isLastPage = false;
 
   constructor(
@@ -160,20 +159,19 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getTable();
     this.getCurrentLanguage();
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
         this.getBigOrderTableContent(tableData);
         this.getOrderTotalElements();
+        this.cdr.markForCheck();
       } else {
-        this.getTable();
         this.getColumns();
+        this.getTable();
         this.store.dispatch(GetLocationsDetails());
         this.store.dispatch(GetTableColumnWidth());
       }
       this.initDateForm();
-      this.cdr.detectChanges();
     });
     this.locationsDetailsSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locations) => {
       if (locations.length) {
@@ -239,7 +237,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       this.setDisplayedColumns();
     }
     this.editDetails();
-    this.sortColumnsToDisplay();
     this.checkAllColumnsDisplayed();
 
     this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
@@ -277,7 +274,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   updateLocationsForFiltering(): void {
-    columnsToFilterByName.forEach((columnName) => {
+    locationColumns.forEach((columnName) => {
       this.locationsForFiltering[columnName] = this.getLocationsForFiltering(columnName);
     });
   }
@@ -330,7 +327,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
-    this.sortColumnsToDisplay();
   }
 
   stickColumns() {
@@ -434,7 +430,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
     this.checkAllColumnsDisplayed();
-    this.sortColumnsToDisplay();
   }
 
   toggleTableView(): void {
@@ -482,7 +477,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   isLocationColumn(columnName: string): boolean {
-    return columnsToFilterByName.includes(columnName);
+    return locationColumns.includes(columnName);
   }
 
   onSearchTermChange(columnName: string, event: Event): void {
@@ -559,6 +554,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.selectedElements = sortedOrders;
     dialogRef.componentInstance.totalElements = this.totalElements;
     dialogRef.componentInstance.allElements = this.allElements;
+    dialogRef.componentInstance.allFilters = this.allFilters;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
     dialogRef.componentInstance.search = this.filterValue;
@@ -655,7 +651,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.isAllColumnsDisplayed = true;
     this.displayedColumns = this.displayedColumnsViewTitles;
     this.count = this.displayedColumnsViewTitles.length;
-    this.sortColumnsToDisplay();
   }
 
   private setUnDisplayedColumns(): void {
@@ -731,10 +726,10 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.cancellationComment = null;
   }
 
-  toggleAccordion(e: MouseEvent): void {
-    (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
-    const matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
-    matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+  toggleAccordion(e: MouseEvent, accordion: HTMLElement): void {
+    accordion.classList.toggle('show');
+    const matIcon = (e.currentTarget as HTMLElement).querySelector('mat-icon');
+    matIcon.textContent = accordion.classList.contains('show') ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
   openOrder(id: number): void {
@@ -771,7 +766,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.tableData = [];
     this.isLoading = true;
-    const value = columnsToFilterByName.includes(currentColumn) ? option[this.currentLang] : option.key;
+    const value = currentColumn === 'district' ? option[this.currentLang] : option.key;
     checked
       ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
       : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
@@ -784,7 +779,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.noFiltersApplied = false;
     this.adminTableService.setNewFilters(checked, currentColumn, option);
-    if (columnsToFilterByName.includes(currentColumn)) {
+    if (locationColumns.includes(currentColumn)) {
       this.updateLocationsForFiltering();
     }
   }
@@ -887,42 +882,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  sortColumnsToDisplay() {
-    const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
-    const prop = this.nestedSortProperty.split('.');
-    const len = prop.length;
-    this.columns.sort((a, b) => {
-      let i = 0;
-      while (i < len) {
-        a = a[prop[i]];
-        b = b[prop[i]];
-        i++;
-      }
-      return displayedColumnsCopy.indexOf(a) - displayedColumnsCopy.indexOf(b);
-    });
-
-    this.checkAllColumnsDisplayed();
-    if (!this.isAllColumnsDisplayed) {
-      const undisplayedColumns = [];
-      for (const column of this.columns) {
-        if (!this.displayedColumns.includes(column.title.key)) {
-          undisplayedColumns.push(column);
-        }
-      }
-      undisplayedColumns.length =
-        undisplayedColumns.length % this.columns.length >= 0 ? undisplayedColumns.length % this.columns.length : 0;
-      for (let i = 0; i < undisplayedColumns.length; i++) {
-        this.columns.push(this.columns[i]);
-      }
-      this.columns.splice(0, undisplayedColumns.length);
-    }
-    this.columns.forEach((item) => {
-      item.index = this.columns.indexOf(item);
-    });
-    this.displayedColumnsView = this.columns;
-    this.stickColumns();
   }
 
   onResizeColumn(event: MouseEvent, columnName: string): void {

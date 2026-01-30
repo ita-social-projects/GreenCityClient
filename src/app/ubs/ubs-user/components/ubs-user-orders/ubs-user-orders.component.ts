@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, forkJoin } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { UserOrdersService } from '../../services/user-orders.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,6 @@ import { OrderService } from '@ubs/ubs/services/order.service';
 import { UbsOrderLocationPopupComponent } from '@ubs/ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { AllActiveLocationsDtosResponse } from '@ubs/ubs/models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
@@ -44,11 +43,9 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
     private readonly bonusesService: BonusesService,
     private readonly userOrdersService: UserOrdersService,
     private readonly translate: TranslateService,
-    private readonly localStorage: LocalStorageService,
     private readonly orderService: OrderService,
     private readonly dialog: MatDialog,
-    private readonly localStorageService: LocalStorageService,
-    private readonly store: Store
+    private readonly localStorageService: LocalStorageService
   ) {}
 
   onScroll() {
@@ -88,12 +85,9 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   getActiveCouriers() {
-    this.orderService
-      .getAllActiveCouriers()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        this.activeCouriers = res;
-      });
+    this.orderService.getAllActiveCouriers().subscribe((res) => {
+      this.activeCouriers = res;
+    });
   }
 
   getLocations(courierName: string): void {
@@ -157,15 +151,15 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
           this.totalClosedOrdersPages = closed.totalPages;
           this.loading = false;
         },
-        error: (err) => this.displayError(err)
+        error: () => this.displayError()
       });
   }
 
   ngAfterViewInit() {
-    this.orderIdToScroll = this.localStorage.getOrderIdToRedirect();
+    this.orderIdToScroll = this.localStorageService.getOrderIdToRedirect();
     if (this.orderIdToScroll) {
       this.openExtendedOrder();
-      this.localStorage.setOrderIdToRedirect(0);
+      this.localStorageService.setOrderIdToRedirect(0);
     }
     this.getActiveCouriers();
   }
@@ -240,7 +234,7 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  displayError(error) {
+  displayError() {
     const errorMessage = this.translate.instant('snack-bar.error.default');
     this.snackBar.openSnackBar(errorMessage);
   }

@@ -522,7 +522,8 @@
       "habit-not-added": "This habit invitation can`t be accepted",
       "habit-already-added": "This habit invitation can`t be declined",
       "error-edit-address": "Oops, An error occurred while editing the address. Please try again.",
-      "password-change": "Password must be less than 20 characters long without spaces."
+      "password-change": "Password must be less than 20 characters long without spaces.",
+      "order-not-authorized": "You don't have access to this order"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -551,7 +552,8 @@
       "habit-decline-success": "Habit invitation was declined",
       "friend-added-success": "Friend invitation accepted",
       "friend-declined-success": "Friend invitation declined",
-      "habit-invite-success": "Invite request sent"
+      "habit-invite-success": "Invite request sent",
+      "update-order": "Your changes have been saved"
     },
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
     "save-employee-permissons": "Your changes have been saved"
