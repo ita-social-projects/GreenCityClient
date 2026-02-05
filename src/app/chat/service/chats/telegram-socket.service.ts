@@ -11,8 +11,7 @@ export class TelegramSocketService implements OnDestroy {
   private stompClient!: Client;
   private connected = false;
 
-  //TODO change to ubsSocket
-  private readonly socketHttpUrl = environment.socket;
+  private readonly socketHttpUrl = environment.ubsSocket;
 
   private readonly chatSubjects = new Map<number, Subject<SocketChatMessage>>();
   private readonly chatSubscriptions = new Map<number, StompSubscription | null>();
@@ -88,7 +87,7 @@ export class TelegramSocketService implements OnDestroy {
       console.error('[STOMP ERROR]', f.headers?.message, f.body);
     };
 
-    this.stompClient.onWebSocketClose = (e) => {
+    this.stompClient.onWebSocketClose = () => {
       this.connected = false;
       this.chatSubscriptions.forEach((sub, id) => {
         try {
@@ -126,8 +125,6 @@ export class TelegramSocketService implements OnDestroy {
         const parsed = JSON.parse(msg.body);
         if (this.isSocketNewChat(parsed)) {
           this.zone.run(() => this.newChatsSubject.next(parsed));
-        } else {
-          console.error('[/topic/chats] payload shape invalid', parsed);
         }
       } catch (e) {
         console.error('[PARSE /topic/chats]', e, msg.body);
