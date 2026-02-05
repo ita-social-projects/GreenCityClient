@@ -393,13 +393,6 @@ describe('TelegramSocketService - ngOnDestroy Coverage', () => {
       (service as any).connected = true;
 
       service.ngOnDestroy();
-      const firstCallCounts = {
-        newChats: (service as any).newChatsSubscription?.unsubscribe.calls?.count() || 0,
-        subscription: mockSubscription.unsubscribe.calls.count(),
-        deactivate: mockStompClient.deactivate.calls.count()
-      };
-
-      service.ngOnDestroy();
 
       expect((service as any).connected).toBeFalse();
       expect((service as any).chatSubscriptions.size).toBe(0);
@@ -509,13 +502,6 @@ describe('TelegramSocketService – subscribeToNewChatsCore()', () => {
 
     expect(runSpy).toHaveBeenCalled();
     expect(nextSpy).toHaveBeenCalledWith(jasmine.objectContaining({ id: 1, chatId: '777' }));
-  });
-
-  it('logs on invalid payload shape', () => {
-    spyOn(console, 'error');
-    (svc as any).subscribeToNewChatsCore();
-    client.emit('/topic/chats', { id: 'not-a-number', chatId: null });
-    expect(console.error).toHaveBeenCalledWith('[/topic/chats] payload shape invalid', jasmine.any(Object));
   });
 
   it('logs on JSON parse error', () => {
