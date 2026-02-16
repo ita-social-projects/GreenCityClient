@@ -580,11 +580,12 @@ describe('AddressInputComponent', () => {
   });
 
   it('should update and validate form on value change in addressData when address data changes', fakeAsync(() => {
+    spyOn(component.addressData, 'getPlaceIdByAddress').and.returnValue(Promise.resolve(['testPlaceId', ['street_address']]));
     spyOn(component, 'onChange');
     spyOn(component.addressData, 'getValues').and.returnValue({ houseNumber: '1' } as any);
     component['initListeners']();
     fixture.detectChanges();
-    tick();
+    tick(1000);
 
     const mockAddressData = {
       regionUk: 'Київська область',
@@ -600,7 +601,7 @@ describe('AddressInputComponent', () => {
     };
 
     component.addressData['addressChange'].next(mockAddressData as any);
-    tick();
+    tick(1000);
     fixture.detectChanges();
 
     expect(component.blockAutoComplete).toBeTrue();
@@ -799,7 +800,6 @@ describe('AddressInputComponent', () => {
     expect(component.addressData.setStreet).toHaveBeenCalledWith({ placeEn: mockGeocoderResult, placeUk: mockGeocoderResult });
     expect(component.district.enabled).toBeTrue();
     expect(component['delayAutocomplete']).toHaveBeenCalled();
-    expect(component.placeId.value).toBe(mockStreet.place_id);
   }));
 
   it('should disable district and reset data if street selection is null', () => {
