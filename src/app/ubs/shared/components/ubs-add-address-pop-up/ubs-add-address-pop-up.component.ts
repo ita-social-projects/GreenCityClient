@@ -45,6 +45,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       this.addAddressForm.setValue({ address: this.data.address || '' });
     }
     this.store.dispatch(SetCursorWaite({ isWaiting: false }));
+    this.address.valueChanges.subscribe((changes) => console.log(this.address.value));
   }
 
   onNoClick(): void {

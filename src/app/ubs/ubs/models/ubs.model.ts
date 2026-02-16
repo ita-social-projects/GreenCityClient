@@ -235,10 +235,12 @@ export class CAddressData {
 
   setHouseCorpus(value: any) {
     this.houseCorpus = value;
+    this.addressChange.next(this.getValues());
   }
 
   setEntranceNumber(value: any) {
     this.entranceNumber = value;
+    this.addressChange.next(this.getValues());
   }
 
   setAddressComment(comment: string) {

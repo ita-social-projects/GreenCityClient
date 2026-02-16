@@ -1,16 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  NgZone,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -27,7 +15,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, filter, from, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
@@ -287,8 +275,15 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
     this.addressData
       .getAddressChange()
-      .pipe(takeUntil(this.$destroy))
-      .subscribe((addressData) => {
+      .pipe(
+        tap(() => {
+          this.isValidating = true;
+          this.onValidatorChange?.();
+        }),
+        debounceTime(1000),
+        takeUntil(this.$destroy)
+      )
+      .subscribe(async (addressData) => {
         this.blockAutoComplete = true;
 
         const region = this.currentLanguage === 'uk' ? addressData.regionUk : addressData.regionEn;
@@ -304,33 +299,21 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.houseNumber.setValue(addressData.houseNumber);
 
         this.onChange(this.addressData.getValues());
-        this.cdr.detectChanges();
 
-        this.delayAutocomplete();
-      });
-
-    this.houseNumber.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        tap(() => {
-          this.isValidating = true;
-          this.onValidatorChange?.();
-        }),
-        debounceTime(1000),
-        takeUntil(this.$destroy)
-      )
-      .subscribe(async () => {
         if (this.addressForm.valid) {
           const [placeId, types] = await this.addressData.getPlaceIdByAddress();
           if (types.includes('street_address')) {
             this.placeId.setValue(placeId);
+            this.onChange({ ...this.addressForm.value, placeId });
           } else {
             this.houseNumber.setErrors({ invalidHouseNumber: true });
-            this.cdr.markForCheck();
           }
           this.isValidating = false;
           this.onValidatorChange?.();
+          this.cdr.markForCheck();
         }
+
+        this.delayAutocomplete();
       });
 
     combineLatest([
@@ -545,7 +528,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       await this.addressData.setCity({ placeUk, placeEn });
       await this.addressData.setStreet({ placeUk, placeEn });
 
-      this.placeId.setValue(street.place_id);
       this.allowDistrictEdit && this.district.enable();
       this.district.markAsTouched();
     } else {
