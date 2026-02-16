@@ -161,7 +161,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.showMapSelected$.next(this.isShowMap);
     this.initForm();
     this.initListeners();
-    this.addressForm.statusChanges.subscribe(() => {
+    this.addressForm.statusChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
       this.onValidatorChange?.();
     });
   }
@@ -358,7 +358,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
             });
           }
         },
-        error: (error) => {
+        error: () => {
           this.ngZone.run(() => {
             this.isMapLoaded$.next(false);
             this.cleanupGoogleMapUtilities();
