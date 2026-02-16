@@ -27,4 +27,20 @@ export class UbsAdminAddressDetailsComponent implements OnChanges {
       this.orderStatus === OrderStatus.BROUGHT_IT_HIMSELF;
     this.isEditableStatus$.next(status);
   }
+
+  onDisableSubmit(val: boolean): void {
+    const errors = this.addressExportDetailsDto.errors || {};
+
+    if (val) {
+      this.addressExportDetailsDto.setErrors({
+        ...errors,
+        disableSubmit: true
+      });
+    } else {
+      delete errors['disableSubmit'];
+
+      const hasErrors = Object.keys(errors).length > 0;
+      this.addressExportDetailsDto.setErrors(hasErrors ? errors : null);
+    }
+  }
 }

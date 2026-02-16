@@ -17,26 +17,6 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   addAddressForm: FormGroup;
   currentLanguage: string;
   locations: CourierLocations;
-  districtList: DistrictsDtos[];
-  addressData: CAddressData;
-
-  autocompleteRegionRequest = {
-    input: '',
-    types: ['administrative_area_level_1'],
-    componentRestrictions: { country: 'uk' }
-  };
-
-  autocompleteCityRequest = {
-    input: '',
-    types: ['(cities)'],
-    componentRestrictions: { country: 'uk' }
-  };
-
-  autocompleteStreetRequest = {
-    input: '',
-    types: ['address'],
-    componentRestrictions: { country: 'uk' }
-  };
 
   constructor(
     private fb: FormBuilder,

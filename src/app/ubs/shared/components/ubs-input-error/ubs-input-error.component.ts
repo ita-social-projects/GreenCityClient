@@ -4,16 +4,9 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { inputsName } from 'src/app/greencity/modules/user/models/error-type.model';
 
 enum errorType {
-  email = 'email',
-  pattern = 'pattern',
-  wrongNumber = 'wrongNumber',
-  minlength = 'minlength',
-  maxlength = 'maxlength',
   required = 'required',
-  newPasswordMatchesOld = 'newPasswordMatchesOld',
-  confirmPasswordMistmatch = 'confirmPasswordMistmatch',
-  requiredFromDropdown = 'requiredFromDropdown',
-  emailExist = 'emailExist'
+  pattern = 'pattern',
+  maxlength = 'maxlength'
 }
 
 @Component({
@@ -32,6 +25,7 @@ export class UBSInputErrorComponent implements OnInit {
     emailEmployee: 'input-error.email-required-employee',
     phoneEmployee: 'input-error.phone-required-employee',
     houseNumber: 'input-error.house-number',
+    invalidHouseNumber: 'input-error.invalid-house-number',
     minlength: 'input-error.minlength-short',
     maxlength: 'input-error.max-length',
     maxlengthEmail: 'input-error.max-length-email',
@@ -64,8 +58,8 @@ export class UBSInputErrorComponent implements OnInit {
   }
 
   getType() {
-    Object.values(errorType).forEach((err) => {
-      if (this.formElement.errors?.[err]) {
+    if (this.formElement.errors) {
+      Object.keys(this.formElement.errors).forEach((err) => {
         switch (err) {
           case errorType.required:
             this.errorMessage = this.getRequiredErrorMessage(this.formElement.errors.required, this.inputName);
@@ -79,8 +73,8 @@ export class UBSInputErrorComponent implements OnInit {
           default:
             this.errorMessage = this.validationErrors[err];
         }
-      }
-    });
+      });
+    }
   }
 
   getRequiredErrorMessage(required: boolean, inputName: string): string {

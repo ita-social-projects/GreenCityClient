@@ -299,7 +299,7 @@ export class CAddressData {
     this.placeIdChange.next(this.placeId);
   }
 
-  async getAddressPlaceId(coordinates: google.maps.LatLngLiteral): Promise<string> {
+  async getPlaceIdByCoordinates(coordinates: google.maps.LatLngLiteral): Promise<string> {
     if (this.isGoogleDefined()) {
       return;
     }
@@ -314,6 +314,27 @@ export class CAddressData {
         console.error('Geocoding failed:', error);
         return '';
       });
+  }
+
+  async getPlaceIdByAddress(): Promise<[placeId: string, types: string[]] | null> {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
+    const address = `${this.houseNumber} ${this.streetEn}, ${this.cityEn}, Ukraine`;
+
+    const geocoder = new google.maps.Geocoder();
+
+    return new Promise((resolve) => {
+      geocoder.geocode({ address }, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK && results?.length) {
+          resolve([results[0].place_id, results[0].types]);
+        } else {
+          console.error('Geocode was not successful:', status);
+          resolve(null);
+        }
+      });
+    });
   }
 
   //Tries to fetch address by selected coordinates

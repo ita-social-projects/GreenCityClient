@@ -135,7 +135,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
         switchMap((clonedAddress) => {
           if (!clonedAddress.placeId) {
             const latLng = { lat: clonedAddress.coordinates.latitude, lng: clonedAddress.coordinates.longitude };
-            return from(this.addressData.getAddressPlaceId(latLng)).pipe(
+            return from(this.addressData.getPlaceIdByCoordinates(latLng)).pipe(
               switchMap((placeId: string) => {
                 clonedAddress.placeId = placeId;
                 return of(clonedAddress);

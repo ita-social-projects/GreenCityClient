@@ -1,4 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -15,7 +27,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, filter, from, Subject } from 'rxjs';
-import { debounceTime, switchMap, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
@@ -82,6 +94,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   private readonly numericPattern = Patterns.numeric;
   private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
+  private isValidating = false;
   private googlePlacesService: google.maps.places.PlacesService;
   private readonly showMapSelected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -138,7 +151,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   get placeId(): FormControl {
     return this.addressForm.get('placeId') as FormControl;
   }
-
+  private onValidatorChange?: () => void;
   onChange = (address) => {};
   onTouched = () => {};
 
@@ -160,6 +173,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.showMapSelected$.next(this.isShowMap);
     this.initForm();
     this.initListeners();
+    this.addressForm.statusChanges.subscribe(() => {
+      this.onValidatorChange?.();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -185,7 +201,23 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   validate(control: AbstractControl): ValidationErrors {
-    return (this.addressForm.valid && this.addressData.isValid()) || this.addressForm.pristine ? null : { incorrectAddress: true };
+    if (this.addressForm.pristine) {
+      return null;
+    }
+
+    if (this.isValidating) {
+      return { disableSubmit: true };
+    }
+
+    if (this.addressForm.valid && this.addressData.isValid()) {
+      return null;
+    }
+
+    return { incorrectAddress: true };
+  }
+
+  registerOnValidatorChange(fn: () => void) {
+    this.onValidatorChange = fn;
   }
 
   writeValue(obj: any): void {}
@@ -275,6 +307,30 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.cdr.detectChanges();
 
         this.delayAutocomplete();
+      });
+
+    this.houseNumber.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        tap(() => {
+          this.isValidating = true;
+          this.onValidatorChange?.();
+        }),
+        debounceTime(1000),
+        takeUntil(this.$destroy)
+      )
+      .subscribe(async () => {
+        if (this.addressForm.valid) {
+          const [placeId, types] = await this.addressData.getPlaceIdByAddress();
+          if (types.includes('street_address')) {
+            this.placeId.setValue(placeId);
+          } else {
+            this.houseNumber.setErrors({ invalidHouseNumber: true });
+            this.cdr.markForCheck();
+          }
+          this.isValidating = false;
+          this.onValidatorChange?.();
+        }
       });
 
     combineLatest([
@@ -566,7 +622,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     if (typeof window?.google?.maps === 'undefined' || !this.isMapLoaded$.value || !this.map?.googleMap) {
       return;
     }
-
     this.addressCoords = $event.latLng.toJSON();
 
     this.addressData.setCoordinates(this.addressCoords, { fetch: true });
