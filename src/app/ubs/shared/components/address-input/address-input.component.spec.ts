@@ -581,6 +581,7 @@ describe('AddressInputComponent', () => {
 
   it('should update and validate form on value change in addressData when address data changes', fakeAsync(() => {
     spyOn(component.addressData, 'getPlaceIdByAddress').and.returnValue(Promise.resolve(['testPlaceId', ['street_address']]));
+    component.districtsForKyiv = [{ nameEn: 'Shevchenkivskyi' } as DistrictsDtos];
     spyOn(component, 'onChange');
     spyOn(component.addressData, 'getValues').and.returnValue({ houseNumber: '1' } as any);
     component['initListeners']();
@@ -608,7 +609,7 @@ describe('AddressInputComponent', () => {
     expect(component.region.value).toBe('Київська область');
     expect(component.city.value).toBe('Київ');
     expect(component.street.value).toBe('вулиця Хрещатик');
-    expect(component.district.value).toBe('fakeTag');
+    expect(component.district.value).toEqual({ nameEn: 'Shevchenkivskyi' });
     expect(component.houseNumber.value).toBe('1');
     expect(component.onChange).toHaveBeenCalledWith({ houseNumber: '1' } as any);
     flush();

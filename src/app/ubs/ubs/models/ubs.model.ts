@@ -135,7 +135,6 @@ export class CAddressData {
   async setRegion(options: LanguageResponseOptions): Promise<void> {
     try {
       await this.setProperties('region', options, 'administrative_area_level_1');
-      this.resetPlaceId();
     } catch (error) {
       console.error('Error during setting region:', error);
     }
@@ -144,13 +143,11 @@ export class CAddressData {
   setRegionWithTranslation(region: string, regionEn: string): void {
     this.region = region;
     this.regionEn = regionEn;
-    this.resetPlaceId();
   }
 
   resetRegion(): void {
     this.region = '';
     this.regionEn = '';
-    this.resetPlaceId();
   }
 
   getCity(): string {
@@ -161,7 +158,6 @@ export class CAddressData {
     try {
       await this.setProperties('city', options, 'locality');
       await this.setRegion(options);
-      this.resetPlaceId();
     } catch (error) {
       console.error('Error during setting city:', error);
     }
@@ -170,7 +166,6 @@ export class CAddressData {
   resetCity(): void {
     this.city = '';
     this.cityEn = '';
-    this.resetPlaceId();
   }
 
   getStreet(): string {
@@ -190,7 +185,6 @@ export class CAddressData {
   resetStreet(): void {
     this.street = '';
     this.streetEn = '';
-    this.resetPlaceId();
   }
 
   getDistrict(): string {
@@ -209,6 +203,7 @@ export class CAddressData {
   setCustomDistrict(district: string, districtEn: string): void {
     this.district = district;
     this.districtEn = districtEn;
+    this.addressChange.next(this.getValues());
   }
 
   setDistrictFromCity() {
@@ -296,11 +291,6 @@ export class CAddressData {
     return values.every((value) => value);
   }
 
-  private resetPlaceId() {
-    this.placeId = '';
-    this.placeIdChange.next(this.placeId);
-  }
-
   async getPlaceIdByCoordinates(coordinates: google.maps.LatLngLiteral): Promise<string> {
     if (this.isGoogleDefined()) {
       return;
@@ -318,7 +308,7 @@ export class CAddressData {
       });
   }
 
-  async getPlaceIdByAddress(): Promise<[placeId: string, types: string[]] | null> {
+  async getPlaceIdByAddress(): Promise<[placeId: string, coords: google.maps.LatLng, types: string[]] | null> {
     if (this.isGoogleDefined()) {
       return;
     }
@@ -330,7 +320,12 @@ export class CAddressData {
     return new Promise((resolve) => {
       geocoder.geocode({ address }, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK && results?.length) {
-          resolve([results[0].place_id, results[0].types]);
+          const location = results[0].geometry.location;
+          this.coordinates = {
+            lat: location.lat(),
+            lng: location.lng()
+          };
+          resolve([results[0].place_id, location, results[0].types]);
         } else {
           console.error('Geocode was not successful:', status);
           resolve(null);

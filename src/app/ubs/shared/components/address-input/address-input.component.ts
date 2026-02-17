@@ -139,6 +139,11 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   get placeId(): FormControl {
     return this.addressForm.get('placeId') as FormControl;
   }
+
+  get coordinates(): FormControl {
+    return this.addressForm.get('coordinates') as FormControl;
+  }
+
   private onValidatorChange?: () => void;
   onChange = (address) => {};
   onTouched = () => {};
@@ -294,16 +299,16 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.onCityValueSet(city);
         this.onStreetValueSet(street);
         if (addressData.districtEn != 'Kyiv') {
-          this.district.setValue(this.langService.getLangValue(addressData.districtUk, addressData.districtEn));
+          this.district.setValue(this.districtsForKyiv.find((d) => d.nameEn === addressData.districtEn));
         }
         this.houseNumber.setValue(addressData.houseNumber);
-
         this.onChange(this.addressData.getValues());
 
         if (this.addressForm.valid) {
-          const [placeId, types] = await this.addressData.getPlaceIdByAddress();
+          const [placeId, coords, types] = await this.addressData.getPlaceIdByAddress();
           if (types.includes('street_address')) {
             this.placeId.setValue(placeId);
+            this.coordinates.setValue({ lat: coords.lat(), lng: coords.lng() });
             this.onChange({ ...this.addressForm.value, placeId });
           } else {
             this.houseNumber.setErrors({ invalidHouseNumber: true });
@@ -408,7 +413,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         emptyOrValid([Validators.maxLength(3), Validators.pattern(this.numericPattern)])
       ],
       placeId: [this.address?.placeId ?? ''],
-      addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)]
+      addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)],
+      coordinates: [this.address?.coordinates ?? { lat: undefined, lng: undefined }]
     });
 
     if (!this.edit) {
@@ -712,7 +718,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.markAsTouched();
   }
 
-  //Set users current location
+  // Set users current location
   private setCurrentLocation(): void {
     navigator.geolocation.getCurrentPosition(
       (position) => this.handleGeolocationSuccess(position),
