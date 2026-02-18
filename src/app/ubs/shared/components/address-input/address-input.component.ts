@@ -299,17 +299,16 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.onCityValueSet(city);
         this.onStreetValueSet(street);
         if (addressData.districtEn != 'Kyiv') {
-          this.district.setValue(this.districtsForKyiv.find((d) => d.nameEn === addressData.districtEn));
+          this.district.setValue(this.langService.getLangValue(addressData.districtUk, addressData.districtEn));
         }
         this.houseNumber.setValue(addressData.houseNumber);
-        this.onChange(this.addressData.getValues());
 
         if (this.addressForm.valid) {
           const [placeId, coords, types] = await this.addressData.getPlaceIdByAddress();
           if (types.includes('street_address')) {
             this.placeId.setValue(placeId);
             this.coordinates.setValue({ lat: coords.lat(), lng: coords.lng() });
-            this.onChange({ ...this.addressForm.value, placeId });
+            this.onChange(this.addressData.getValues());
           } else {
             this.houseNumber.setErrors({ invalidHouseNumber: true });
           }
@@ -582,7 +581,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   onDistrictChange(district: string, districtEn: string): void {
     this.allowDistrictEdit && this.addressData.setCustomDistrict(district, districtEn);
-
+    console.log(district, districtEn);
     this.OnChangeAndTouched();
   }
 

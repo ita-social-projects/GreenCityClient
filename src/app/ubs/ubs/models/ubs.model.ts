@@ -325,6 +325,7 @@ export class CAddressData {
             lat: location.lat(),
             lng: location.lng()
           };
+          this.placeId = results[0].place_id;
           resolve([results[0].place_id, location, results[0].types]);
         } else {
           console.error('Geocode was not successful:', status);

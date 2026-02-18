@@ -108,7 +108,6 @@
 
     <mat-select
       *ngIf="allowDistrictEdit"
-      formControlName="district"
       class="shadow-none form-control"
       (selectionChange)="onDistrictChange($event.value.nameUk, $event.value.nameEn)"
       [placeholder]="district.value ? district.value + ', ' + ('personal-info.info-district-placeholder' | translate) : ''"
