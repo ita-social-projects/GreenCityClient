@@ -3,7 +3,7 @@ import { AddressInputComponent } from './address-input.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, AbstractControl } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
@@ -609,7 +609,7 @@ describe('AddressInputComponent', () => {
     expect(component.region.value).toBe('Київська область');
     expect(component.city.value).toBe('Київ');
     expect(component.street.value).toBe('вулиця Хрещатик');
-    expect(component.district.value).toEqual({ nameEn: 'Shevchenkivskyi' });
+    expect(component.district.value).toBe('fakeTag');
     expect(component.houseNumber.value).toBe('1');
     expect(component.onChange).toHaveBeenCalledWith({ houseNumber: '1' } as any);
     flush();
@@ -844,4 +844,59 @@ describe('AddressInputComponent', () => {
 
     expect(component.blockAutoComplete).toBeFalse();
   }));
+
+  describe('AddressValidator.validate', () => {
+    let control: AbstractControl;
+
+    beforeEach(() => {
+      control = {} as AbstractControl;
+    });
+
+    it('should return null if form is pristine', () => {
+      component.addressForm = { pristine: true } as any;
+
+      const result = component.validate(control);
+
+      expect(result).toBeNull();
+    });
+
+    it('should return disableSubmit error while validating', () => {
+      component.addressForm = { pristine: false } as any;
+      (component as any).isValidating = true;
+
+      const result = component.validate(control);
+
+      expect(result).toEqual({ disableSubmit: true });
+    });
+
+    it('should return null if form and address data are valid', () => {
+      component.addressForm = {
+        pristine: false,
+        valid: true
+      } as any;
+
+      component.addressData = {
+        isValid: () => true
+      } as any;
+
+      const result = component.validate(control);
+
+      expect(result).toBeNull();
+    });
+
+    it('should return incorrectAddress error if form or address data is invalid', () => {
+      component.addressForm = {
+        pristine: false,
+        valid: false
+      } as any;
+
+      component.addressData = {
+        isValid: () => false
+      } as any;
+
+      const result = component.validate(control);
+
+      expect(result).toEqual({ incorrectAddress: true });
+    });
+  });
 });

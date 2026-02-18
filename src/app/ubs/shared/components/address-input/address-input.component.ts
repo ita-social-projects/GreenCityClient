@@ -140,10 +140,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     return this.addressForm.get('placeId') as FormControl;
   }
 
-  get coordinates(): FormControl {
-    return this.addressForm.get('coordinates') as FormControl;
-  }
-
   private onValidatorChange?: () => void;
   onChange = (address) => {};
   onTouched = () => {};
