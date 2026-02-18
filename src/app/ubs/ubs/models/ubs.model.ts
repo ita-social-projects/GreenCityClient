@@ -308,7 +308,7 @@ export class CAddressData {
       });
   }
 
-  async getPlaceIdByAddress(): Promise<[placeId: string, coords: google.maps.LatLng, types: string[]] | null> {
+  async getPlaceIdByAddress(): Promise<[placeId: string, types: string[]] | null> {
     if (this.isGoogleDefined()) {
       return;
     }
@@ -322,11 +322,11 @@ export class CAddressData {
         if (status === google.maps.GeocoderStatus.OK && results?.length) {
           const location = results[0].geometry.location;
           this.coordinates = {
-            lat: location.lat(),
-            lng: location.lng()
+            latitude: location.lat(),
+            longitude: location.lng()
           };
           this.placeId = results[0].place_id;
-          resolve([results[0].place_id, location, results[0].types]);
+          resolve([results[0].place_id, results[0].types]);
         } else {
           console.error('Geocode was not successful:', status);
           resolve(null);

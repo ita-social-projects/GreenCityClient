@@ -304,10 +304,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.houseNumber.setValue(addressData.houseNumber);
 
         if (this.addressForm.valid) {
-          const [placeId, coords, types] = await this.addressData.getPlaceIdByAddress();
+          const [placeId, types] = await this.addressData.getPlaceIdByAddress();
           if (types.includes('street_address')) {
             this.placeId.setValue(placeId);
-            this.coordinates.setValue({ lat: coords.lat(), lng: coords.lng() });
             this.onChange(this.addressData.getValues());
           } else {
             this.houseNumber.setErrors({ invalidHouseNumber: true });
@@ -412,8 +411,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         emptyOrValid([Validators.maxLength(3), Validators.pattern(this.numericPattern)])
       ],
       placeId: [this.address?.placeId ?? ''],
-      addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)],
-      coordinates: [this.address?.coordinates ?? { lat: undefined, lng: undefined }]
+      addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)]
     });
 
     if (!this.edit) {
@@ -580,9 +578,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onDistrictChange(district: string, districtEn: string): void {
-    this.allowDistrictEdit && this.addressData.setCustomDistrict(district, districtEn);
-    console.log(district, districtEn);
     this.OnChangeAndTouched();
+    this.allowDistrictEdit && this.addressData.setCustomDistrict(district, districtEn);
   }
 
   onHouseCorpusChange(): void {
@@ -715,6 +712,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
     this.onChange(this.addressData.getValues());
     this.markAsTouched();
+    this.addressForm.markAsDirty();
   }
 
   // Set users current location
