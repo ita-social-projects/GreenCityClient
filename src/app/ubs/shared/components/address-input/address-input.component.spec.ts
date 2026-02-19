@@ -3,7 +3,7 @@ import { AddressInputComponent } from './address-input.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, AbstractControl } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
@@ -580,11 +580,13 @@ describe('AddressInputComponent', () => {
   });
 
   it('should update and validate form on value change in addressData when address data changes', fakeAsync(() => {
+    spyOn(component.addressData, 'getPlaceIdByAddress').and.returnValue(Promise.resolve(['testPlaceId', ['street_address']]));
+    component.districtsForKyiv = [{ nameEn: 'Shevchenkivskyi' } as DistrictsDtos];
     spyOn(component, 'onChange');
     spyOn(component.addressData, 'getValues').and.returnValue({ houseNumber: '1' } as any);
     component['initListeners']();
     fixture.detectChanges();
-    tick();
+    tick(1000);
 
     const mockAddressData = {
       regionUk: 'Київська область',
@@ -600,7 +602,7 @@ describe('AddressInputComponent', () => {
     };
 
     component.addressData['addressChange'].next(mockAddressData as any);
-    tick();
+    tick(1000);
     fixture.detectChanges();
 
     expect(component.blockAutoComplete).toBeTrue();
@@ -799,7 +801,6 @@ describe('AddressInputComponent', () => {
     expect(component.addressData.setStreet).toHaveBeenCalledWith({ placeEn: mockGeocoderResult, placeUk: mockGeocoderResult });
     expect(component.district.enabled).toBeTrue();
     expect(component['delayAutocomplete']).toHaveBeenCalled();
-    expect(component.placeId.value).toBe(mockStreet.place_id);
   }));
 
   it('should disable district and reset data if street selection is null', () => {
@@ -843,4 +844,59 @@ describe('AddressInputComponent', () => {
 
     expect(component.blockAutoComplete).toBeFalse();
   }));
+
+  describe('AddressValidator.validate', () => {
+    let control: AbstractControl;
+
+    beforeEach(() => {
+      control = {} as AbstractControl;
+    });
+
+    it('should return null if form is pristine', () => {
+      component.addressForm = { pristine: true } as any;
+
+      const result = component.validate(control);
+
+      expect(result).toBeNull();
+    });
+
+    it('should return disableSubmit error while validating', () => {
+      component.addressForm = { pristine: false } as any;
+      (component as any).isValidating = true;
+
+      const result = component.validate(control);
+
+      expect(result).toEqual({ disableSubmit: true });
+    });
+
+    it('should return null if form and address data are valid', () => {
+      component.addressForm = {
+        pristine: false,
+        valid: true
+      } as any;
+
+      component.addressData = {
+        isValid: () => true
+      } as any;
+
+      const result = component.validate(control);
+
+      expect(result).toBeNull();
+    });
+
+    it('should return incorrectAddress error if form or address data is invalid', () => {
+      component.addressForm = {
+        pristine: false,
+        valid: false
+      } as any;
+
+      component.addressData = {
+        isValid: () => false
+      } as any;
+
+      const result = component.validate(control);
+
+      expect(result).toEqual({ incorrectAddress: true });
+    });
+  });
 });

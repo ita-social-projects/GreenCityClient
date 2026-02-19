@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { NgZone } from '@angular/core';
 import { TelegramSocketService } from './telegram-socket.service';
-import { IMessage } from '@stomp/stompjs';
+import { Client, IFrame, IMessage } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
-import { Client, IFrame } from '@stomp/stompjs';
 
 class FakeStompClient {
   onConnect?: (frame: any) => void;

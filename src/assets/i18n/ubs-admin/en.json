@@ -1067,6 +1067,7 @@
     "email-required-employee": "Please enter Email",
     "phone-required-employee": "Please enter phone number",
     "house-number": "Please select a house number",
+    "invalid-house-number": "Please enter a valid house number",
     "email-wrong": "Please enter the correct email",
     "number-wrong": "Enter the correct phone number",
     "name-wrong": "Only letters, numbers and hyphen, space, apostrophe are allowed",

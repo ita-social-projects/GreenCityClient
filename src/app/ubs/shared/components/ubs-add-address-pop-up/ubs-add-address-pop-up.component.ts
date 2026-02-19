@@ -1,10 +1,9 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Address, AddressData, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Address, AddressData, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Store } from '@ngrx/store';
 import { CreateAddress, DeleteAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
-import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
 import { UpdateOrderAddress } from 'src/app/store/actions/bigOrderTable.actions';
 import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 
@@ -17,26 +16,6 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   addAddressForm: FormGroup;
   currentLanguage: string;
   locations: CourierLocations;
-  districtList: DistrictsDtos[];
-  addressData: CAddressData;
-
-  autocompleteRegionRequest = {
-    input: '',
-    types: ['administrative_area_level_1'],
-    componentRestrictions: { country: 'uk' }
-  };
-
-  autocompleteCityRequest = {
-    input: '',
-    types: ['(cities)'],
-    componentRestrictions: { country: 'uk' }
-  };
-
-  autocompleteStreetRequest = {
-    input: '',
-    types: ['address'],
-    componentRestrictions: { country: 'uk' }
-  };
 
   constructor(
     private fb: FormBuilder,

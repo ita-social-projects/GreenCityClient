@@ -1,4 +1,4 @@
-<form [formGroup]="addAddressForm" class="row adress">
+<form id="address-form" [formGroup]="addAddressForm" class="row adress">
   <div class="w-100">
     <h2 *ngIf="!data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title' | translate }}</h2>
     <h2 *ngIf="data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title-edit' | translate }}</h2>
@@ -18,7 +18,13 @@
   <button class="ubs-secondary-global-button m-btn" (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
-  <button class="ubs-primary-global-button m-btn" (click)="chooseActions()" [disabled]="addAddressForm.invalid || !addAddressForm.touched">
+  <button
+    class="ubs-primary-global-button m-btn"
+    type="submit"
+    form="address-form"
+    (click)="chooseActions()"
+    [disabled]="addAddressForm.invalid || !addAddressForm.touched"
+  >
     {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>
