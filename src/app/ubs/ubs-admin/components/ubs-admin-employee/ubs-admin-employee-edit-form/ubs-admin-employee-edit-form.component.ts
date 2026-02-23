@@ -1,21 +1,21 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import {
-  Employees,
-  Page,
+  EmployeeDataToSend,
   EmployeePositions,
+  Employees,
   InitialData,
-  TariffForEmployee,
-  EmployeeDataToSend
+  Page,
+  TariffForEmployee
 } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
 import { skip, takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
-import { Subject } from 'rxjs';
+import { map, Subject } from 'rxjs';
 import { Masks, Patterns, phonePrefix } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
@@ -122,15 +122,21 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       this.tariffsFromEditForm = this.editMappers.tariffs(this.data?.tariffs) ?? [];
     }
     this.search = this.fb.control(null);
-    this.search.valueChanges.subscribe((term) => {
-      this.filteredTariffs = this.tariffs.filter((tariff) => {
-        const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
-        const regionMatch = match(tariff.region.en, term) || match(tariff.region.uk, term);
-        const locationsMatch = tariff.locations.some((location) => match(location.en, term) || match(location.uk, term));
-        const courierMatch = match(tariff.courier.en, term) || match(tariff.courier.uk, term);
-        return [regionMatch, locationsMatch, courierMatch].some((cond) => cond);
+    this.search.valueChanges
+      .pipe(
+        map((value) => (value ?? '').toString()),
+        map((value) => value.replace(/’/g, "'").normalize('NFKD').toLowerCase().trim()),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe((term) => {
+        this.filteredTariffs = this.tariffs.filter((tariff) => {
+          const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
+          const regionMatch = match(tariff.region.en, term) || match(tariff.region.uk, term);
+          const locationsMatch = tariff.locations.some((location) => match(location.en, term) || match(location.uk, term));
+          const courierMatch = match(tariff.courier.en, term) || match(tariff.courier.uk, term);
+          return [regionMatch, locationsMatch, courierMatch].some((cond) => cond);
+        });
       });
-    });
   }
 
   ngOnInit() {
@@ -155,8 +161,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       });
 
     this.tariffsService.getFilteredCard({ status: 'ACTIVE' }).subscribe((data) => {
-      const tariffs = this.addMappers.tariffs(data);
-      this.tariffs = tariffs;
+      this.tariffs = this.addMappers.tariffs(data);
       if (this.editMode) {
         this.tariffsFromEditForm = this.tariffsFromEditForm.map((editItem) => {
           return { id: editItem.id, hasChat: !!editItem?.hasChat };
