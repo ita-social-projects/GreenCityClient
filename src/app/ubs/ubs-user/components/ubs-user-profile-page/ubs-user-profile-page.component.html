@@ -112,7 +112,8 @@
                 id="recipientPhone"
                 formControlName="recipientPhone"
                 placeholder="+380__ ___ __ __"
-                [imask]="phoneMask"
+                [imask]="{ mask: phoneMask }"
+                [unmask]="true"
               />
               <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
               <div *ngIf="recipientPhone.invalid && recipientPhone.touched">
