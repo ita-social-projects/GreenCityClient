@@ -700,7 +700,8 @@
     "cancel": "Cancel",
     "update": "Save",
     "filter-reset-all": "Reset all",
-    "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
+    "image-error-size": "The file size exceeds 10 MB. Please select another file",
+    "image-error-format": "The supported formats of the photo are PNG and JPG",
     "tariffs": "Tariffs*",
     "tariffs-columns": {
       "region": "Region",

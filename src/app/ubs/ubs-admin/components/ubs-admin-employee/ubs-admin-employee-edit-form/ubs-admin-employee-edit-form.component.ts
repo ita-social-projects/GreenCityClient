@@ -48,7 +48,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   isInitialImageChanged = false;
   isInitialPositionsChanged = false;
   isInitialTariffsChanged = false;
-  isImageError: boolean;
+  isImageError: 'size' | 'format';
   editMode: boolean;
   initialData: InitialData;
   imageURL: string | ArrayBuffer;
@@ -349,8 +349,17 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   private showWarning(file: File): boolean {
-    this.isImageError = file.size >= this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
-    return this.isImageError;
+    if (file.size >= this.maxImageSize) {
+      this.isImageError = 'size';
+      return true;
+    }
+
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+      this.isImageError = 'format';
+      return true;
+    }
+
+    return false;
   }
 
   removeImage() {

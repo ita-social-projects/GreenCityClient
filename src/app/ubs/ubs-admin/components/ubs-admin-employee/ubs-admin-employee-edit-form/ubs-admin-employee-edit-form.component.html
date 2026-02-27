@@ -173,7 +173,7 @@
         </div>
       </ng-template>
       <div class="row error-message" *ngIf="isImageError">
-        <p>{{ 'ubs-employee.image-error' | translate }}</p>
+        <p>{{ (isImageError === 'size' ? 'ubs-employee.image-error-size' : 'ubs-employee.image-error-format') | translate }}</p>
       </div>
     </div>
     <div class="button-row">
