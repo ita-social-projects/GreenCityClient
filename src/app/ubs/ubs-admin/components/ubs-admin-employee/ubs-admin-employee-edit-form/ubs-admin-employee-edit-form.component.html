@@ -10,14 +10,14 @@
       <div class="private-section">
         <div class="form-group odd">
           <label for="employee-name" class="group-title">{{ 'ubs-employee.name' | translate }}</label>
-          <input id="employee-name" formControlName="firstName" maxlength="31" />
+          <input id="employee-name" formControlName="firstName" maxlength="31" appTrimValue />
           <div class="validation" *ngIf="firstName.invalid && firstName.touched">
             <app-ubs-input-error [formElement]="firstName" [fromEmployee]="true"></app-ubs-input-error>
           </div>
         </div>
         <div class="form-group">
           <label for="employee-surname" class="group-title">{{ 'ubs-employee.surname' | translate }}</label>
-          <input id="employee-surname" formControlName="lastName" maxlength="31" />
+          <input id="employee-surname" formControlName="lastName" maxlength="31" appTrimValue />
           <div class="validation" *ngIf="lastName.invalid && lastName.touched">
             <app-ubs-input-error [formElement]="lastName" [fromEmployee]="true"></app-ubs-input-error>
           </div>

@@ -28,6 +28,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';
 import { InputErrorComponent } from './components/input-error/input-error.component';
 import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
+import { TrimValueDirective } from './directives/trim-value.directive';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-
     RatingDisplayComponent,
     RelativeDatePipe,
     LangValueDirective,
-    InputErrorComponent
+    InputErrorComponent,
+    TrimValueDirective
   ],
   imports: [
     CommonModule,
@@ -83,7 +85,8 @@ import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-
     RelativeDatePipe,
     LangValueDirective,
     InputErrorComponent,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    TrimValueDirective
   ]
 })
 export class SharedModule {}
