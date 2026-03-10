@@ -12,11 +12,11 @@
   </div>
   <div class="countInfo">{{ 'ubs-customer-filters.total-customers' | translate }} {{ totalElements }}</div>
   <div class="btn-group">
-    <button type="button" class="btn btn-default" class="table-buttons filter-btn" (click)="togglePopUp()">
+    <button type="button" class="btn btn-default table-buttons filter-btn" (click)="togglePopUp()">
       <img src="assets/img/edit.svg" alt="edit" />
       {{ 'ubs-tables.filters' | translate }}
     </button>
-    <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
+    <button type="button" class="btn btn-default table-buttons" (click)="openExportExcel()">
       {{ 'ubs-tables.export-to-excel' | translate }}
     </button>
     <div [formGroup]="filterForm">
@@ -295,12 +295,8 @@
     ></button>
     <span class="filter-content">
       {{ filter.labelKey | translate }}
-      <ng-container *ngIf="filter.fromValue">
-        {{ 'ubs-customer-filters.from' | translate }} {{ filter.fromValue }}
-      </ng-container>
-      <ng-container *ngIf="filter.toValue">
-        {{ 'ubs-customer-filters.to' | translate }} {{ filter.toValue }}
-      </ng-container>
+      <ng-container *ngIf="filter.fromValue"> {{ 'ubs-customer-filters.from' | translate }} {{ filter.fromValue }} </ng-container>
+      <ng-container *ngIf="filter.toValue"> {{ 'ubs-customer-filters.to' | translate }} {{ filter.toValue }} </ng-container>
     </span>
   </div>
 </div>
@@ -344,6 +340,18 @@
             <button class="action" (click)="onOpenChat(row['chatId'])" [disabled]="!row['chatId']">
               {{ 'ubs-tables.go-to-chat' | translate }}
             </button>
+          </div>
+          <div
+            *ngSwitchCase="'currentPoints'"
+            class="column_cell"
+            [matTooltip]="row[column.title.key]"
+            matTooltipShowDelay="700"
+            matTooltipClass="tooltip_style"
+            [class.pointer]="isPointerColumn(column)"
+            (click)="openPages(column.title.key, row)"
+            (keydown)="onKeyDown($event, column.title.key, row)"
+          >
+            {{ row[column.title.key] | localizedCurrency: true }}
           </div>
           <div
             *ngSwitchDefault
