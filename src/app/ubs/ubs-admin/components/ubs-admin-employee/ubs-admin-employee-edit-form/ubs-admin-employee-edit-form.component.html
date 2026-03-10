@@ -30,7 +30,7 @@
             id="phoneNumber"
             formControlName="phoneNumber"
             placeholder="+380"
-            [imask]="phoneMask"
+            [imask]="{ mask: phoneMask }"
             [unmask]="true"
             (focus)="onPhoneFocus()"
             (blur)="onPhoneBlur()"
